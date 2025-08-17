@@ -452,34 +452,20 @@ const MainContent: React.FC = () => {
         <SwiperSlider
           data={card2}
           autoplayDelay={1000000}
+          grid={{ rows: 2, fill: "row" }}
           renderSlide={(card, index) => <CasinoCard {...card} />}
           slidesPerView={7}
           spaceBetween={20}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
-            768: { slidesPerView: 4.3 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
-            1440: { slidesPerView: 7 },
+            320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+            375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+            425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+            768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+            1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+            1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
           }}
         />
-        <SwiperSlider
-          data={card2}
-          autoplayDelay={1000000}
-          renderSlide={(card, index) => <CasinoCard {...card} />}
-          slidesPerView={7}
-          spaceBetween={20}
-          breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
-            768: { slidesPerView: 4.3 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
-            1440: { slidesPerView: 7 },
-          }}
-          showProgressBars={true}
-        />
+        
       </div>
 
       {/* Hash Section */}
@@ -505,33 +491,20 @@ const MainContent: React.FC = () => {
         <SwiperSlider
           data={card3}
           autoplayDelay={1000000}
+          grid={{ rows: 2, fill: "row" }}
           renderSlide={(card, index) => <CasinoCard {...card} />}
           slidesPerView={7}
           spaceBetween={20}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
-            768: { slidesPerView: 4.3 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
-            1440: { slidesPerView: 7 },
+            320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+            375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+            425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+            768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+            1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+            1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
           }}
         />
-        <SwiperSlider
-          data={card3}
-          autoplayDelay={1000000}
-          renderSlide={(card, index) => <CasinoCard {...card} />}
-          slidesPerView={7}
-          spaceBetween={20}
-          breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
-            768: { slidesPerView: 4.3 },
-            1024: { slidesPerView: 5, spaceBetween: 20 },
-            1440: { slidesPerView: 7 },
-          }}
-        />
+        
       </div>
 
       {/* P/F Futures Section */}

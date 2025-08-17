@@ -1,0 +1,13 @@
+@keyframes fade-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+    
+}
+
+.animation-fade-in {
+  animation: fade-in 0.7s ease-out forwards;
+}

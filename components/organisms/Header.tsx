@@ -155,7 +155,10 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-800 border-b border-gray-700 h-14 flex flex-col justify-center px-4 py-2.5 mx-auto">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-700 h-14 flex flex-col justify-center px-4 py-2.5 mx-auto" style={{
+        backdropFilter: "blur(32px)",
+        background: "rgba(17, 25, 35, 0.54)",
+      }}>
         <div className="flex items-center justify-between gap-2 ">
           {/* Left side */}
           <LeftSection toggleSidebar={toggleSidebar} />

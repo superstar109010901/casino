@@ -8,14 +8,15 @@ const Sidebar: React.FC = () => {
   return (
     <div >
       <aside
-      className={`sidebar close lg:sticky fixed h-14 bg-gray-800  lg:md:block transition-all duration-300 z-40 overflow-y-auto ${
+      className={`sidebar close bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed h-14 bg-gray-800  lg:md:block transition-all duration-300 z-40 overflow-y-auto ${
         isCollapsed ? "close" : "open"
       }`}
       style={{
-        background: "#1a2332",
         borderRight: "1px solid #2d3748",
         height: "calc(100vh - 56px)",
         top: "56px",
+        backdropFilter: "blur(32px)",
+        background: "rgba(17, 25, 35, 0.54)",
       }}
     >
       <div className="flex flex-col h-full">

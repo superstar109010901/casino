@@ -689,3 +689,7 @@ body {
 .font-montserrat {
   font-family: "Montserrat", sans-serif;
 }
+
+.swiper-grid-column > .swiper-wrapper {
+    flex-direction: row !important;
+}

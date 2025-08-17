@@ -51,7 +51,7 @@ const styles: Record<
 const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
-  className = "",
+  className = " h-[33px]",
   type = "button",
   disabled = false,
   variant = "blue",
@@ -96,12 +96,10 @@ const Button: React.FC<ButtonProps> = ({
       ></span>
       <span
         className={clsx(
-          "front relative w-full h-[33px] rounded-[8px] text-white font-bold flex items-center justify-center text-[12px] will-change-transform transform transition-transform duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-[3px] group-hover:duration-[250ms] group-hover:ease-[cubic-bezier(0.3,0.7,0.4,1.5)] group-active:translate-y-[1px] group-active:duration-[34ms]",
+          "front relative w-full h-full rounded-[8px] hover:shadow-[0_3px_16px_transparent,inset_0_4px_3px_#ffffff4d] text-white font-bold flex items-center justify-center text-[12px] will-change-transform transform transition-transform duration-[600ms] ease-[cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-[3px] group-hover:duration-[250ms] group-hover:ease-[cubic-bezier(0.3,0.7,0.4,1.5)] group-active:translate-y-[1px] group-active:duration-[34ms]",
           base
         )}
-        style={{
-          boxShadow: "0 3px 16px transparent, inset 0 4px 3px #ffffff4d",
-        }}
+       
       >
         {children}
       </span>

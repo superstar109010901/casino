@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { X, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useSidebar } from "../providers/SidebarProvider";
-
+import { Button } from "@/ui";
+import AuthButton from "../molecules/AuthButton";
+import './style.css';
 interface SocialButtonProps {
   icon: React.ReactNode;
   onClick?: () => void;
 }
-
 const SocialButton = ({ icon, onClick }: SocialButtonProps) => (
   <button
     onClick={onClick}
@@ -372,7 +373,7 @@ export default function AuthModal() {
             </div>
 
             {/* Mobile Layout */}
-            <div className="lg:hidden absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923] ">
+            <div className="lg:hidden animation-fade-in absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923] ">
 
 
               {/* Blue Gradient Background */}
@@ -399,7 +400,7 @@ export default function AuthModal() {
                   {/* Close Button */}
                   <button
                     onClick={toggleAuthModal}
-                    className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-lg border border-white/4 bg-white/4 backdrop-blur-[32px] hover:bg-white/8 transition-colors"
+                    className="absolute top-4 right-4 flex h-9 w-9 items-center  justify-center rounded-lg border border-white/4 bg-white/4 backdrop-blur-[32px] hover:bg-white/8 transition-colors"
                     style={{
                       boxShadow: "0 1px 0 0 rgba(255, 255, 255, 0.16) inset",
                     }}
@@ -494,25 +495,7 @@ export default function AuthModal() {
 
 
                       {/* Submit Button */}
-                      <button
-                        className="w-full h-11 rounded-xl font-bold text-sm text-[#EDEDED] transition-all duration-150 active:translate-y-1"
-                        style={{
-                          background: "linear-gradient(180deg, #F9476E 0%, #BD0139 24%)",
-                          border: "1px solid rgba(255, 255, 255, 0.13)",
-                          boxShadow: "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)",
-                        }}
-                        onMouseDown={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 2px 0 -1px rgba(237, 29, 73, 0.50)";
-                        }}
-                        onMouseUp={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                        }}
-                      >
-                        REGISTER
-                      </button>
+                      <AuthButton type="register" />
 
                       {/* Checkboxes */}
                       <div className="space-y-2">
@@ -573,26 +556,7 @@ export default function AuthModal() {
                   {/* Login Submit Button */}
                   {isLogin && (
                     <>
-                      <button
-                        className="w-full h-11 rounded-xl font-bold text-sm text-[#EDEDED] transition-all duration-150 active:translate-y-1"
-                        style={{
-                          background: "linear-gradient(180deg, #F9476E 0%, #BD0139 24%)",
-                          border: "1px solid rgba(255, 255, 255, 0.13)",
-                          boxShadow: "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)",
-                        }}
-                        onMouseDown={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 2px 0 -1px rgba(237, 29, 73, 0.50)";
-                        }}
-                        onMouseUp={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                        }}
-                      >
-                        LOG IN
-                      </button>
-
+                      <AuthButton type="login" />
                     </>
                   )}
                 </div>

@@ -21,7 +21,9 @@ const AuthButton: React.FC<AuthButtonProps> = ({
 
   return (
     <Button variant="red" onClick={onClick} className={className}>
-      {buttonInfo[type]}
+      <span className="text-sm">
+        {buttonInfo[type]}
+      </span>
     </Button>
   );
 };

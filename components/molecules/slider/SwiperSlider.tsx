@@ -3,22 +3,25 @@
 import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/grid";
 
 // Types
 interface SwiperSliderProps {
   data: readonly any[] | any[];
   renderSlide: (item: any, index: number) => React.ReactNode;
+  grid?: {};  
   slidesPerView?: number | "auto";
+  allowTouchMove?: boolean;
   spaceBetween?: number;
   autoplayDelay?: number;
   loop?: boolean;
   centeredSlides?: boolean;
   direction?: "horizontal" | "vertical";
   breakpoints?: {
-    [key: number]: { slidesPerView: number; spaceBetween?: number };
+    [key: number]: { slidesPerView: number; spaceBetween?: number, grid?: {} };
   };
   className?: string;
   slideClassName?: string;
@@ -35,11 +38,13 @@ interface SwiperSliderProps {
 const SwiperSlider: React.FC<SwiperSliderProps> = ({
   data,
   renderSlide,
+  grid = {},
+  allowTouchMove = true,
   slidesPerView = 3.2,
   spaceBetween = 20,
   autoplayDelay = 3000,
   loop = true,
-  centeredSlides = true,
+  centeredSlides = false,
   direction = "horizontal",
   breakpoints,
   className = "",
@@ -110,8 +115,10 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
 
   return (
     <Swiper
-      modules={[Autoplay, Pagination]}
+      modules={[Autoplay, Pagination, Grid]}
       direction={direction}
+      grid={grid}
+      allowTouchMove={allowTouchMove}
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
       loop={loop}
