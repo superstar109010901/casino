@@ -32,7 +32,7 @@ export default function RootLayout({
         <SidebarProvider>
           {/* <Auth /> */}
           <Header />
-          <main className="flex lg:pt-[56px]  relative z-10">
+          <main className="flex lg:pt-[56px] pt-[115px]  relative z-10">
             <Sidebar />
             <div className="main-content ">
               <MainContent />
