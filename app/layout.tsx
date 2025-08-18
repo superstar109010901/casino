@@ -32,7 +32,7 @@ export default function RootLayout({
         <SidebarProvider>
           {/* <Auth /> */}
           <Header />
-          <main className="flex pt-14 bg-[radial-gradient(circle_at_50%_322px,_#003A81_154px,_#0D131C_300px)] relative ">
+          <main className="flex lg:pt-[56px]  relative z-10">
             <Sidebar />
             <div className="main-content ">
               <MainContent />
@@ -40,6 +40,7 @@ export default function RootLayout({
               <Footer />
             </div>
           </main>
+          <div className="fixed bg-[radial-gradient(circle_at_50%_322px,_#003A81_100px,_#0D131C_300px)] w-full h-full top-0 left-0 z-0"></div>
           <Bottombar />
           <AuthModal />
         </SidebarProvider>

@@ -76,6 +76,10 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
     });
   };
 
+  // Determine if grid has multiple rows. Loop mode is incompatible with multi-row Grid in Swiper.
+  const isMultiRowGrid = Boolean((grid as any)?.rows && (grid as any).rows > 1);
+  const effectiveLoop = isMultiRowGrid ? false : loop;
+
   // Swiper initialization
   const handleSwiper = (swiper: SwiperType) => {
     swiperRef.current = swiper;
@@ -121,7 +125,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
       allowTouchMove={allowTouchMove}
       slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
-      loop={loop}
+      loop={effectiveLoop}
       centeredSlides={centeredSlides}
       autoplay={{ delay: autoplayDelay, disableOnInteraction: false }}
       breakpoints={breakpoints}

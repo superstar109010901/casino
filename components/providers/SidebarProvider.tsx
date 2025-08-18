@@ -7,6 +7,8 @@ interface SidebarContextType {
   toggleSidebar: () => void;
   isAuthModalOpen: boolean;
   toggleAuthModal: () => void;
+  activeGameCategory: string;
+  setActiveGameCategory: (category: string) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [activeGameCategory, setActiveGameCategory] = useState("home");
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -39,7 +42,14 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
 
   return (
     <SidebarContext.Provider
-      value={{ isCollapsed, toggleSidebar, isAuthModalOpen, toggleAuthModal }}
+      value={{ 
+        isCollapsed, 
+        toggleSidebar, 
+        isAuthModalOpen, 
+        toggleAuthModal,
+        activeGameCategory,
+        setActiveGameCategory
+      }}
     >
       {children}
     </SidebarContext.Provider>

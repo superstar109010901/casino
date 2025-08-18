@@ -6,6 +6,19 @@ import { useSidebar } from "../providers/SidebarProvider";
 import Auth from "./auth/Auth";
 import AuthButton from "../molecules/AuthButton";
 import AuthModal from "../Modal/AuthModal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+
+// Game navigation tabs for mobile
+const gameNavTabs = [
+  { id: "home", label: "Home", icon: "/icons/Home.svg", active: true },
+  { id: "hash", label: "Hash Games", icon: "/icons/Hash.svg", active: false },
+  { id: "slots", label: "Slots", icon: "/icons/Slots.svg", active: false },
+  { id: "casino", label: "Casino", icon: "/icons/Casino1.svg", active: false },
+  { id: "sport", label: "Sport", icon: "/icons/Sport.svg", active: false },
+];
 
 // Reusable components to eliminate duplication
 const MenuButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
@@ -19,6 +32,7 @@ const MenuButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     </BlackButton>
   </div>
 );
+
 
 const Logo: React.FC = () => (
   <div className="flex items-center">
@@ -135,10 +149,55 @@ const ProfileButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </div>
 );
 
+// Mobile Game Navigation Component
+interface MobileGameNavProps {
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+}
+
+const MobileGameNav: React.FC<MobileGameNavProps> = ({ activeTab, onTabChange }) => {
+	return (
+    <div className="lg:hidden px-2 py-2">
+      <Swiper
+        modules={[FreeMode]}
+        freeMode={true}
+        slidesPerView="auto"
+        spaceBetween={8}
+      >
+        {gameNavTabs.map((tab) => (
+          <SwiperSlide key={tab.id} className="!w-auto">
+            <button
+              onClick={() => onTabChange(tab.id)}
+              className={`flex items-center cursor-pointer gap-2 px-3 py-2 rounded-lg whitespace-nowrap transition-colors min-w-fit ${
+                activeTab === tab.id
+                  ? "bg-[#2283F6] text-white"
+                  : " text-[#A7B5CA] hover:bg-[rgba(255,255,255,0.08)]"
+              }`}
+            >
+              <img
+                src={tab.icon}
+                alt={tab.label}
+                className="w-6.5 h-6.5"
+              />
+              <span className="text-[14px] font-medium">{tab.label}</span>
+            </button>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
+
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { toggleSidebar, toggleAuthModal } = useSidebar();
+  const { toggleSidebar, toggleAuthModal, setActiveGameCategory } = useSidebar();
   const [showModal, setShowModal] = useState(true);
+  const [activeGameTab, setActiveGameTab] = useState("home");
+
+  const handleTabChange = (tabId: string) => {
+    setActiveGameTab(tabId);
+    setActiveGameCategory(tabId);
+  };
 
   const LoginForm = () => {
     return <AuthModal />;
@@ -155,11 +214,12 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-700 h-14 flex flex-col justify-center px-4 py-2.5 mx-auto" style={{
+      <header id="app-header" className="fixed top-0 left-0 right-0 z-50 border-b border-gray-700 flex flex-col" style={{
         backdropFilter: "blur(32px)",
         background: "rgba(17, 25, 35, 0.54)",
       }}>
-        <div className="flex items-center justify-between gap-2 ">
+        {/* Main Header Row */}
+        <div className="h-14 flex items-center justify-between gap-2 px-4 py-2.5">
           {/* Left side */}
           <LeftSection toggleSidebar={toggleSidebar} />
 
@@ -172,32 +232,9 @@ const Header: React.FC = () => {
             <UtilitySection />
           </div>
         </div>
-
-        <div className="flex items-center justify-between gap-2 hidden">
-          {/* Left side */}
-          <LeftSection toggleSidebar={toggleSidebar} />
-
-          {/* Center - empty space */}
-          <div className="flex-1"></div>
-
-          <WalletSection />
-
-          {/* Right side */}
-          <div className="flex items-center gap-2">
-            <BlackButton>
-              <img
-                src="/icons/flag-icon/cn.svg"
-                className="px-2.5 h-4"
-                alt="burger"
-              />
-            </BlackButton>
-            <NotificationButton />
-            <BlackButton>
-              <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
-            </BlackButton>
-            <ProfileButton onClick={toggleNotification} />
-          </div>
-        </div>
+        
+        {/* Mobile Game Navigation */}
+        <MobileGameNav activeTab={activeGameTab} onTabChange={handleTabChange} />
       </header>
     </>
   );

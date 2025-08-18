@@ -183,6 +183,66 @@ const SectionHeader: React.FC<{ icon: string; title: string; alt: string }> = ({
   </h2>
 );
 
+// Filtered Page Header Component
+const FilteredPageHeader: React.FC<{ title: string; count: number }> = ({ title, count }) => (
+  <div className="mb-6 p-4">
+    <div className="flex items-center justify-between mb-4 ">
+      <div className="bg-[rgba(255,255,255,0.08)] rounded-lg p-1.75">
+
+        <h1 className="text-white text-[14px] font-bold flex items-center gap-2">
+          {title} <span className="text-[#A7B5CA] text-[12px] bg-[#111923] px-2 py-0.5 rounded-[4px]">{count}</span>
+        </h1>
+      </div>
+      <button className="p-2.25 bg-[#111923] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px]" />
+      </button>
+    </div>
+
+    <div className="flex items-center gap-4">
+        <button className="flex w-[50%] items-center justify-between h-12 px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">Game provider</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+
+        <button className="flex w-[50%] items-center justify-between h-12  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">All</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+    </div>
+  </div>
+);
+
+// Game Grid Component
+const GameGrid: React.FC<{ data: any[]; renderCard: (item: any, index: number) => React.ReactNode }> = ({ data, renderCard }) => (
+  <div className="grid grid-cols-3 md:grid-cols-4 p-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+    {data.map((item, index) => renderCard(item, index))}
+  </div>
+);
+
 // Latest bets table component
 const LatestBetsTable: React.FC = () => (
   <>
@@ -212,6 +272,7 @@ const LatestBetsTable: React.FC = () => (
     <div className="w-full relative h-[462px] mb-[64px]">
       <SwiperSlider
         data={latestBets}
+        allowTouchMove={false}
         renderSlide={(bet, index) => (
           <div className="bg-[#1C2532] lg:px-8 gap-[6px] px-[6px] w-full grid lg:md:grid-cols-[15%_15%_20%_15%_25%_10%] grid-cols-[20%_20%_20%_40%] rounded-[16px] h-[48px] overflow-hidden mb-[6px]">
             <div className="text-white flex text-[12px] font-bold truncate items-center gap-2">
@@ -226,7 +287,7 @@ const LatestBetsTable: React.FC = () => (
               />
               {bet.player}
             </div>
-            <div className="text-gray-300 text-[12px] hidden md:lg:flex items-center font-bold truncate items-center">
+            <div className="text-gray-300 text-[12px] hidden md:lg:flex items-center font-bold truncate">
               {bet.time}
             </div>
             <div className="text-gray-300 text-[12px] hidden md:lg:flex font-bold truncate items-center gap-2">
@@ -268,7 +329,7 @@ const GameManufacturersSection: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <div className="mb-8">
+    <div className="mb-16">
       <div className="flex items-center justify-between">
         <h2 className="text-4.5 font-bold text-white mb-4 flex gap-2">
           Game Manufacturers
@@ -342,13 +403,12 @@ const Magic88Content: React.FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
       </p>
     </div>
     {!isExpanded && (<div className="absolute bottom-0 left-0 w-full h-[254px] bg-gradient-to-b z-30 from-[#11192300] to-[#111923] pointer-events-none" />)}
-    
+
 
     {/* Expanded Content */}
     <div
-      className={`overflow-hidden transition-all duration-700 ease-in-out ${
-        isExpanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
-      }`}
+      className={`overflow-hidden transition-all duration-700 ease-in-out ${isExpanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+        }`}
     >
       <div className="space-y-4 mb-4">
         <h5 className="text-md font-semibold text-gray-300">
@@ -382,9 +442,40 @@ const Magic88Content: React.FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
 );
 
 const MainContent: React.FC = () => {
-  const { isCollapsed } = useSidebar();
+  const { isCollapsed, activeGameCategory } = useSidebar();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Function to determine which sections to show based on active category
+  const shouldShowSection = (sectionType: string) => {
+    if (activeGameCategory === "home") return true;
+
+    const categoryMapping: { [key: string]: string[] } = {
+      "slots": ["slots", "new-launches"],
+      "casino": ["live-casino", "new-launches"],
+      "hash": ["hash"],
+      "sport": ["sport"]
+    };
+
+    return categoryMapping[activeGameCategory]?.includes(sectionType) || false;
+  };
+
+  // Function to check if we should show the filtered page layout
+  const isFilteredView = () => {
+    return activeGameCategory !== "home";
+  };
+
+  // Get category data for filtered view
+  const getCategoryData = () => {
+    const categoryData: { [key: string]: { title: string; count: number; data: any[]; icon: string } } = {
+      "slots": { title: "Slots", count: 14, data: card3, icon: "/icons/Slots.svg" },
+      "casino": { title: "Live Casino", count: 104, data: card2, icon: "/icons/Casino1.svg" },
+      "hash": { title: "Hash Games", count: 8, data: card9, icon: "/icons/Hash.svg" },
+      "sport": { title: "Sport", count: 23, data: card5, icon: "/icons/Sport.svg" }
+    };
+
+    return categoryData[activeGameCategory] || categoryData["slots"];
+  };
 
   const toggleContent = () => setIsExpanded(!isExpanded);
 
@@ -396,21 +487,141 @@ const MainContent: React.FC = () => {
     }
   };
 
+  // Render filtered view (mobile only)
+  if (isFilteredView()) {
+    const categoryData = getCategoryData();
+
+    return (
+      <div
+        className={`lg:px-6 px-1 py-6 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
+            ? "lg:w-[calc(100vw-80px)] xl:w-[calc(100vw-80px)]"
+            : "xl:w-[calc(100vw-315px)] lg:w-[calc(100vw-315px)] 2xl:w-[calc(100vw-315px)]"
+          }`}
+        style={{ margin: "auto" }}
+      >
+        <SuccessForm isOpen={isOpen} />
+        <Profile />
+
+        {/* Mobile Filtered View */}
+        <div className="lg:hidden">
+          <FilteredPageHeader title={categoryData.title} count={categoryData.count} />
+
+          {activeGameCategory === "hash" ? (
+            <div className="flex flex-col gap-4 items-center">
+              {categoryData.data.map((card, index) => (
+                <HashCard key={index} {...card} />
+              ))}
+            </div>
+          ) : (
+            <GameGrid
+              data={categoryData.data}
+              renderCard={(card, index) => <CasinoCard key={index} {...card} />}
+            />
+          )}
+        </div>
+
+        {/* Desktop Slider View - Keep Original Functionality */}
+        <div className="hidden lg:block">
+          {/* Show appropriate section based on category */}
+          {activeGameCategory === "slots" && (
+            <div className="mb-16">
+              <SectionHeader icon="/icons/Slots.svg" title="Slots" alt="slots" />
+              <SwiperSlider
+                data={card3}
+                autoplayDelay={1000000}
+                grid={{ rows: 2, fill: "row" }}
+                renderSlide={(card, index) => <CasinoCard {...card} />}
+                slidesPerView={7}
+                spaceBetween={20}
+                breakpoints={{
+                  320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+                  375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+                  425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+                  768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+                  1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+                  1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
+                }}
+              />
+            </div>
+          )}
+
+          {activeGameCategory === "casino" && (
+            <div className="mb-16">
+              <SectionHeader icon="/icons/Casino1.svg" title="Live Casino" alt="home" />
+              <SwiperSlider
+                data={card2}
+                autoplayDelay={1000000}
+                grid={{ rows: 2, fill: "row" }}
+                renderSlide={(card, index) => <CasinoCard {...card} />}
+                slidesPerView={7}
+                spaceBetween={20}
+                breakpoints={{
+                  320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+                  375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+                  425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+                  768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+                  1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+                  1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
+                }}
+              />
+            </div>
+          )}
+
+          {activeGameCategory === "hash" && (
+            <div className="mb-16">
+              <SectionHeader icon="/icons/Hash.svg" title="Hash" alt="hash" />
+              <SwiperSlider
+                data={card9}
+                autoplay={false}
+                renderSlide={(card, index) => <HashCard {...card} />}
+                spaceBetween={10}
+                slidesPerView="auto"
+                slideClassName="!w-[320px]"
+              />
+            </div>
+          )}
+
+          {activeGameCategory === "sport" && (
+            <div className="mb-16">
+              <SectionHeader icon="/icons/Sport.svg" title="Sport" alt="Sport" />
+              <SwiperSlider
+                data={card5}
+                autoplayDelay={1000000}
+                renderSlide={(card, index) => <CasinoCard {...card} />}
+                slidesPerView={7}
+                spaceBetween={20}
+                breakpoints={{
+                  320: { slidesPerView: 3 },
+                  375: { slidesPerView: 3.1 },
+                  425: { slidesPerView: 3.4 },
+                  768: { slidesPerView: 4.3 },
+                  1024: { slidesPerView: 5, spaceBetween: 20 },
+                  1440: { slidesPerView: 7.3 },
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Render home view
   return (
     <div
-      className={`lg:px-6 px-1 py-12 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${
-        isCollapsed
+      className={`lg:px-6 px-1 py-12 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
           ? "lg:w-[calc(100vw-80px)] xl:w-[calc(100vw-80px)]"
           : "xl:w-[calc(100vw-315px)] lg:w-[calc(100vw-315px)] 2xl:w-[calc(100vw-315px)]"
-      }`}
+        }`}
       style={{ margin: "auto" }}
     >
       <SuccessForm isOpen={isOpen} />
       <Profile />
 
       {/* Main Banner Section */}
-      <div className="mb-12">
+      <div className="mb-16">
         <SwiperSlider
+          key={`banner-swiper-${activeGameCategory}`}
           data={bannerCards}
           renderSlide={(card, index) => <RewardCard {...card} />}
           slidesPerView="auto"
@@ -422,130 +633,13 @@ const MainContent: React.FC = () => {
       </div>
 
       {/* New Launches Section */}
-      <div className="mb-8">
-        <SectionHeader icon="/icons/Home.svg" title="New Launches" alt="home" />
-        <SwiperSlider
-          autoplayDelay={1000000}
-          data={card1}
-          renderSlide={(card, index) => <CasinoCard {...card} />}
-          slidesPerView={7}
-          spaceBetween={20}
-          breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
-            768: { slidesPerView: 4.3 },
-            1024: { slidesPerView: 5 },
-            1440: { slidesPerView: 7 },
-          }}
-          showProgressBars={true}
-        />
-      </div>
-
-      {/* Live Casino Section */}
-      <div className="mb-8">
-        <SectionHeader
-          icon="/icons/Casino1.svg"
-          title="Live Casino"
-          alt="home"
-        />
-        <SwiperSlider
-          data={card2}
-          autoplayDelay={1000000}
-          grid={{ rows: 2, fill: "row" }}
-          renderSlide={(card, index) => <CasinoCard {...card} />}
-          slidesPerView={7}
-          spaceBetween={20}
-          breakpoints={{
-            320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-            375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-            425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
-            768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
-            1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
-            1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
-          }}
-        />
-        
-      </div>
-
-      {/* Hash Section */}
-      <div className="mb-8">
-        <SectionHeader icon="/icons/Hash.svg" title="Hash" alt="hash" />
-        <div className="flex gap-4 overflow-x-auto pb-4">
+      {shouldShowSection("new-launches") && (
+        <div className="mb-16">
+          <SectionHeader icon="/icons/Home.svg" title="New Launches" alt="home" />
           <SwiperSlider
-            data={card9}
-            autoplay={false}
-            renderSlide={(card, index) => <HashCard {...card} />}
-            spaceBetween={10}
-            slidesPerView="auto"
-            showProgressBars={true}
-            customPagination={true}
-            slideClassName="!w-[320px]"
-          />
-        </div>
-      </div>
-
-      {/* Slots Section */}
-      <div className="mb-8">
-        <SectionHeader icon="/icons/Slots.svg" title="Slots" alt="slots" />
-        <SwiperSlider
-          data={card3}
-          autoplayDelay={1000000}
-          grid={{ rows: 2, fill: "row" }}
-          renderSlide={(card, index) => <CasinoCard {...card} />}
-          slidesPerView={7}
-          spaceBetween={20}
-          breakpoints={{
-            320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-            375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-            425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
-            768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
-            1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
-            1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
-          }}
-        />
-        
-      </div>
-
-      {/* P/F Futures Section */}
-      <div className="mb-8">
-        <SectionHeader
-          icon="/icons/Futures1.svg"
-          title="P/F Futures"
-          alt="future"
-        />
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          <SwiperSlider
-            data={cryptoCards}
+            key={`new-launches-swiper-${activeGameCategory}`}
             autoplayDelay={1000000}
-            renderSlide={(card, index) => <FutureCard {...card} />}
-            slidesPerView={5}
-            spaceBetween={20}
-            breakpoints={{
-              320: { slidesPerView: 2.5 },
-              375: { slidesPerView: 2.3 },
-              425: { slidesPerView: 3.2 },
-              768: { slidesPerView: 4.3 },
-              1024: { slidesPerView: 5, spaceBetween: 20 },
-              1440: { slidesPerView: 5 },
-            }}
-            showProgressBars={true}
-            customPagination={true}
-          />
-        </div>
-      </div>
-
-      {/* Cryptogra Section */}
-      <div className="mb-8">
-        <SectionHeader
-          icon="/icons/Cryptogra1.svg"
-          title="Cryptogra"
-          alt="cryptogra"
-        />
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          <SwiperSlider
-            data={card4}
-            autoplayDelay={1000000}
+            data={card1}
             renderSlide={(card, index) => <CasinoCard {...card} />}
             slidesPerView={7}
             spaceBetween={20}
@@ -554,20 +648,138 @@ const MainContent: React.FC = () => {
               375: { slidesPerView: 3.1 },
               425: { slidesPerView: 3.4 },
               768: { slidesPerView: 4.3 },
-              1024: { slidesPerView: 5, spaceBetween: 20 },
-              1440: { slidesPerView: 7 },
+              1024: { slidesPerView: 5 },
+              1440: { slidesPerView: 7.3 },
             }}
             showProgressBars={true}
-            customPagination={true}
           />
         </div>
+      )}
+
+      {/* Live Casino Section */}
+      {shouldShowSection("live-casino") && (
+        <div className="mb-16">
+          <SectionHeader
+            icon="/icons/Casino1.svg"
+            title="Live Casino"
+            alt="home"
+          />
+          <SwiperSlider
+            key={`live-casino-swiper-${activeGameCategory}`}
+            data={card2}
+            autoplayDelay={1000000}
+            grid={{ rows: 2, fill: "row" }}
+            renderSlide={(card, index) => <CasinoCard {...card} />}
+            slidesPerView={7}
+            spaceBetween={20}
+            breakpoints={{
+              320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+              375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+              425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+              768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+              1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+              1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
+            }}
+          />
+        </div>
+      )}
+
+      {/* Hash Section */}
+      {shouldShowSection("hash") && (
+        <div className="mb-16">
+          <SectionHeader icon="/icons/Hash.svg" title="Hash" alt="hash" />
+          <SwiperSlider
+            key={`hash-swiper-${activeGameCategory}`}
+            data={card9}
+            autoplay={false}
+            renderSlide={(card, index) => <HashCard {...card} />}
+            spaceBetween={10}
+            slidesPerView="auto"
+            slideClassName="!w-[320px]"
+          />
+        </div>
+      )}
+
+      {/* Slots Section */}
+      {shouldShowSection("slots") && (
+        <div className="mb-16">
+          <SectionHeader icon="/icons/Slots.svg" title="Slots" alt="slots" />
+          <SwiperSlider
+            key={`slots-swiper-${activeGameCategory}`}
+            data={card3}
+            autoplayDelay={1000000}
+            grid={{ rows: 2, fill: "row" }}
+            renderSlide={(card, index) => <CasinoCard {...card} />}
+            slidesPerView={7}
+            spaceBetween={20}
+            breakpoints={{
+              320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
+              375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
+              425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+              768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
+              1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+              1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
+            }}
+          />
+        </div>
+      )}
+
+      {/* P/F Futures Section */}
+      <div className="mb-16">
+        <SectionHeader
+          icon="/icons/Futures1.svg"
+          title="P/F Futures"
+          alt="future"
+        />
+        <SwiperSlider
+          key={`futures-swiper-${activeGameCategory}`}
+          data={cryptoCards}
+          autoplayDelay={1000000}
+          renderSlide={(card, index) => <FutureCard {...card} />}
+          slidesPerView={5}
+          spaceBetween={20}
+          breakpoints={{
+            320: { slidesPerView: 2.5 },
+            375: { slidesPerView: 2.3 },
+            425: { slidesPerView: 3.2 },
+            768: { slidesPerView: 4.3 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+            1440: { slidesPerView: 5 },
+          }}
+        />
+      </div>
+
+      {/* Cryptogra Section */}
+      <div className="mb-16">
+        <SectionHeader
+          icon="/icons/Cryptogra1.svg"
+          title="Cryptogra"
+          alt="cryptogra"
+        />
+        <SwiperSlider
+          key={`cryptogra-swiper-${activeGameCategory}`}
+          data={card4}
+          autoplayDelay={1000000}
+          renderSlide={(card, index) => <CasinoCard {...card} />}
+          slidesPerView={7}
+          spaceBetween={20}
+          breakpoints={{
+            320: { slidesPerView: 3 },
+            375: { slidesPerView: 3.1 },
+            425: { slidesPerView: 3.4 },
+            768: { slidesPerView: 4.3 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+            1440: { slidesPerView: 7.3 },
+          }}
+        />
       </div>
 
       {/* Sport Section */}
-      <div className="mb-8">
-        <SectionHeader icon="/icons/Sport.svg" title="Sport" alt="Sport" />
-        <div className="flex gap-4 overflow-x-auto pb-4">
+      {shouldShowSection("sport") && (
+        <div className="mb-16">
+          <SectionHeader icon="/icons/Sport.svg" title="Sport" alt="Sport" />
           <SwiperSlider
+            key={`sport-swiper-${activeGameCategory}`}
             data={card5}
             autoplayDelay={1000000}
             renderSlide={(card, index) => <CasinoCard {...card} />}
@@ -579,40 +791,34 @@ const MainContent: React.FC = () => {
               425: { slidesPerView: 3.4 },
               768: { slidesPerView: 4.3 },
               1024: { slidesPerView: 5, spaceBetween: 20 },
-              1440: { slidesPerView: 7 },
+              1440: { slidesPerView: 7.3 },
             }}
-            showProgressBars={true}
-            customPagination={true}
           />
         </div>
-      </div>
+      )}
 
       {/* Chess and cards Section */}
-      <div className="mb-8">
+      <div className="mb-16">
         <SectionHeader
           icon="/icons/tablegame.svg"
           title="Chess and cards"
           alt="tablegame"
         />
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          <SwiperSlider
-            data={card6}
-            autoplayDelay={1000000}
-            renderSlide={(card, index) => <CasinoCard {...card} />}
-            slidesPerView={7}
-            spaceBetween={20}
-            breakpoints={{
-              320: { slidesPerView: 3 },
-              375: { slidesPerView: 3.1 },
-              425: { slidesPerView: 3.4 },
-              768: { slidesPerView: 4.3 },
-              1024: { slidesPerView: 5, spaceBetween: 20 },
-              1440: { slidesPerView: 7 },
-            }}
-            showProgressBars={true}
-            customPagination={true}
-          />
-        </div>
+        <SwiperSlider
+          data={card6}
+          autoplayDelay={1000000}
+          renderSlide={(card, index) => <CasinoCard {...card} />}
+          slidesPerView={7}
+          spaceBetween={20}
+          breakpoints={{
+            320: { slidesPerView: 3 },
+            375: { slidesPerView: 3.1 },
+            425: { slidesPerView: 3.4 },
+            768: { slidesPerView: 4.3 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+            1440: { slidesPerView: 7.3 },
+          }}
+        />
       </div>
 
       {/* Latest Bets Section */}
@@ -622,29 +828,25 @@ const MainContent: React.FC = () => {
       <GameManufacturersSection />
 
       {/* Latest earnings Section */}
-      <div className="mb-8">
+      <div className="mb-16">
         <h2 className="text-4.5 font-bold text-white mb-4 relative top-1">
           Latest earnings
         </h2>
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          <SwiperSlider
-            data={card7}
-            autoplayDelay={1000000}
-            renderSlide={(card, index) => <CasinoCard {...card} />}
-            slidesPerView={7}
-            spaceBetween={20}
-            breakpoints={{
-              320: { slidesPerView: 3 },
-              375: { slidesPerView: 3.1 },
-              425: { slidesPerView: 3.4 },
-              768: { slidesPerView: 4.3 },
-              1024: { slidesPerView: 5, spaceBetween: 20 },
-              1440: { slidesPerView: 7 },
-            }}
-            showProgressBars={true}
-            customPagination={true}
-          />
-        </div>
+        <SwiperSlider
+          data={card7}
+          autoplayDelay={1000000}
+          renderSlide={(card, index) => <CasinoCard {...card} />}
+          slidesPerView={7}
+          spaceBetween={20}
+          breakpoints={{
+            320: { slidesPerView: 3 },
+            375: { slidesPerView: 3.1 },
+            425: { slidesPerView: 3.4 },
+            768: { slidesPerView: 4.3 },
+            1024: { slidesPerView: 5, spaceBetween: 20 },
+            1440: { slidesPerView: 7.3 },
+          }}
+        />
       </div>
 
       {/* MAGIC88 Style Content */}
@@ -658,9 +860,8 @@ const MainContent: React.FC = () => {
         >
           {isExpanded ? "Show Less" : "Show More"}
           <svg
-            className={`w-4 h-4 ml-2 transition-transform duration-200 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
+            className={`w-4 h-4 ml-2 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""
+              }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

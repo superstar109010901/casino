@@ -8,13 +8,11 @@ const Sidebar: React.FC = () => {
   return (
     <div >
       <aside
-      className={`sidebar close bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed h-14 bg-gray-800  lg:md:block transition-all duration-300 z-40 overflow-y-auto ${
-        isCollapsed ? "close" : "open"
+      className={`sidebar bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed bg-gray-800 lg:block transition-all duration-300 z-40 overflow-y-auto h-[calc(100vh-7.5rem)] lg:top-[56px] top-[115px] lg:h-[calc(100vh-3.5rem)] ${
+        isCollapsed ? "close " : "open"
       }`}
       style={{
         borderRight: "1px solid #2d3748",
-        height: "calc(100vh - 56px)",
-        top: "56px",
         backdropFilter: "blur(32px)",
         background: "rgba(17, 25, 35, 0.54)",
       }}
@@ -373,7 +371,12 @@ const Sidebar: React.FC = () => {
         )}
       </div>
     </aside>
-    {!isCollapsed && (<div className="lg:hidden z-2 absolute w-full h-full block bg-[#00000080]" onClick={toggleSidebar}/>)}
+    {!isCollapsed && (
+      <div
+        className="lg:hidden fixed left-0 right-0 h-[calc(100vh-7.5rem)] bg-[#00000080]"
+        onClick={toggleSidebar}
+      />
+    )}
     
     </div>
   );

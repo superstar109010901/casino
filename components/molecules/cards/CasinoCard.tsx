@@ -27,17 +27,16 @@ const CasinoCard: React.FC<CasinoCardProps> = ({
   };
 
   return (
-    <div className="hover:scale-106 hover:rounded-[8px] hover:overflow-hidden w-full">
+    <div className=" rounded-[8px] overflow-hidden w-full">
       <div className="relative rounded-[8px] overflow-hidden">
         <div className="rounded-[8px]  relative overflow-hidden">
 
         <img
           src={image}
-          alt={`Casino game ${badge.toLowerCase()}`}
+          alt={`Casino game`}
           className="w-full object-cover transition-transform duration-300"
-          style={{ width: "200px !important" }}
           />
-          <div className="absolute w-full top-0 left-0 h-full hover:backdrop-blur-[1px] duration-300 "></div>
+          <div className="absolute rounded-[8px] w-full top-0 left-0 h-full hover:backdrop-blur-[3px] duration-300 "></div>
           </div>
 
         <div className="flex items-center mt-2">

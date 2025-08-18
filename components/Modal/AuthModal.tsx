@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useSidebar } from "../providers/SidebarProvider";
 import { Button } from "@/ui";
@@ -105,6 +105,35 @@ export default function AuthModal() {
   const [agreedToTerms, setAgreedToTerms] = useState(true);
   const [agreedToNotifications, setAgreedToNotifications] = useState(true);
   const [showReferral, setShowReferral] = useState(true);
+
+  useEffect(() => {
+    if (isAuthModalOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+
+    return () => {
+      // Cleanup just in case
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+    };
+  }, [isAuthModalOpen]);
+
+  if (!isAuthModalOpen) return null;
 
   return (
     <>
@@ -326,25 +355,8 @@ export default function AuthModal() {
                   )}
 
                   {/* Submit Button */}
-                  <button
-                    className="w-full h-11 rounded-xl font-bold text-sm text-[#EDEDED] mb-6 transition-all duration-150 active:translate-y-1"
-                    style={{
-                      background: "linear-gradient(180deg, #F9476E 0%, #BD0139 24%)",
-                      border: "1px solid rgba(255, 255, 255, 0.13)",
-                      boxShadow: "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)",
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 2px 0 -1px rgba(237, 29, 73, 0.50)";
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = "0 1px 0 0 rgba(255, 255, 255, 0.13) inset, 0 5px 0 -2px rgba(237, 29, 73, 0.50)";
-                    }}
-                  >
-                    {isLogin ? "LOG IN" : "REGISTER"}
-                  </button>
+                  
+                  <AuthButton type= {isLogin ? "login" : "register"}  />
 
                   {/* Spacer */}
                   <div className="flex-1" />
