@@ -42,8 +42,8 @@ const styles: Record<
     width: "w-[173px]",
   },
   Wallet: {
-    base: "bg-[linear-gradient(1turn,#31FF5E_0.8%,#1BB83D)]",
-    edge: "bg-[#1BB83D80]",
+    base: "bg-[linear-gradient(1turn,#0C60FF_0.8%,#2C9FFA)]",
+    edge: "bg-[#003a8a]",
     width: "w-[146px]",
   },
 };

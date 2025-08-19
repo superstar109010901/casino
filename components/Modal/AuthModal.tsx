@@ -110,10 +110,12 @@ export default function AuthModal() {
     if(email === "dev.com@gmail.com" && password === "123") {
       sessionStorage.setItem('user', email)
     }
+    toggleAuthModal();
   }
 
   const register = () => {
-    console.log("register")
+    console.log("register");
+    toggleAuthModal();
   }
 
   useEffect(() => {
