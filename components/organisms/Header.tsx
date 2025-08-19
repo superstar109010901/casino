@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BlackButton, Button } from "../../ui/atoms";
 import { useSidebar } from "../providers/SidebarProvider";
 import { useModal } from "../providers/ModalProvider";
@@ -104,12 +104,13 @@ const LeftSection: React.FC<{
   </div>
 );
 
-const AuthSection: React.FC<{ toggleAuthModal: () => void }> = ({
+const AuthSection: React.FC<{ toggleAuthModal: () => void; isLoggedIn: boolean }> = ({
   toggleAuthModal,
+  isLoggedIn,
 }) => (
   <div className="flex items-center gap-2">
     {
-      sessionStorage.user ? <>
+      isLoggedIn ? <>
         <WalletSection />
       </>:<>
         <div className="relative">
@@ -126,20 +127,16 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void }> = ({
   </div>
 );
 
-const UtilitySection: React.FC = () => (
+const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => (
   <div className="flex items-center gap-2">
     <BlackButton className="lg:block hidden">
       <img src="/icons/flag-icon/cn.svg" className="px-2.5 h-4" alt="burger" />
     </BlackButton>
-    {
-      sessionStorage.user && (<NotificationButton/>)
-    }
+    {isLoggedIn && (<NotificationButton/>) }
     <BlackButton className="lg:block hidden">
       <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
     </BlackButton>
-    {
-      sessionStorage.user && (<ProfileButton />)
-    }
+    {isLoggedIn && (<ProfileButton />)}
   </div>
 );
 
@@ -226,6 +223,14 @@ const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
   const [activeGameTab, setActiveGameTab] = useState("home");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hasUser = !!sessionStorage.getItem('user');
+      setIsLoggedIn(hasUser);
+    }
+  }, []);
 
   const handleTabChange = (tabId: string) => {
     setActiveGameTab(tabId);
@@ -274,8 +279,8 @@ const Header: React.FC = () => {
 
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <AuthSection toggleAuthModal={toggleAuthModal} />
-            <UtilitySection />
+            <AuthSection toggleAuthModal={toggleAuthModal} isLoggedIn={isLoggedIn} />
+            <UtilitySection isLoggedIn={isLoggedIn} />
           </div>
         </div>
         

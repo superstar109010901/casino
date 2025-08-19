@@ -108,7 +108,9 @@ export default function AuthModal() {
 
   const login = () => {
     if(email === "dev.com@gmail.com" && password === "123") {
-      sessionStorage.setItem('user', email)
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('user', email)
+      }
     }
     toggleAuthModal();
   }
