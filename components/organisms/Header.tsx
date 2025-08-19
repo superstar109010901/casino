@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { BlackButton, Button } from "../../ui/atoms";
 import { useSidebar } from "../providers/SidebarProvider";
+import { useModal } from "../providers/ModalProvider";
 import Auth from "./auth/Auth";
 import AuthButton from "../molecules/AuthButton";
 import AuthModal from "../Modal/AuthModal";
@@ -62,11 +63,20 @@ const BonusesButton: React.FC = () => (
   </div>
 );
 
-const SearchButton: React.FC = () => (
-  <BlackButton className="sm:block hidden">
-    <img src="/icons/search.svg" className="px-2.5" alt="burger" />
-  </BlackButton>
-);
+const SearchButton: React.FC = () => {
+  const { openGameSearchModal } = useModal();
+
+  
+  return (
+    <BlackButton className="sm:block hidden" onClick={openGameSearchModal}>
+      <img src="/icons/search.svg" className="px-2.5" alt="search" />
+    </BlackButton>
+  );
+};
+
+
+
+
 
 const NotificationBadge: React.FC = () => (
   <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded w-5 flex items-center justify-center">
@@ -74,14 +84,23 @@ const NotificationBadge: React.FC = () => (
   </div>
 );
 
-const LeftSection: React.FC<{ toggleSidebar: () => void }> = ({
+const LeftSection: React.FC<{ 
+  toggleSidebar: () => void;
+  showMobileSearch: boolean;
+  onMobileSearchClick: () => void;
+  onMobileSearchClose: () => void;
+}> = ({
   toggleSidebar,
+  showMobileSearch,
+  onMobileSearchClick,
+  onMobileSearchClose,
 }) => (
   <div className="flex items-center gap-2">
     <MenuButton onClick={toggleSidebar} />
     <Logo />
     <BonusesButton />
     <SearchButton />
+    
   </div>
 );
 
@@ -89,7 +108,11 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void }> = ({
   toggleAuthModal,
 }) => (
   <div className="flex items-center gap-2">
-    <div className="relative">
+    {
+      sessionStorage.user ? <>
+        <WalletSection />
+      </>:<>
+        <div className="relative">
       <BlackButton onClick={toggleAuthModal}>
         <span className="text-white px-4 font-medium text-xs">Log in</span>
       </BlackButton>
@@ -97,6 +120,9 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void }> = ({
     <Button variant="red" onClick={toggleAuthModal}>
       <span className="text-[12px]">Register</span>
     </Button>
+      </>
+    }
+    
   </div>
 );
 
@@ -105,9 +131,15 @@ const UtilitySection: React.FC = () => (
     <BlackButton className="lg:block hidden">
       <img src="/icons/flag-icon/cn.svg" className="px-2.5 h-4" alt="burger" />
     </BlackButton>
+    {
+      sessionStorage.user && (<NotificationButton/>)
+    }
     <BlackButton className="lg:block hidden">
       <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
     </BlackButton>
+    {
+      sessionStorage.user && (<ProfileButton />)
+    }
   </div>
 );
 
@@ -136,7 +168,7 @@ const NotificationButton: React.FC = () => (
   </div>
 );
 
-const ProfileButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
   <div className="relative">
     <BlackButton onClick={onClick}>
       <img
@@ -193,10 +225,19 @@ const Header: React.FC = () => {
   const { toggleSidebar, toggleAuthModal, setActiveGameCategory } = useSidebar();
   const [showModal, setShowModal] = useState(true);
   const [activeGameTab, setActiveGameTab] = useState("home");
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const handleTabChange = (tabId: string) => {
     setActiveGameTab(tabId);
     setActiveGameCategory(tabId);
+  };
+
+  const handleMobileSearchClick = () => {
+    setShowMobileSearch(true);
+  };
+
+  const handleMobileSearchClose = () => {
+    setShowMobileSearch(false);
   };
 
   const LoginForm = () => {
@@ -221,7 +262,12 @@ const Header: React.FC = () => {
         {/* Main Header Row */}
         <div className="h-14 flex items-center justify-between gap-2 px-4 py-2.5">
           {/* Left side */}
-          <LeftSection toggleSidebar={toggleSidebar} />
+          <LeftSection 
+            toggleSidebar={toggleSidebar}
+            showMobileSearch={showMobileSearch}
+            onMobileSearchClick={handleMobileSearchClick}
+            onMobileSearchClose={handleMobileSearchClose}
+          />
 
           {/* Center - empty space */}
           <div className="flex-1"></div>

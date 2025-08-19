@@ -106,6 +106,16 @@ export default function AuthModal() {
   const [agreedToNotifications, setAgreedToNotifications] = useState(true);
   const [showReferral, setShowReferral] = useState(true);
 
+  const login = () => {
+    if(email === "dev.com@gmail.com" && password === "123") {
+      sessionStorage.setItem('user', email)
+    }
+  }
+
+  const register = () => {
+    console.log("register")
+  }
+
   useEffect(() => {
     if (isAuthModalOpen) {
       // Save current scroll position
@@ -356,7 +366,7 @@ export default function AuthModal() {
 
                   {/* Submit Button */}
                   
-                  <AuthButton type= {isLogin ? "login" : "register"}  />
+                  <AuthButton type= {isLogin ? "login" : "register"} onClick={isLogin ? login: register}  />
 
                   {/* Spacer */}
                   <div className="flex-1" />
@@ -385,7 +395,7 @@ export default function AuthModal() {
             </div>
 
             {/* Mobile Layout */}
-            <div className="lg:hidden animation-fade-in absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923] ">
+            <div className="lg:hidden animation-fade-in absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923] overflow-y-auto" style={{ WebkitOverflowScrolling: "touch" }}>
 
 
               {/* Blue Gradient Background */}
@@ -423,7 +433,7 @@ export default function AuthModal() {
               </div>
 
               {/* Form Section */}
-              <div className="px-4 pb-8 space-y-6 relative h-[calc(100%-262px)] flex flex-col justify-between -top-[58px]">
+              <div className="px-4 pb-8 space-y-6 relative h-[calc(100%-262px)] flex flex-col justify-between -top-[58px] overflow-y-auto">
                 <div className="flex flex-col gap-[24px]">
                   {/* Tab Switcher */}
                   <div className="flex rounded-xl p-1">

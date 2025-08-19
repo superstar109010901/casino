@@ -635,7 +635,6 @@ body {
     z-index: 50;
     width: 300px;
     min-width: 300px;
-    height: calc(100vh - 56px);
   }
 }
 @media (max-width: 520px) {
@@ -691,4 +690,8 @@ body {
 
 .swiper-grid-column > .swiper-wrapper {
     flex-direction: row !important;
+}
+
+.bg-gaming-white-4 {
+  background-color: #ffffff25 !important;
 }

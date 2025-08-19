@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mainContentData from "../../main-content-data.json";
 import { useSidebar } from "../providers/SidebarProvider";
+import { useModal } from "../providers/ModalProvider";
 import { Swiper as SwiperType } from "swiper";
 import CasinoCard from "../molecules/cards/CasinoCard";
 import RewardCard from "../molecules/cards/RewardCard";
@@ -16,6 +17,9 @@ import { SuccessForm } from "./auth/SuccessForm";
 import Profile from "../molecules/notification/Profile";
 import SwiperSlider from "../molecules/slider/SwiperSlider";
 import { Autoplay } from "swiper/modules";
+import { X } from "lucide-react";
+
+
 // Extract data from JSON
 const {
   card1,
@@ -171,70 +175,8 @@ const bannerCards = [
   },
 ] as const;
 
-// Section header component
-const SectionHeader: React.FC<{ icon: string; title: string; alt: string }> = ({
-  icon,
-  title,
-  alt,
-}) => (
-  <h2 className="text-4.5 font-bold text-white mb-4 flex gap-2">
-    <img className="grayscale" src={icon} alt={alt} />
-    {title}
-  </h2>
-);
 
-// Filtered Page Header Component
-const FilteredPageHeader: React.FC<{ title: string; count: number }> = ({ title, count }) => (
-  <div className="mb-6 p-4">
-    <div className="flex items-center justify-between mb-4 ">
-      <div className="bg-[rgba(255,255,255,0.08)] rounded-lg p-1.75">
 
-        <h1 className="text-white text-[14px] font-bold flex items-center gap-2">
-          {title} <span className="text-[#A7B5CA] text-[12px] bg-[#111923] px-2 py-0.5 rounded-[4px]">{count}</span>
-        </h1>
-      </div>
-      <button className="p-2.25 bg-[#111923] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
-        <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px]" />
-      </button>
-    </div>
-
-    <div className="flex items-center gap-4">
-        <button className="flex w-[50%] items-center justify-between h-12 px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
-        <span className="text-[#A7B5CA] text-sm">Game provider</span>
-          <svg
-            className="w-4 h-4 text-[#A7B5CA]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-
-        <button className="flex w-[50%] items-center justify-between h-12  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
-        <span className="text-[#A7B5CA] text-sm">All</span>
-          <svg
-            className="w-4 h-4 text-[#A7B5CA]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-    </div>
-  </div>
-);
 
 // Game Grid Component
 const GameGrid: React.FC<{ data: any[]; renderCard: (item: any, index: number) => React.ReactNode }> = ({ data, renderCard }) => (
@@ -440,11 +382,127 @@ const Magic88Content: React.FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
     </div>
   </div>
 );
-
-const MainContent: React.FC = () => {
+interface MainContentProps {}
+const MainContent: React.FC<MainContentProps> = () => {
   const { isCollapsed, activeGameCategory } = useSidebar();
+  const { openGameProviderModal, openChooseModal } = useModal();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSearch, setIsOpenSearch] = useState(true);
+
+  const toggleSearch = () => {
+    setIsOpenSearch(!isOpenSearch);
+  }
+
+  
+
+  // Filtered Page Header Component
+const FilteredPageHeader: React.FC<{ title: string; count: number, icon: string }> = ({ title, count, icon }) => (
+  <div className="mb-6 p-4">
+    <div className="flex items-center justify-between mb-4 ">
+      <div className="bg-[rgba(255,255,255,0.08)] rounded-lg p-1.75">
+
+        <h1 className="text-white text-[14px] font-bold flex items-center gap-2">
+          <img src={icon} className="w-6 hidden lg:block h-6" alt="game"/>
+          {title} <span className="text-[#A7B5CA] text-[12px] bg-[#111923] px-2 py-0.5 rounded-[4px]">{count}</span>
+        </h1>
+      </div>
+      <div className="flex gap-4">
+        <button onClick={openGameProviderModal} className="hidden lg:flex w-50 items-center justify-between h-12 px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">Game provider</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+        
+
+        
+
+        <button onClick={openChooseModal} className=" hidden lg:flex w-50 items-center justify-between h-12  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">All</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      <button className="p-2.25 bg-[#111923]  lg:bg-[rgba(255,255,255,0.04)] flex gap-1 items-center lg:w-50 rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        {
+        isOpenSearch ? <>
+        
+          <img src="/icons/search.svg" alt="search" onClick={toggleSearch} className="w-[18px] h-[18px]" />
+        </> : <X className="w-4.5 h-4.5" onClick={toggleSearch} />
+        }
+        <span className="text-[#A7B5CA] hidden lg:block text-sm">Search</span>
+      </button>
+      </div>
+    </div>
+
+    <div className="flex lg:hidden items-center gap-4">
+      {
+        isOpenSearch ? <>
+        
+        <button onClick={openGameProviderModal} className="flex w-[50%] items-center justify-between h-12 px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">Game provider</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+              />
+          </svg>
+        </button>
+
+        <button onClick={openChooseModal} className="flex w-[50%] items-center justify-between h-12  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+        <span className="text-[#A7B5CA] text-sm">All</span>
+          <svg
+            className="w-4 h-4 text-[#A7B5CA]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+              />
+          </svg>
+        </button>
+              </>: <>
+        <button className="flex w-full items-center gap-4 h-12  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+          <img src="/icons/search.svg" alt="search" onClick={toggleSearch} className="w-[18px] h-[18px]" />
+          <span className="text-[#A7B5CA] text-sm">Search</span>
+        </button>
+              </>
+            }
+    </div>
+  </div>
+);
 
   // Function to determine which sections to show based on active category
   const shouldShowSection = (sectionType: string) => {
@@ -477,6 +535,23 @@ const MainContent: React.FC = () => {
     return categoryData[activeGameCategory] || categoryData["slots"];
   };
 
+  
+// Section header component
+const SectionHeader: React.FC<{ icon: string; title: string; alt: string }> = ({
+  icon,
+  title,
+  alt,
+}) => {
+  if(!isFilteredView()) {
+    return (<h2 className="text-4.5 font-bold text-white mb-4 flex gap-2">
+    <img className="grayscale" src={icon} alt={alt} />
+    {title}
+  </h2>)
+  }
+        
+  
+};
+
   const toggleContent = () => setIsExpanded(!isExpanded);
 
   const toggleSuccessForm = () => {
@@ -502,12 +577,25 @@ const MainContent: React.FC = () => {
         <SuccessForm isOpen={isOpen} />
         <Profile />
 
+        <div className="mb-16">
+        <SwiperSlider
+          key={`banner-swiper-${activeGameCategory}`}
+          data={bannerCards}
+          renderSlide={(card, index) => <RewardCard {...card} />}
+          slidesPerView="auto"
+          spaceBetween={20}
+          slideClassName="lg:!w-[486.76px] !w-[353.35px]"
+          showProgressBars={true}
+          customPagination={true}
+        />
+      </div>
+
         {/* Mobile Filtered View */}
-        <div className="lg:hidden">
-          <FilteredPageHeader title={categoryData.title} count={categoryData.count} />
+        <div className="">
+          <FilteredPageHeader title={categoryData.title} icon={categoryData.icon} count={categoryData.count} />
 
           {activeGameCategory === "hash" ? (
-            <div className="flex flex-col gap-4 items-center">
+            <div className="flex lg:hidden flex-col gap-4 items-center">
               {categoryData.data.map((card, index) => (
                 <HashCard key={index} {...card} />
               ))}
@@ -602,6 +690,7 @@ const MainContent: React.FC = () => {
             </div>
           )}
         </div>
+        
       </div>
     );
   }
