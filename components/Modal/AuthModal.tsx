@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { setAuthUser } from "@/lib/auth";
 import { X, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useSidebar } from "../providers/SidebarProvider";
 import { Button } from "@/ui";
@@ -108,9 +109,7 @@ export default function AuthModal() {
 
   const login = () => {
     if(email === "dev.com@gmail.com" && password === "123") {
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('user', email)
-      }
+      setAuthUser(email);
     }
     toggleAuthModal();
   }

@@ -1,200 +1,205 @@
-import React, { useState } from "react";
+"use client"
 
-// Types
-interface MenuItemProps {
-  icon: string;
-  label: string;
-  badge?: number;
-  onClick?: () => void;
-}
+import { useState } from "react";
+import { setAuthUser } from "@/lib/auth";
 
-interface ProfileSectionProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-// Menu configuration
-const MENU_ITEMS: MenuItemProps[] = [
-  { icon: "wallet", label: "Wallet" },
-  { icon: "notifications", label: "Notifications", badge: 4 },
-  { icon: "trophy", label: "Game records" },
-  { icon: "chart", label: "Data Statistics" },
-  { icon: "settings", label: "Settings" },
-  { icon: "logout", label: "Log out" },
-] as const;
-
-// Icon mapping
-const ICON_MAP: Record<string, React.ReactNode> = {
-  wallet: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h9zm-9-2h10V8H12v8z" />
-    </svg>
-  ),
-  notifications: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
-    </svg>
-  ),
-  trophy: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5V7C21 8.66 19.66 10 18 10H6C4.34 10 3 8.66 3 7V5C3 4.45 3.45 4 4 4H7ZM9 3V4H15V3H9ZM5 7V8H6C7.1 8 8 7.1 8 6V5H16V6C16 7.1 16.9 8 18 8H19V7H5Z" />
-    </svg>
-  ),
-  chart: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z" />
-    </svg>
-  ),
-  settings: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-    </svg>
-  ),
-  logout: (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-      <path d="M17 7l-1.41 1.39L22.17 13H8v2h14.17l-6.58 6.61L17 23l9-9zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
-    </svg>
-  ),
-};
-
-// Reusable components
-const ProfileSection: React.FC<ProfileSectionProps> = ({
-  children,
-  className = "",
-}) => <div className={`mb-6 ${className}`}>{children}</div>;
-
-const MenuItem: React.FC<MenuItemProps> = ({ icon, label, badge, onClick }) => (
-  <button
-    className="w-full flex items-center gap-3 px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-colors group"
-    onClick={onClick}
-  >
-    <div className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors">
-      {ICON_MAP[icon]}
-    </div>
-    <span className="text-sm font-medium">{label}</span>
-    {badge && (
-      <div className="ml-auto w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-        <span className="text-white text-xs font-bold">{badge}</span>
-      </div>
-    )}
-  </button>
-);
-
-const Profile: React.FC = () => {
+const UserProfileDropdown = () => {
   const [bonusCode, setBonusCode] = useState("");
 
-  const handleBonusCodeSubmit = () => {
-    if (bonusCode.trim()) {
-      // Handle bonus code submission
-      console.log("Bonus code submitted:", bonusCode);
-      setBonusCode("");
-    }
-  };
+  // SVG Icons from Figma design
+  const EditIcon = () => (
+    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.33252 3H8.1665V3.33301H2.83252V13.667H13.1665V8.33301H13.4995V13.167C13.4993 13.6239 13.1234 13.9998 12.6665 14H3.33252C2.87558 13.9998 2.49969 13.6239 2.49951 13.167V3.83301C2.49969 3.37607 2.87558 3.00018 3.33252 3Z" fill="white" stroke="#A7B5CA"/>
+      <path d="M4.66602 9.83335V11.1667C4.66602 11.5333 4.96602 11.8333 5.33268 11.8333H6.66602C6.84602 11.8333 7.01268 11.76 7.13935 11.64L12.2393 6.54001L9.96602 4.26668L4.86602 9.36668C4.80423 9.42897 4.75534 9.50285 4.72217 9.58408C4.68899 9.6653 4.67218 9.75228 4.67268 9.84001L4.66602 9.83335ZM13.806 4.97335C13.8678 4.91167 13.9168 4.83841 13.9503 4.75776C13.9838 4.67711 14.001 4.59066 14.001 4.50335C14.001 4.41603 13.9838 4.32958 13.9503 4.24893C13.9168 4.16828 13.8678 4.09502 13.806 4.03335L12.4727 2.70001C12.411 2.63821 12.3377 2.58918 12.2571 2.55572C12.1764 2.52227 12.09 2.50505 12.0027 2.50505C11.9154 2.50505 11.8289 2.52227 11.7483 2.55572C11.6676 2.58918 11.5944 2.63821 11.5327 2.70001L10.4327 3.80001L12.706 6.07335L13.806 4.97335Z" fill="#A7B5CA"/>
+    </svg>
+  );
+
+  const PriceTagIcon = () => (
+    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.14 2.69334C9.07771 2.63156 9.00383 2.58267 8.9226 2.5495C8.84138 2.51632 8.7544 2.4995 8.66667 2.50001H2.66667C2.3 2.50001 2 2.80001 2 3.16668V9.16668C2 9.34668 2.07333 9.51335 2.19333 9.64001L7.52667 14.9733C7.66 15.1067 7.82667 15.1667 8 15.1667C8.17333 15.1667 8.34 15.1 8.47333 14.9733L14.4733 8.97334C14.5351 8.91167 14.5842 8.83841 14.6176 8.75776C14.6511 8.67711 14.6683 8.59066 14.6683 8.50335C14.6683 8.41603 14.6511 8.32958 14.6176 8.24893C14.5842 8.16828 14.5351 8.09502 14.4733 8.03335L9.14 2.69334ZM6 7.83334C5.26 7.83334 4.66667 7.23334 4.66667 6.50001C4.66667 5.76668 5.26667 5.16668 6 5.16668C6.73333 5.16668 7.33333 5.76668 7.33333 6.50001C7.33333 7.23334 6.73333 7.83334 6 7.83334Z" fill="#A7B5CA"/>
+    </svg>
+  );
+
+  const WalletIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 10H22V14H14V10Z" fill="#55657E"/>
+      <path d="M14 16C12.9 16 12 15.1 12 14V10C12 8.9 12.9 8 14 8H22V5C22 3.9 21.1 3 20 3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V16H14Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const NotificationIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 3C17.2044 3 16.4413 3.31607 15.8787 3.87868C15.3161 4.44129 15 5.20435 15 6C15 6.79565 15.3161 7.55871 15.8787 8.12132C16.4413 8.68393 17.2044 9 18 9C18.7956 9 19.5587 8.68393 20.1213 8.12132C20.6839 7.55871 21 6.79565 21 6C21 5.20435 20.6839 4.44129 20.1213 3.87868C19.5587 3.31607 18.7956 3 18 3Z" fill="#55657E"/>
+      <path d="M5 4C3.9 4 3 4.9 3 6V19C3 20.1 3.9 21 5 21H18C19.1 21 20 20.1 20 19V10.01C19.39 10.31 18.72 10.5 18 10.5C15.52 10.5 13.5 8.48 13.5 6C13.5 5.28 13.69 4.61 13.99 4H5Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const MedalIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.58 19C8.01 19 7.47 18.83 7 18.54V21C7 21.35 7.18 21.67 7.47 21.85C7.76 22.03 8.13 22.05 8.44 21.89L11.99 20.11L15.54 21.89C15.68 21.96 15.83 22 15.99 22C16.17 22 16.36 21.95 16.52 21.85C16.81 21.67 16.99 21.35 16.99 21V18.54C16.52 18.83 15.98 19 15.41 19H8.57H8.58Z" fill="#55657E"/>
+      <path d="M6.83996 16.99C7.18996 17.61 7.85996 18 8.57996 18H15.42C16.13 18 16.8 17.61 17.16 16.99L20.59 10.99C20.94 10.38 20.94 9.61997 20.59 9.00997L17.16 3.00997C16.8 2.38997 16.14 1.99997 15.42 1.99997H8.57996C7.85996 1.99997 7.19996 2.38997 6.83996 3.00997L3.40996 9.00997C3.05996 9.61997 3.05996 10.38 3.40996 10.99L6.83996 16.99ZM10.91 8.62997L11.99 6.43997L13.07 8.62997L15.49 8.97997L13.74 10.69L14.15 13.1L11.99 11.96L9.82996 13.1L10.24 10.69L8.48996 8.97997L10.91 8.62997Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const ChartIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 7.09999C14.96 7.49999 16.5 9.03999 16.9 11H21.95C21.48 6.27999 17.72 2.51999 13 2.04999V7.09999Z" fill="#55657E"/>
+      <path d="M16.9 13C16.44 15.28 14.42 17 12 17C9.24 17 7 14.76 7 12C7 9.57999 8.72 7.55999 11 7.09999V2.04999C5.95 2.54999 2 6.80999 2 12C2 17.52 6.48 22 12 22C17.19 22 21.45 18.05 21.95 13H16.9Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const SlidersIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 11C7.86 11 9.41 9.72 9.86 8H22V6H9.86C9.41 4.28 7.86 3 6 3C3.79 3 2 4.79 2 7C2 9.21 3.79 11 6 11Z" fill="#55657E"/>
+      <path d="M18 21C20.21 21 22 19.21 22 17C22 14.79 20.21 13 18 13C16.14 13 14.59 14.28 14.14 16H2V18H14.14C14.59 19.72 16.14 21 18 21Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const LogOutIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM5 19V5H14V19H5Z" fill="#55657E"/>
+      <path d="M6.54004 9.20998L9.34004 12L6.54004 14.79L7.96004 16.21L12.16 12L7.96004 7.78998L6.54004 9.20998Z" fill="#55657E"/>
+    </svg>
+  );
+
+  const menuItems = [
+    { icon: WalletIcon, label: "Wallet", count: null },
+    { icon: NotificationIcon, label: "Notifications", count: 4 },
+    { icon: MedalIcon, label: "Game records", count: null },
+    { icon: ChartIcon, label: "Data Statistics", count: null },
+    { icon: SlidersIcon, label: "Settings", count: null },
+  ];
 
   return (
-    <div
-      className="w-[280px] bg-[#1119238A] fixed right-4 top-14 z-50 rounded-lg p-4 border border-white/10 backdrop-blur-[16px] hidden transition-all duration-300"
-      id="notification-panel"
-    >
+    <div className="w-[282px] glass-bg  rounded-[14px]  p-0 text-white font-montserrat">
       {/* User Profile Section */}
-      <ProfileSection>
-        <div className="flex flex-col items-center">
+      <div className="p-4">
+        <div className="flex flex-col items-center gap-2">
           {/* Avatar with VIP Badge */}
-          <div className="relative mb-3">
-            <img
-              src="/images/Frame.png"
-              className="w-16 h-16 rounded-4"
-              alt="User Avatar"
-            />
-            <div className="absolute -bottom-2 right-2 w-11 px-1 h-5 bg-[#1BB83D] flex items-center justify-center border-2 border-[#111923] rounded-[8px]">
-              <span className="text-white text-[10px] font-bold">VIP 1</span>
-            </div>
-          </div>
-
-          {/* Username with Edit Icon */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-white font-semibold text-sm">
-              User8527681
-            </span>
-            <button className="w-4 h-4 text-gray-400 hover:text-white transition-colors">
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-full h-full"
-              >
-                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* VIP Progress Bar */}
-          <div className="w-full mb-2">
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-white text-xs font-medium">VIP 1</span>
-              <div className="flex items-center gap-1">
-                <span className="text-white text-xs font-medium">VIP 1</span>
-                <div className="w-4 h-4 text-orange-400">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-full h-full"
-                  >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
+          <div className="relative flex flex-col items-center gap-[-10px]">
+            <div className="relative">
+              <img 
+                src="https://api.builder.io/api/v1/image/assets/TEMP/381f33b8ee9dde920a0b2278348be945b8886b91?width=128"
+                alt="User avatar"
+                className="w-16 h-16 rounded-2xl border border-white shadow-[0_1px_0_0_rgba(255,255,255,0.16)_inset] backdrop-blur-[32px]"
+              />
+              {/* VIP Badge - positioned to overlap the bottom of the avatar */}
+              <div className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 z-10">
+                <div
+                  className="h-5 px-2 flex items-center justify-center rounded-2xl border border-white shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset]"
+                  style={{ backgroundColor: '#1BB83D' }}
+                >
+                  <span className="text-white text-xs font-bold whitespace-nowrap">VIP 1</span>
                 </div>
-                <span className="text-white text-xs font-medium">50%</span>
               </div>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
-              <div
-                className="bg-red-500 h-2 rounded-full"
-                style={{ width: "75%" }}
-              ></div>
+          </div>
+
+          {/* Username */}
+          <div className="flex items-center gap-1 mt-2">
+            <span className="text-white text-sm font-bold">User8527681</span>
+            <EditIcon />
+          </div>
+
+          {/* VIP Progress */}
+          <div className="w-full flex flex-col gap-0.5">
+            <div className="flex justify-between items-center">
+              <span className="text-white text-[10px] font-bold">VIP 1</span>
+              <span className="text-white text-[10px] font-bold">VIP 1</span>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="glass-input rounded-lg p-0.5">
+              <div className="relative w-full h-2 rounded-lg">
+                <div 
+                  className="w-[116px] h-full border border-white rounded-lg"
+                  style={{ backgroundColor: '#ED1D49' }}
+                ></div>
+                <div className="absolute right-1 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
+                  <img 
+                    src="https://api.builder.io/api/v1/image/assets/TEMP/b06c41ce5f767b8fe02cc82d8bf934e68565f90a?width=24" 
+                    alt="Chest"
+                    className="w-3 h-3"
+                  />
+                  <span className="text-white text-[10px]">50%</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </ProfileSection>
+      </div>
 
       {/* Bonus Code Section */}
-      <ProfileSection>
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-4 h-4 text-gray-400">
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-full h-full"
-            >
-              <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z" />
-            </svg>
+      <div className="px-4 pb-4">
+        <div className="p-4 rounded-xl">
+          {/* Bonus Code Header */}
+          <div className="flex items-center gap-2 mb-4">
+            <PriceTagIcon />
+            <span className="text-sm font-bold" style={{ color: '#A7B5CA' }}>Bonus code</span>
           </div>
-          <span className="text-white font-medium text-sm">Bonus code</span>
-        </div>
 
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Enter bonus code"
-            value={bonusCode}
-            onChange={(e) => setBonusCode(e.target.value)}
-            className="flex-1 px-4 py-1 bg-[#FFFFFF0A] border border-gray-600 rounded-lg text-white text-sm placeholder-[#55657E] focus:outline-none focus:border-blue-500 transition-colors w-[150px] h-[40px]"
-          />
-          <button
-            onClick={handleBonusCodeSubmit}
-            className="mt-1 bg-[#2283F6] hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors ml-[-71px] w-[60px] h-[32px]"
-          >
-            Send
-          </button>
+          {/* Input Field */}
+          <div className="flex glass-input rounded-xl p-1.5 gap-1">
+            <input
+              type="text"
+              value={bonusCode}
+              onChange={(e) => setBonusCode(e.target.value)}
+              placeholder="Enter bonus code"
+              className="flex-1 bg-transparent text-xs border-none outline-none px-3 w-[30px] placeholder:text-blue-bayoux"
+              style={{ color: '#55657E' }}
+            />
+            <button
+              className="h-9 px-4 rounded-lg border transition-colors shadow-[0_1px_0_0_rgba(255,255,255,0.13)_inset,_0_4px_0_-2px_rgba(34,131,246,0.50)] flex items-center"
+              style={{
+                backgroundColor: '#2283F6',
+                borderColor: 'rgba(255, 255, 255, 0.13)'
+              }}
+            >
+              <span className="text-xs font-bold" style={{ color: '#EDEDED' }}>Send</span>
+            </button>
+          </div>
         </div>
-      </ProfileSection>
+      </div>
 
-      {/* Menu Options */}
-      <div className="space-y-3">
-        {MENU_ITEMS.map((item, index) => (
-          <MenuItem key={index} {...item} />
-        ))}
+      {/* Menu Items */}
+      <div className="px-4 pb-4">
+        <div className="flex flex-col gap-0.5">
+          {menuItems.map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={index}
+                className="flex items-center gap-2 h-12 px-4 rounded-lg hover:bg-white/5 transition-colors group backdrop-blur-[32px]"
+              >
+                <IconComponent />
+                <span className="flex-1 text-left text-sm font-bold group-hover:text-white transition-colors" style={{ color: '#A7B5CA' }}>
+                  {item.label}
+                </span>
+                {item.count && (
+                  <div 
+                    className="border border-white rounded-md px-1.5 py-0.5 shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset]"
+                    style={{ backgroundColor: '#1BB83D' }}
+                  >
+                    <span className="text-white text-xs font-bold">{item.count}</span>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Log Out */}
+      <div className="px-4 pb-4">
+        <button onClick={() => setAuthUser(null)} className="flex items-center gap-2 h-12 px-4 rounded-lg hover:bg-white/5 transition-colors group w-full backdrop-blur-[32px]">
+          <LogOutIcon />
+          <span className="flex-1 text-left text-sm font-bold group-hover:text-white transition-colors" style={{ color: '#A7B5CA' }}>
+            Log out
+          </span>
+        </button>
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default UserProfileDropdown;

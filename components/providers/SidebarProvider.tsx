@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 
 interface SidebarContextType {
   isCollapsed: boolean;
@@ -9,6 +9,12 @@ interface SidebarContextType {
   toggleAuthModal: () => void;
   activeGameCategory: string;
   setActiveGameCategory: (category: string) => void;
+  // Hover panel state for Hash Games
+  isHashHoverOpen: boolean;
+  openHashHover: () => void;
+  scheduleCloseHashHover: () => void;
+  hashHoverTop: number;
+  setHashHoverTop: (top: number) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -31,6 +37,9 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [activeGameCategory, setActiveGameCategory] = useState("home");
+  const [isHashHoverOpen, setIsHashHoverOpen] = useState(false);
+  const [hashHoverTop, setHashHoverTop] = useState(0);
+  const hoverCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -38,6 +47,23 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
 
   const toggleAuthModal = () => {
     setIsAuthModalOpen(!isAuthModalOpen);
+  };
+
+  const openHashHover = () => {
+    if (hoverCloseTimerRef.current) {
+      clearTimeout(hoverCloseTimerRef.current);
+      hoverCloseTimerRef.current = null;
+    }
+    setIsHashHoverOpen(true);
+  };
+
+  const scheduleCloseHashHover = () => {
+    if (hoverCloseTimerRef.current) {
+      clearTimeout(hoverCloseTimerRef.current);
+    }
+    hoverCloseTimerRef.current = setTimeout(() => {
+      setIsHashHoverOpen(false);
+    }, 200);
   };
 
   return (
@@ -48,7 +74,12 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({
         isAuthModalOpen, 
         toggleAuthModal,
         activeGameCategory,
-        setActiveGameCategory
+        setActiveGameCategory,
+        isHashHoverOpen,
+        openHashHover,
+        scheduleCloseHashHover,
+        hashHoverTop,
+        setHashHoverTop
       }}
     >
       {children}

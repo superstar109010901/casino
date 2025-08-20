@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSidebar } from "../providers/SidebarProvider";
+import Link from "next/link";
 
 const Sidebar: React.FC = () => {
-  const { isCollapsed, toggleSidebar } = useSidebar();
+  const { isCollapsed, toggleSidebar, openHashHover, scheduleCloseHashHover, setHashHoverTop } = useSidebar();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +66,7 @@ const Sidebar: React.FC = () => {
     <div>
       <aside
         ref={sidebarRef}
-        className={`sidebar bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed bg-gray-800 lg:block transition-all duration-300 z-40 overflow-y-auto h-[calc(100vh-165px)] lg:top-[56px] top-[115px] lg:h-[calc(100vh-3.5rem)] ${
+        className={`sidebar bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed bg-gray-800 lg:block transition-all duration-300 z-40 overflow-y-auto overflow-x-visible h-[calc(100vh-165px)] lg:top-[56px] top-[115px] lg:h-[calc(100vh-3.5rem)] ${
           isCollapsed ? "close " : "open"
         }`}
         style={{
@@ -136,35 +137,46 @@ const Sidebar: React.FC = () => {
           <div className={`p-4 ${isCollapsed ? "px-2" : ""} space-y-1 flex-1`}>
             <div className="pb-[16px]">
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
-                  isCollapsed ? "justify-center" : ""
-                }`}
+                className="relative"
+                onMouseEnter={(e) => {
+                  const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+                  setHashHoverTop(rect.top);
+                  openHashHover();
+                }}
+                onMouseLeave={scheduleCloseHashHover}
               >
                 <div
-                  className={`flex items-center gap-3 ${
+                  className={`flex items-center justify-between p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
-                  <img
-                    src={"/icons/bitcoin.svg"}
-                    className="w-5 h-5"
-                    alt="bitcoin"
-                  />
-                  {!isCollapsed && <span className="text-sm font-bold">Hash Games</span>}
-                </div>
-                {!isCollapsed && (
-                  <svg
-                    className="w-3 h-3 text-gray-500"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                  <div
+                    className={`flex items-center gap-3 ${
+                      isCollapsed ? "justify-center" : ""
+                    }`}
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clipRule="evenodd"
+                    <img
+                      src={"/icons/bitcoin.svg"}
+                      className="w-5 h-5"
+                      alt="bitcoin"
                     />
-                  </svg>
-                )}
+                    {!isCollapsed && <span className="text-sm font-bold">Hash Games</span>}
+                  </div>
+                  {!isCollapsed && (
+                    <svg
+                      className="w-3 h-3 text-gray-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </div>
+                {/* Floating panel is rendered globally in layout via HashHoverLayer */}
               </div>
               <div
                 className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
@@ -230,10 +242,11 @@ const Sidebar: React.FC = () => {
             </div>
             <div className="py-[16px]">
               {/* Membership & Plan */}
-              <div
+              <Link
                 className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
+                href="/invite"
               >
                 <img
                   src={"/icons/thumbsup.svg"}
@@ -241,7 +254,7 @@ const Sidebar: React.FC = () => {
                   alt="thumbsup"
                 />
                 {!isCollapsed && <span className="text-sm font-bold">Alliance Plan</span>}
-              </div>
+              </Link>
               <div
                 className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
@@ -260,7 +273,7 @@ const Sidebar: React.FC = () => {
 
               {/* Information & Support */}
               <div
-                className={`flex items-center gap-3 p-3 bg-gray-700 rounded-lg cursor-pointer text-white transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-white transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >

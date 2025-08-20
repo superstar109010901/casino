@@ -1,3 +1,9 @@
+import MainContent from "@/components/organisms/MainContent";
+
+
+
 export default function Home() {
-  return <div></div>;
+  return <div>
+    <MainContent />
+  </div>;
 }

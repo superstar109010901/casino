@@ -37,6 +37,15 @@ body {
   scrollbar-width: thin;
 }
 
+/* Hide native scrollbar when using custom scrollbars in overlays/dropdowns */
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
 .swiper-slide {
   overflow: hidden;
   border-radius: 8px;
@@ -694,4 +703,34 @@ body {
 
 .bg-gaming-white-4 {
   background-color: #ffffff25 !important;
+}
+
+.glass-bg {
+    background: rgba(17, 25, 35, 0.70);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.16) inset;
+    backdrop-filter: blur(50px);
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+  }
+
+  @media (max-width: 1300px) {
+  .min-h-screen {
+    width: 80% !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .min-h-screen {
+    width: 95% !important;
+  }
+}
+
+@media (max-width: 1px) {
+  .min-h-screen {
+    width: 100% !important;
+  }
 }

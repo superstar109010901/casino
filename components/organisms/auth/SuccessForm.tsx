@@ -19,7 +19,7 @@ export function SuccessForm({ isOpen }: AnnouncementModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 mt-auto mt-[160px] block" id="success-form">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" id="success-form">
       <div className="w-[402px] h-[533px] flex flex-col items-end gap-4 p-6 rounded-[14px] bg-[rgba(17,25,35,0.54)] border border-[rgba(255,255,255,0.16)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
         {/* Close Button */}
         <button

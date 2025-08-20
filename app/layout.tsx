@@ -10,6 +10,8 @@ import Auth from "@/components/organisms/auth/Auth";
 import MainContent from "@/components/organisms/MainContent";
 import Bottombar from "@/components/organisms/Bottombar";
 import AuthModal from "@/components/Modal/AuthModal";
+import dynamic from "next/dynamic";
+const HashHoverLayer = dynamic(() => import("@/components/overlays/HashHoverLayer"), { ssr: false });
 
 const montserrat = Montserrat({
   subsets: ["latin"], // Specify the character subsets you need
@@ -37,10 +39,11 @@ export default function RootLayout({
             <main className="flex lg:pt-[56px] pt-[115px]  relative z-10">
               <Sidebar />
               <div className="main-content ">
-                <MainContent />
+                
                 {children}
                 <Footer />
               </div>
+              <HashHoverLayer />
             </main>
             <div className="fixed bg-[radial-gradient(circle_at_50%_322px,_#003A81_100px,_#0D131C_300px)] w-full h-full top-0 left-0 z-0"></div>
             <Bottombar />

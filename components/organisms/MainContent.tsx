@@ -575,7 +575,6 @@ const SectionHeader: React.FC<{ icon: string; title: string; alt: string }> = ({
         style={{ margin: "auto" }}
       >
         <SuccessForm isOpen={isOpen} />
-        <Profile />
 
         <div className="mb-16">
         <SwiperSlider
@@ -705,7 +704,6 @@ const SectionHeader: React.FC<{ icon: string; title: string; alt: string }> = ({
       style={{ margin: "auto" }}
     >
       <SuccessForm isOpen={isOpen} />
-      <Profile />
 
       {/* Main Banner Section */}
       <div className="mb-16">

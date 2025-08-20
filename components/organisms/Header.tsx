@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { AUTH_CHANGED_EVENT, getIsLoggedIn } from "@/lib/auth";
+import UserProfileDropdown from "../molecules/notification/Profile";
 import { BlackButton, Button } from "../../ui/atoms";
-import { useSidebar } from "../providers/SidebarProvider";
+import LanguageSelect from "../molecules/LanguageSelect";
 import { useModal } from "../providers/ModalProvider";
+import { useSidebar } from "../providers/SidebarProvider";
 import Auth from "./auth/Auth";
 import AuthButton from "../molecules/AuthButton";
 import AuthModal from "../Modal/AuthModal";
@@ -11,6 +14,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
+import Link from "next/link";
 
 // Game navigation tabs for mobile
 const gameNavTabs = [
@@ -36,8 +40,11 @@ const MenuButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 
 
 const Logo: React.FC = () => (
-  <div className="flex items-center">
+  <div  className="flex items-center">
+    <Link href='/'>
+    
     <img src="/images/logo.svg" alt="777 Gaming Logo" />
+    </Link>
   </div>
 );
 
@@ -127,18 +134,46 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void; isLoggedIn: boolean }
   </div>
 );
 
-const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => (
-  <div className="flex items-center gap-2">
-    <BlackButton className="lg:block hidden">
-      <img src="/icons/flag-icon/cn.svg" className="px-2.5 h-4" alt="burger" />
-    </BlackButton>
-    {isLoggedIn && (<NotificationButton/>) }
-    <BlackButton className="lg:block hidden">
-      <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
-    </BlackButton>
-    {isLoggedIn && (<ProfileButton />)}
-  </div>
-);
+const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
+  const [showLang, setShowLang] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [currentLang, setCurrentLang] = useState<{ code: string; name: string } | null>({ code: 'cn', name: '中文' });
+  const { openNotifications } = useModal();
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      if (!wrapperRef.current) return;
+      if (!wrapperRef.current.contains(e.target as Node)) setShowLang(false);
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, []);
+
+  return (
+    <div className="flex items-center gap-2" ref={wrapperRef}>
+      <div className="relative lg:block hidden">
+        <BlackButton onClick={() => setShowLang((s) => !s)}>
+          <img src={`/icons/flag-icon/${currentLang?.code || 'cn'}.svg`} className="px-2.5 h-4" alt="flag" />
+        </BlackButton>
+        {showLang && (
+          <div className="absolute right-0 top-full mt-2 z-[1000]">
+            <LanguageSelect
+              open
+              triggerless
+              onRequestClose={() => setShowLang(false)}
+              onChange={(lang) => setCurrentLang({ code: lang.code, name: lang.name })}
+            />
+          </div>
+        )}
+      </div>
+      {isLoggedIn && (<NotificationButton onClick={() => openNotifications()} />) }
+      <BlackButton className="lg:block hidden">
+        <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
+      </BlackButton>
+      {isLoggedIn && (<ProfileButton />)}
+    </div>
+  );
+};
 
 const WalletSection: React.FC = () => (
   <div className="flex items-center gap-2 bg-gray-700 pl-2 rounded-lg">
@@ -156,27 +191,58 @@ const WalletSection: React.FC = () => (
   </div>
 );
 
-const NotificationButton: React.FC = () => (
+const NotificationButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
   <div className="relative">
-    <BlackButton className="lg:block hidden">
+    <BlackButton className="lg:block hidden" onClick={onClick}>
       <img src="/icons/notification.svg" className="px-2.5" alt="burger" />
     </BlackButton>
     <NotificationBadge />
   </div>
 );
 
-const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
-  <div className="relative">
-    <BlackButton onClick={onClick}>
-      <img
-        src="/images/frame.png"
-        className="w-[35px] h-[30px] px-0.5"
-        alt="frame"
-      />
-    </BlackButton>
-    <NotificationBadge />
-  </div>
-);
+const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (!containerRef.current) return;
+      if (!containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
+  const handleButtonClick = () => {
+    setIsOpen((prev) => !prev);
+    if (onClick) onClick();
+  };
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <BlackButton onClick={handleButtonClick}>
+        <img
+          src="/images/frame.png"
+          className="w-[35px] h-[30px] px-0.5"
+          alt="frame"
+        />
+      </BlackButton>
+      <NotificationBadge />
+      {isOpen && (
+        <div className="absolute right-0 top-full mt-2 z-[1000]">
+          <UserProfileDropdown />
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Mobile Game Navigation Component
 interface MobileGameNavProps {
@@ -226,10 +292,13 @@ const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hasUser = !!sessionStorage.getItem('user');
-      setIsLoggedIn(hasUser);
-    }
+    if (typeof window === 'undefined') return;
+    const updateLoginState = () => setIsLoggedIn(getIsLoggedIn());
+    updateLoginState();
+    window.addEventListener(AUTH_CHANGED_EVENT, updateLoginState);
+    return () => {
+      window.removeEventListener(AUTH_CHANGED_EVENT, updateLoginState);
+    };
   }, []);
 
   const handleTabChange = (tabId: string) => {
