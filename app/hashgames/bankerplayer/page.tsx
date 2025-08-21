@@ -340,7 +340,7 @@ const OddDefault: React.FC = () => {
   return (
     <>
     {
-      activeTab !== "Active" ? (
+      !isActive ? (
         <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
     {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
@@ -768,7 +768,7 @@ const OddDefault: React.FC = () => {
               <button
                 onClick={() => setActiveTab("Active")}
                 className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-                  !isActive
+                  activeTab === "Default"
                     ? "bg-color-[#FFFFFF] text-white shadow-lg"
                     : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
                 }`}
@@ -1077,20 +1077,12 @@ const OddDefault: React.FC = () => {
 
         {/* Main Betting Section */}
         <div className="flex p-4 md:p-8 items-start gap-4 w-full rounded-xl bg-white/[0.04]">
-          {/* ODD Section */}
+          
+
+          {/* bnaker Section */}
           <div className="flex flex-col items-center gap-2 flex-1">
             <div className="flex pb-4 justify-between items-center w-full">
-              <div className="flex flex-col items-start">
-                <div className="text-base font-bold">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">10038</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <User className="w-4 h-4 text-casper" />
-                  <span className="text-sm font-bold text-casper">12</span>
-                </div>
-              </div>
-              {/* Progress Circle for ODD */}
+              {/* Progress Circle for banker */}
               <div className="relative w-10 h-10">
                 <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
                   <circle
@@ -1108,54 +1100,12 @@ const OddDefault: React.FC = () => {
                     stroke="#ED1D49"
                     strokeWidth="4"
                     fill="none"
-                    strokeDasharray={`${57 * 1.13} ${(100 - 57) * 1.13}`}
+                    strokeDasharray={`${100 * 1.13} ${(100 - 100) * 1.13}`}
                     strokeLinecap="round"
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-crimson">57%</span>
-                </div>
-              </div>
-            </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-crimson">ODD</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
-            </button>
-          </div>
-
-          {/* Divider */}
-          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
-
-          {/* EVEN Section */}
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              {/* Progress Circle for EVEN */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#FFB636"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${43 * 1.13} ${(100 - 43) * 1.13}`}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-yellow-orange">43%</span>
+                  <span className="text-xs font-bold text-crimson">100%</span>
                 </div>
               </div>
               <div className="flex flex-col items-end">
@@ -1172,7 +1122,105 @@ const OddDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-yellow-orange">EVEN</div>
+            <div className="text-2xl font-bold text-crimson">BANKER</div>
+            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
+              <span className="text-sm font-bold text-white">1 : 1.95</span>
+            </button>
+          </div>
+          {/* Divider */}
+          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
+          <div className="flex flex-col items-center gap-2 flex-1">
+            <div className="flex pb-4 justify-between items-center w-full">
+              {/* Progress Circle for tie */}
+              <div className="relative w-10 h-10">
+                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="18"
+                    stroke="rgba(255,255,255,0.13)"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  {/* <circle
+                    cx="20"
+                    cy="20"
+                    r="18"
+                    stroke="#1BB83D"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeDasharray={`${0 * 1.13} ${(100 - 0) * 1.13}`}
+                    strokeLinecap="round"
+                  /> */}
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#1BB83D]">0%</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <div className="text-base font-bold text-right">
+                  <span className="text-casper">$</span>
+                  <span className="text-white">7592</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-bold text-casper">11</span>
+                  <User className="w-4 h-4 text-casper" />
+                </div>
+              </div>
+            </div>
+            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
+              <span className="text-sm font-bold text-white">$0</span>
+            </button>
+            <div className="text-2xl font-bold text-[#1BB83D]">TIE</div>
+            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
+              <span className="text-sm font-bold text-white">1 : 1.95</span>
+            </button>
+          </div>
+          {/* Divider */}
+          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
+          <div className="flex flex-col items-center gap-2 flex-1">
+            <div className="flex pb-4 justify-between items-center w-full">
+              {/* Progress Circle for player */}
+              <div className="relative w-10 h-10">
+                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="18"
+                    stroke="rgba(255,255,255,0.13)"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  {/* <circle
+                    cx="20"
+                    cy="20"
+                    r="18"
+                    stroke="#FFB636"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeDasharray={`${43 * 1.13} ${(100 - 43) * 1.13}`}
+                    strokeLinecap="round"
+                  /> */}
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs font-bold text-yellow-orange">0%</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <div className="text-base font-bold text-right">
+                  <span className="text-casper">$</span>
+                  <span className="text-white">7592</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-bold text-casper">11</span>
+                  <User className="w-4 h-4 text-casper" />
+                </div>
+              </div>
+            </div>
+            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
+              <span className="text-sm font-bold text-white">$0</span>
+            </button>
+            <div className="text-2xl font-bold text-yellow-orange">PLAYER</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>

@@ -21,8 +21,8 @@ const NotificationsDrawer: React.FC<Props> = ({ open, onClose }) => {
   return (
     <div className="fixed  inset-0 z-[110]">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="absolute top-0 right-0 h-full w-full max-w-[420px] translate-x-0 bg-[#111923] rounded-[30px] transition-transform duration-200">
-        <NotificationsPanel />
+      <div className="absolute bottom-0 right-0 h-[94vh] w-full max-w-[420px] translate-x-0 bg-[#111923] rounded-[30px] transition-transform duration-200">
+        <NotificationsPanel onClose={onClose} />
       </div>
     </div>
   );

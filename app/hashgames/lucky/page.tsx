@@ -1,13 +1,12 @@
-"use client";
+ "use client";
 
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 
 import { Wallet, ArrowUpDown, Grid3X3, Menu, User, Copy, ArrowLeft, Check, ZoomIn } from 'lucide-react'
 import { ResponsiveChipSelector } from "@/components/molecules/chipSelector/ResponsiveChipSelector";
-import MenuModal from "@/components/Modal/MenuModal";
 
-const OddDefault: React.FC = () => {
+const NiuniuDefault: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"Active" | "Default">("Active");
   const isActive = activeTab === "Active";
   const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate">(
@@ -19,15 +18,7 @@ const OddDefault: React.FC = () => {
 
   const [isBeginnerMode, setIsBeginnerMode] = useState(false)
   const [selectedChip, setSelectedChip] = useState<number | null>(1)
-  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false)
 
-  const handleMenuClick = () => {
-    setIsMenuModalOpen(true);
-  };
-
-  const handleCloseMenuModal = () => {
-    setIsMenuModalOpen(false);
-  };
 
 
   // Mock data for lottery trend
@@ -253,6 +244,19 @@ const OddDefault: React.FC = () => {
       </div>
     );
   };
+
+  const bullItems = [
+    { name: "Bull1", ratio: "1:1" },
+    { name: "Bull2", ratio: "1:2" },
+    { name: "Bull3", ratio: "1:3" },
+    { name: "Bull4", ratio: "1:4" },
+    { name: "Bull5", ratio: "1:5" },
+    { name: "Bull6", ratio: "1:6" },
+    { name: "Bull7", ratio: "1:7" },
+    { name: "Bull8", ratio: "1:8" },
+    { name: "Bull9", ratio: "1:9" },
+    { name: "BullBull", ratio: "1:10" },
+  ];
   
   const ChipSVG: React.FC<{
     value?: number;
@@ -265,7 +269,7 @@ const OddDefault: React.FC = () => {
     const display = label ?? (value != null ? String(value) : "");
     const textLines = display.split('\n');
     const darkStroke = "#0B1220";
-  return (
+    return (
       <button
         type="button"
         onClick={onClick}
@@ -342,7 +346,7 @@ const OddDefault: React.FC = () => {
     {
       activeTab !== "Active" ? (
         <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
-    {/* Header Section */}
+      {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
         <div className="flex bg-[#72707038] rounded-lg p-1 ">
           <button
@@ -364,7 +368,7 @@ const OddDefault: React.FC = () => {
           <button
             onClick={() => setActiveTab("Active")}
             className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Default"
+              !isActive
                 ? "bg-color-[#FFFFFF] text-white shadow-lg"
                 : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
             }`}
@@ -409,14 +413,10 @@ const OddDefault: React.FC = () => {
         </div>
       </div>
       {/* Mobile view Header Section*/}
-      <div className="bg-[#72707038] rounded-lg w-full  p-1 hidden [@media(max-width:768px)]:flex ">
+      <div className="bg-[#72707038] rounded-lg p-1 hidden [@media(max-width:768px)]:flex ">
         <button
           onClick={() => setActiveTab("Default")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            isActive
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
+          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 `}
         >
           {" "}
           <img
@@ -428,11 +428,7 @@ const OddDefault: React.FC = () => {
         </button>
         <button
           onClick={() => setActiveTab("Active")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Default"
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
+          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 `}
         >
           {" "}
           <img
@@ -443,7 +439,6 @@ const OddDefault: React.FC = () => {
           Default
         </button>
       </div>
-      
       {/* Mobile view Header Section1s*/}
       <div className="items-center gap-2 mt-4 mb-4 justify-center [@media(max-width:768px)]:flex hidden">
         <span className="text-sm text-gray-300">Beginner</span>
@@ -757,18 +752,14 @@ const OddDefault: React.FC = () => {
             <div className="flex bg-[#FFFFFF0A] rounded-lg p-1">
               <button
                 onClick={() => setActiveTab("Default")}
-                className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-                  isActive
-                    ? "bg-color-[#FFFFFF] text-white shadow-lg"
-                    : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-                }`}
+                className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 `}
               >
                 Block Trend
               </button>
               <button
                 onClick={() => setActiveTab("Active")}
                 className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-                  !isActive
+                  activeTab === "Default"
                     ? "bg-color-[#FFFFFF] text-white shadow-lg"
                     : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
                 }`}
@@ -925,7 +916,7 @@ const OddDefault: React.FC = () => {
           bets.
         </p>
       </div>
-      </div>
+    </div>
       ): (
         <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-8 w-[70%] mx-auto">
         {/* Header with Segmented Control */}
@@ -935,7 +926,7 @@ const OddDefault: React.FC = () => {
           <button
             onClick={() => setActiveTab("Default")}
             className={` px-8  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Active"
+              isActive
                 ? "bg-color-[#FFFFFF] text-white shadow-lg"
                 : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
             }`}
@@ -970,10 +961,7 @@ const OddDefault: React.FC = () => {
               <button className="flex h-9 w-9 justify-center items-center rounded-lg border border-white/[0.04] bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
                 <Grid3X3 className="w-4 h-4 text-casper" />
               </button>
-              <button 
-                onClick={handleMenuClick}
-                className="flex h-9 w-9 justify-center items-center rounded-lg border border-white/[0.04] bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px] hover:bg-white/8 transition-colors"
-              >
+              <button className="flex h-9 w-9 justify-center items-center rounded-lg border border-white/[0.04] bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
                 <Menu className="w-4 h-4 text-casper" />
               </button>
             </div>
@@ -983,7 +971,7 @@ const OddDefault: React.FC = () => {
         <button
           onClick={() => setActiveTab("Default")}
           className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Active"
+            isActive
               ? "bg-color-[#FFFFFF] text-white shadow-lg"
               : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
           }`}
@@ -1013,10 +1001,8 @@ const OddDefault: React.FC = () => {
           Default
         </button>
       </div>
-      
-      
 
-      {/* Block Information */}
+          {/* Block Information */}
           <div
             className="flex min-h-[80px] md:h-[100px] relative p-4 justify-center items-center gap-2 md:gap-4 w-full  rounded-xl relative overflow-hidden"
             style={{
@@ -1048,7 +1034,7 @@ const OddDefault: React.FC = () => {
               <span className="text-dodger-blue">1-15000</span>
             </div>
             <div className="flex h-6 items-center gap-2">
-              <span className={`text-xs sm:text-sm font-bold ${isBeginnerMode ? 'text-gray-400' : 'text-white'}`}>Beginner</span>
+              <span className="text-xs sm:text-sm font-bold text-casper">Beginner</span>
               <div className="relative">
                 <button
                   onClick={() => setIsBeginnerMode(!isBeginnerMode)}
@@ -1069,115 +1055,78 @@ const OddDefault: React.FC = () => {
               </div>
                 </button>
               </div>
-              <span className={`text-xs sm:text-sm font-bold ${!isBeginnerMode ? 'text-gray-400' : 'text-white'}`}>Intermediate</span>
+              <span className="text-xs sm:text-sm font-bold text-casper">Intermediate</span>
             </div>
           </div>
         </div>
         
 
-        {/* Main Betting Section */}
-        <div className="flex p-4 md:p-8 items-start gap-4 w-full rounded-xl bg-white/[0.04]">
-          {/* ODD Section */}
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              <div className="flex flex-col items-start">
-                <div className="text-base font-bold">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">10038</span>
+        {/* Bull Player Component */}
+      <div className="w-full">
+        <div className="bg-white-4 rounded-xl p-8 space-y-4">
+          {/* Bull Ratios Grid */}
+          <div className="bg-white-4 rounded-lg p-2">
+            <div className="grid grid-cols-10 gap-2">
+              {bullItems.map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-casper text-[10px] font-montserrat font-normal leading-none">
+                    {item.name}
+                  </div>
+                  <div className="text-dodger-blue text-[10px] font-montserrat font-normal leading-none">
+                    {item.ratio}
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <User className="w-4 h-4 text-casper" />
-                  <span className="text-sm font-bold text-casper">12</span>
-                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="px-4 space-y-4">
+            {/* Balance and User Info */}
+            <div className="space-y-2">
+              <div className="text-left">
+                <span className="text-casper text-base font-montserrat font-bold">$</span>
+                <span className="text-white text-base font-montserrat font-bold">10038</span>
               </div>
-              {/* Progress Circle for ODD */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#ED1D49"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${57 * 1.13} ${(100 - 57) * 1.13}`}
-                    strokeLinecap="round"
+              <div className="flex items-center gap-1">
+                <svg
+                  width="16"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="flex-shrink-0"
+                >
+                  <path
+                    d="M8 1.83334C7.11595 1.83334 6.2681 2.18453 5.64298 2.80965C5.01786 3.43478 4.66667 4.28262 4.66667 5.16668C4.66667 6.05073 5.01786 6.89858 5.64298 7.5237C6.2681 8.14882 7.11595 8.50001 8 8.50001C8.88406 8.50001 9.7319 8.14882 10.357 7.5237C10.9821 6.89858 11.3333 6.05073 11.3333 5.16668C11.3333 4.28262 10.9821 3.43478 10.357 2.80965C9.7319 2.18453 8.88406 1.83334 8 1.83334ZM2.66667 15.1667H13.3333C13.7 15.1667 14 14.8667 14 14.5V13.8333C14 11.26 11.9067 9.16668 9.33333 9.16668H6.66667C4.09333 9.16668 2 11.26 2 13.8333V14.5C2 14.8667 2.3 15.1667 2.66667 15.1667Z"
+                    fill="#A7B5CA"
                   />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-crimson">57%</span>
-                </div>
+                <span className="text-casper text-sm font-montserrat font-bold leading-none">12</span>
               </div>
             </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-crimson">ODD</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
+          </div>
+
+          {/* $0 Button */}
+          <div className="flex justify-center">
+            <button className="h-9 px-4 bg-mirage border border-white-8 rounded-lg shadow-[0_1px_0_0_rgba(255,255,255,0.16)_inset] backdrop-blur-[32px] flex items-center justify-center">
+              <span className="text-white text-sm font-montserrat font-bold">$0</span>
             </button>
           </div>
 
-          {/* Divider */}
-          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
+          {/* BULL PLAYER Title */}
+          <div className="text-center">
+            <h1 className="text-yellow-orange text-2xl font-montserrat font-bold">HASH</h1>
+          </div>
 
-          {/* EVEN Section */}
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              {/* Progress Circle for EVEN */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#FFB636"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${43 * 1.13} ${(100 - 43) * 1.13}`}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-yellow-orange">43%</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <div className="text-base font-bold text-right">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">7592</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-casper">11</span>
-                  <User className="w-4 h-4 text-casper" />
-                </div>
-              </div>
-            </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-yellow-orange">EVEN</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
+          {/* 1:1.95 Button */}
+          <div className="flex justify-center">
+            <button className="h-9 px-4 bg-mirage border border-white-8 rounded-lg shadow-[0_1px_0_0_rgba(255,255,255,0.16)_inset] backdrop-blur-[32px] flex items-center justify-center">
+              <span className="text-white text-sm font-montserrat font-bold">1 : 1.95</span>
             </button>
           </div>
         </div>
+      </div>
 
         {/* Betting Controls */}
         <ResponsiveChipSelector />
@@ -1280,18 +1229,13 @@ const OddDefault: React.FC = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
       )
     }
     
     
-    {/* Menu Modal */}
-    <MenuModal 
-      isOpen={isMenuModalOpen} 
-      onClose={handleCloseMenuModal} 
-    />
     </>
   );
 };
 
-export default OddDefault;
+export default NiuniuDefault;

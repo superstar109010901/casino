@@ -12,7 +12,7 @@ interface GameItemProps {
 
 const GameItem = ({ icon, href, name, timeLabel, timeColor }: GameItemProps) => {
   return (
-    <Link href={"hashgames/"+href} className={cn(
+    <Link href={"/hashgames/"+href} className={cn(
       "flex h-[50px] items-center gap-2 rounded-xl px-2 py-0 cursor-pointer transition-all duration-200",
       "hover:bg-white/10 hover:scale-105 active:scale-95",
     )}>

@@ -7,7 +7,7 @@ import { Wallet, ArrowUpDown, Grid3X3, Menu, User, Copy, ArrowLeft, Check, ZoomI
 import { ResponsiveChipSelector } from "@/components/molecules/chipSelector/ResponsiveChipSelector";
 import MenuModal from "@/components/Modal/MenuModal";
 
-const OddDefault: React.FC = () => {
+const SmallDefault: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"Active" | "Default">("Active");
   const isActive = activeTab === "Active";
   const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate">(
@@ -340,7 +340,7 @@ const OddDefault: React.FC = () => {
   return (
     <>
     {
-      activeTab !== "Active" ? (
+      isActive ? (
         <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
     {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
@@ -364,7 +364,7 @@ const OddDefault: React.FC = () => {
           <button
             onClick={() => setActiveTab("Active")}
             className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Default"
+              !isActive
                 ? "bg-color-[#FFFFFF] text-white shadow-lg"
                 : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
             }`}
@@ -429,7 +429,7 @@ const OddDefault: React.FC = () => {
         <button
           onClick={() => setActiveTab("Active")}
           className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Default"
+            !isActive
               ? "bg-color-[#FFFFFF] text-white shadow-lg"
               : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
           }`}
@@ -935,7 +935,7 @@ const OddDefault: React.FC = () => {
           <button
             onClick={() => setActiveTab("Default")}
             className={` px-8  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Active"
+              isActive
                 ? "bg-color-[#FFFFFF] text-white shadow-lg"
                 : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
             }`}
@@ -983,7 +983,7 @@ const OddDefault: React.FC = () => {
         <button
           onClick={() => setActiveTab("Default")}
           className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Active"
+            isActive
               ? "bg-color-[#FFFFFF] text-white shadow-lg"
               : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
           }`}
@@ -999,7 +999,7 @@ const OddDefault: React.FC = () => {
         <button
           onClick={() => setActiveTab("Active")}
           className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            !isActive
+            activeTab === "Default"
               ? "bg-color-[#FFFFFF] text-white shadow-lg"
               : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
           }`}
@@ -1120,7 +1120,7 @@ const OddDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-crimson">ODD</div>
+            <div className="text-2xl font-bold text-crimson">SMALL</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>
@@ -1172,7 +1172,7 @@ const OddDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-yellow-orange">EVEN</div>
+            <div className="text-2xl font-bold text-yellow-orange">BIG</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>
@@ -1294,4 +1294,4 @@ const OddDefault: React.FC = () => {
   );
 };
 
-export default OddDefault;
+export default SmallDefault;

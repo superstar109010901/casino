@@ -246,7 +246,7 @@ const Sidebar: React.FC = () => {
                 className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
-                href="/invite"
+                href="/alliance"
               >
                 <img
                   src={"/icons/thumbsup.svg"}

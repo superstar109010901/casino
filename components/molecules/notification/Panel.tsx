@@ -48,8 +48,10 @@ If you have any questions, please contact our online customer service in time, w
     isRead: false,
   },
 ];
-
-const NotificationsPanel: React.FC = () => {
+interface NotificationPanelProps {
+  onClose: () => void;
+}
+const NotificationsPanel: React.FC<NotificationPanelProps> = ({onClose}) => {
   const [activeTab, setActiveTab] = useState<'Platform' | 'Events' | 'Personal'>('Platform');
   const [notificationsList, setNotificationsList] = useState<NotificationData[]>(notifications);
 
@@ -70,11 +72,11 @@ const NotificationsPanel: React.FC = () => {
   const platformCount = notificationsList.filter(n => !n.isRead).length;
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#111923] relative">
+    <div className="w-full h-full flex flex-col bg-[#111923] rounded-t-[30px] relative">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 pl-6 bg-[#111923] border-b border-gray-700 rounded-t-[30px]">
+      <div className="flex items-center justify-between p-4 pl-6 bg-gradient-to-b from-[#002554] to-[rgba(17,25,35,0.54)] border-b border-gray-700 rounded-t-[30px]">
         <h1 className="text-white text-lg font-bold">Notifications</h1>
-        <button className="flex items-center justify-center w-9 h-9 bg-gray-800 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors">
+        <button onClick={onClose} className="flex items-center cursor-pointer justify-center w-9 h-9 bg-gray-800 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors">
           <X className="w-4 h-4 text-white" />
         </button>
       </div>

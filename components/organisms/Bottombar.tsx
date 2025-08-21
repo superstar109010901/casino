@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSidebar } from '../providers/SidebarProvider';
+import { useBottomBar } from '../providers/BottomBarProvider';
 
 interface TabBarButtonProps {
   icon: React.ReactNode;
@@ -42,6 +43,7 @@ const TabBarButton = ({ icon, label, isActive = false, onClick }: TabBarButtonPr
 export default function Bottombar() {
   const [activeTab, setActiveTab] = useState('Menu');
   const { toggleSidebar } = useSidebar();
+  const { isHidden } = useBottomBar();
 
   const tabs = [
     {
@@ -203,7 +205,7 @@ export default function Bottombar() {
   ];
 
   return (
-    <div className="fixed block lg:hidden bottom-0 left-0 right-0 z-50">
+    <div className={`fixed block lg:hidden bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
       <div 
         className="flex w-full px-4 pt-2 pb-0 flex-col items-center rounded-t-2xl border-t border-white/8"
         style={{
