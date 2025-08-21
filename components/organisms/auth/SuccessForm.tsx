@@ -24,7 +24,7 @@ export function SuccessForm({ isOpen }: AnnouncementModalProps) {
         {/* Close Button */}
         <button
           className="flex h-9 w-9 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.16)] bg-white/4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.16)] backdrop-blur-[32px] transition-opacity hover:opacity-80"
-          onClick={() => toggleSuccessForm()}
+          onClick={toggleSuccessForm}
         >
           <X className="h-4 w-4 text-[#A7B5CA]" />
         </button>
@@ -67,6 +67,7 @@ export function SuccessForm({ isOpen }: AnnouncementModalProps) {
 
           {/* I SEE Button */}
           <button
+            onClick={toggleSuccessForm}
             className="flex h-11 items-center justify-center gap-2 self-stretch rounded-[12px] border border-[rgba(255,255,255,0.13)] bg-gradient-to-b from-[#2C9FFA] to-[#0C60FF] px-8 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.13),0_5px_0_-2px_rgba(34,131,246,0.50)] transition-all duration-100 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.13),0_7px_0_-2px_rgba(34,131,246,0.50)] hover:translate-y-[-2px] active:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.13),0_1px_0_-2px_rgba(34,131,246,0.50)] active:translate-y-[4px]"
           >
             <span className="text-[#EDEDED] font-montserrat text-sm font-bold leading-normal">
