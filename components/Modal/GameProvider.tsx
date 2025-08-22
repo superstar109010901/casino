@@ -191,7 +191,7 @@ export default function GamingProviderModal({ isOpen, onClose }: GamingProviderM
                 
                 {/* Count Badge */}
                 <div className="flex h-[19px] items-center justify-center rounded bg-gaming-mirage px-2 backdrop-blur-[32px]">
-                  <span className="text-xs font-bold text-gaming-blue" style={{ fontFamily: 'Montserrat, -apple-system, Roboto, Helvetica, sans-serif' }}>
+                  <span className="text-xs font-bold text-[#A7B5CA]" style={{ fontFamily: 'Montserrat, -apple-system, Roboto, Helvetica, sans-serif' }}>
                     {provider.count}
                   </span>
                 </div>
@@ -213,10 +213,10 @@ export default function GamingProviderModal({ isOpen, onClose }: GamingProviderM
             onClick={clearAll}
             className="flex items-center gap-2 rounded-lg px-4 py-2 transition-colors hover:bg-gaming-white-4"
           >
-            <span className="text-sm font-bold text-gaming-gallery" style={{ fontFamily: 'Montserrat, -apple-system, Roboto, Helvetica, sans-serif' }}>
+            <span className="text-sm font-bold text-[#A7B5CA]" style={{ fontFamily: 'Montserrat, -apple-system, Roboto, Helvetica, sans-serif' }}>
               Clear All
             </span>
-            <Trash2 className="h-6 w-6 text-gaming-gallery" />
+            <Trash2 className="h-6 w-6 text-[#A7B5CA]" />
           </button>
         </div>
       </div>

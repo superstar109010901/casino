@@ -29,6 +29,7 @@ interface ModalContextType {
   closeGameSearchModal: () => void;
 
   // Notifications Drawer
+  isNotificationsOpen: boolean;
   openNotifications: () => void;
   closeNotifications: () => void;
 }
@@ -93,6 +94,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     isGameSearchModalOpen,
     openGameSearchModal,
     closeGameSearchModal,
+    isNotificationsOpen,
     openNotifications,
     closeNotifications,
   };

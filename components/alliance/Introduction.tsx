@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FAQ from "./FAQ";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface CommissionData {
   agentLevel: string;
@@ -23,8 +24,22 @@ interface AffiliateData {
 
 const Introduction: React.FC = () => {
   const [selectedGameType, setSelectedGameType] = useState('Hash Games');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const sub = searchParams.get('sub');
+    if (sub === 'hash-games') setSelectedGameType('Hash Games');
+    if (sub === 'slots') setSelectedGameType('Slots');
+  }, [searchParams]);
+
   const handleGameTypeClick = (gameType: string) => {
     setSelectedGameType(gameType);
+    const params = new URLSearchParams(searchParams.toString());
+    const value = gameType === 'Hash Games' ? 'hash-games' : 'slots';
+    params.set('sub', value);
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   const commissionData: CommissionData[] = [
@@ -109,7 +124,7 @@ const Introduction: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => handleGameTypeClick(game.name)}
-                      className={`flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-bold transition-colors duration-200 ${
+                      className={`flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-bold transition-colors duration-200 hover:bg-white/10 hover:shadow-md ${
                         selectedGameType === game.name
                           ? 'bg-[#2283f6] text-white'
                           : 'bg-transparent text-[#a7b5ca] hover:bg-[#ffffff0a]'

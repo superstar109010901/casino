@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AUTH_CHANGED_EVENT, getIsLoggedIn } from "@/lib/auth";
 import UserProfileDropdown from "../molecules/notification/Profile";
-import { BlackButton, Button } from "../../ui/atoms";
+import { BlackButton, Button, UnifiedButton } from "../../ui/atoms";
 import LanguageSelect from "../molecules/LanguageSelect";
 import { useModal } from "../providers/ModalProvider";
 import { useSidebar } from "../providers/SidebarProvider";
@@ -11,6 +11,7 @@ import Auth from "./auth/Auth";
 import AuthButton from "../molecules/AuthButton";
 import AuthModal from "../Modal/AuthModal";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from 'swiper';
 import { FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -26,15 +27,15 @@ const gameNavTabs = [
 ];
 
 // Reusable components to eliminate duplication
-const MenuButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+const MenuButton: React.FC<{ onClick: () => void; isCollapsed: boolean }> = ({ onClick, isCollapsed }) => (
   <div className="relative lg:block hidden">
-    <BlackButton onClick={onClick}>
+    <UnifiedButton variant="default" onClick={onClick}>
       <img
-        src="/icons/arrow-to-right-stroke.svg"
-        className="px-2.5"
-        alt="burger"
+        src={"/icons/arrow-to-right-stroke.svg"}
+        className={`px-2.5 ${isCollapsed ? "rotate-180" : ""}`}
+        alt={isCollapsed ? "menu" : "expand"}
       />
-    </BlackButton>
+    </UnifiedButton>
   </div>
 );
 
@@ -50,19 +51,20 @@ const Logo: React.FC = () => (
 
 const BonusesButton: React.FC = () => (
   <div className="relative sm:block hidden">
-    <button
-      className=" rounded-lg border border-gray-600 flex items-center gap-2 transition-colors"
+    <UnifiedButton
+      variant="gradient"
+      className="px-3 py-2"
       style={{
-        background: "linear-gradient(90deg, #0546A7 0%, #0C9898 100%)",
-        paddingLeft: "10px",
-        paddingRight: "16px",
+        border: "1px solid #6B7280",
       }}
     >
-      <img src="/images/awards/Chest-box.svg" className="h-8" alt="burger" />
-      <span className="text-white font-medium text-xs lg:block hidden">
-        Bonuses
-      </span>
-    </button>
+      <div className="flex items-center gap-2">
+        <img src="/images/awards/Chest-box.svg" className="h-8" alt="bonuses" />
+        <span className="text-white font-medium text-xs lg:block hidden">
+          Bonuses
+        </span>
+      </div>
+    </UnifiedButton>
     {/* Notification badge overlapping the button */}
     <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded w-5 flex items-center justify-center">
       4
@@ -75,9 +77,9 @@ const SearchButton: React.FC = () => {
 
   
   return (
-    <BlackButton className="sm:block hidden" onClick={openGameSearchModal}>
+    <UnifiedButton variant="default" className="sm:block hidden" onClick={openGameSearchModal}>
       <img src="/icons/search.svg" className="px-2.5" alt="search" />
-    </BlackButton>
+    </UnifiedButton>
   );
 };
 
@@ -93,17 +95,19 @@ const NotificationBadge: React.FC = () => (
 
 const LeftSection: React.FC<{ 
   toggleSidebar: () => void;
+  isCollapsed: boolean;
   showMobileSearch: boolean;
   onMobileSearchClick: () => void;
   onMobileSearchClose: () => void;
 }> = ({
   toggleSidebar,
+  isCollapsed,
   showMobileSearch,
   onMobileSearchClick,
   onMobileSearchClose,
 }) => (
   <div className="flex items-center gap-2">
-    <MenuButton onClick={toggleSidebar} />
+    <MenuButton onClick={toggleSidebar} isCollapsed={isCollapsed} />
     <Logo />
     <BonusesButton />
     <SearchButton />
@@ -121,9 +125,9 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void; isLoggedIn: boolean }
         <WalletSection />
       </>:<>
         <div className="relative">
-      <BlackButton onClick={toggleAuthModal}>
+      <UnifiedButton variant="default" onClick={toggleAuthModal}>
         <span className="text-white px-4 font-medium text-xs">Log in</span>
-      </BlackButton>
+      </UnifiedButton>
     </div>
     <Button variant="red" onClick={toggleAuthModal}>
       <span className="text-[12px]">Register</span>
@@ -149,12 +153,27 @@ const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
     return () => document.removeEventListener('mousedown', onDocClick);
   }, []);
 
+  // Prevent scroll penetration when dropdown is open
+  useEffect(() => {
+    if (showLang) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [showLang]);
+
+  const handleToggleLang = () => {
+    setShowLang((s) => !s);
+  };
+
   return (
     <div className="flex items-center gap-2" ref={wrapperRef}>
       <div className="relative lg:block hidden">
-        <BlackButton onClick={() => setShowLang((s) => !s)}>
+        <UnifiedButton variant="default" onClick={handleToggleLang}>
           <img src={`/icons/flag-icon/${currentLang?.code || 'cn'}.svg`} className="px-2.5 h-4" alt="flag" />
-        </BlackButton>
+        </UnifiedButton>
         {showLang && (
           <div className="absolute right-0 top-full mt-2 z-[1000]">
             <LanguageSelect
@@ -167,36 +186,42 @@ const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
         )}
       </div>
       {isLoggedIn && (<NotificationButton onClick={() => openNotifications()} />) }
-      <BlackButton className="lg:block hidden">
-        <img src="/icons/chat.svg" className="px-2.5" alt="burger" />
-      </BlackButton>
+      <UnifiedButton variant="default" className="lg:block hidden">
+        <img src="/icons/chat.svg" className="px-2.5" alt="chat" />
+      </UnifiedButton>
       {isLoggedIn && (<ProfileButton />)}
     </div>
   );
 };
 
 const WalletSection: React.FC = () => (
-  <div className="flex items-center gap-2 bg-gray-700 pl-2 rounded-lg">
-    <div className="flex items-center gap-2">
+  <div className="flex items-center gap-1 sm:gap-2 bg-gray-700 pl-2 rounded-lg">
+    <div className="flex items-center gap-1 sm:gap-2">
       <img
         src="/icons/coin-icon/USDT.svg"
-        alt="notification"
-        className="w-6 h-6"
+        alt="USDT"
+        className="w-5 h-5 sm:w-6 sm:h-6"
       />
-      <p className="text-white text-[14px] font-bold">0.15</p>
+      <p className="text-white text-[12px] sm:text-[14px] font-bold">0.15</p>
     </div>
-    <Button variant="Wallet">
-      <p>Wallet</p>
+    <Button variant="Wallet" className="!w-[33px] !h-[33px] sm:!w-[120px]  md:!w-[146px]">
+      <div className="flex items-center gap-1 sm:gap-2">
+        <img
+          src="/icons/wallet.svg"
+          alt="wallet"
+          className="w-3 h-3 sm:w-4 sm:h-4"
+        />
+        <span className="hidden sm:inline text-[10px] sm:text-[12px]">Wallet</span>
+      </div>
     </Button>
   </div>
 );
 
 const NotificationButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => (
   <div className="relative">
-    <BlackButton className="lg:block hidden" onClick={onClick}>
-      <img src="/icons/notification.svg" className="px-2.5" alt="burger" />
-    </BlackButton>
-    <NotificationBadge />
+    <UnifiedButton variant="default" className="lg:block hidden" onClick={onClick}>
+      <img src="/icons/notification.svg" className="px-2.5" alt="notification" />
+    </UnifiedButton>
   </div>
 );
 
@@ -227,13 +252,13 @@ const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 
   return (
     <div className="relative" ref={containerRef}>
-      <BlackButton onClick={handleButtonClick}>
+      <UnifiedButton variant="default" onClick={handleButtonClick}>
         <img
           src="/images/frame.png"
           className="w-[35px] h-[30px] px-0.5"
           alt="frame"
         />
-      </BlackButton>
+      </UnifiedButton>
       <NotificationBadge />
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 z-[1000]">
@@ -251,31 +276,38 @@ interface MobileGameNavProps {
 }
 
 const MobileGameNav: React.FC<MobileGameNavProps> = ({ activeTab, onTabChange }) => {
+	const swiperRef = useRef<SwiperType | null>(null);
+
+	useEffect(() => {
+		const index = gameNavTabs.findIndex((t) => t.id === activeTab);
+		if (swiperRef.current && index >= 0) {
+			swiperRef.current.slideTo(index, 300);
+		}
+	}, [activeTab]);
+
 	return (
-    <div className="lg:hidden px-2 py-2">
+    <div className="lg:hidden px-2 py-1">
       <Swiper
         modules={[FreeMode]}
         freeMode={true}
         slidesPerView="auto"
-        spaceBetween={8}
+        spaceBetween={6}
+        onSwiper={(inst) => { swiperRef.current = inst; }}
       >
-        {gameNavTabs.map((tab) => (
+        {gameNavTabs.map((tab, idx) => (
           <SwiperSlide key={tab.id} className="!w-auto">
-            <button
-              onClick={() => onTabChange(tab.id)}
-              className={`flex items-center cursor-pointer gap-2 px-3 py-2 rounded-lg whitespace-nowrap transition-colors min-w-fit ${
-                activeTab === tab.id
-                  ? "bg-[#2283F6] text-white"
-                  : " text-[#A7B5CA] hover:bg-[rgba(255,255,255,0.08)]"
-              }`}
+            <UnifiedButton
+              onClick={() => { onTabChange(tab.id); swiperRef.current?.slideTo(idx, 250); }}
+              variant={activeTab === tab.id ? "primary" : "secondary"}
+              className="px-2 py-1 whitespace-nowrap min-w-fit"
             >
               <img
                 src={tab.icon}
                 alt={tab.label}
-                className="w-6.5 h-6.5"
+                className="w-5 h-5"
               />
-              <span className="text-[14px] font-medium">{tab.label}</span>
-            </button>
+              <span className="text-[12px] font-medium">{tab.label}</span>
+            </UnifiedButton>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -285,7 +317,7 @@ const MobileGameNav: React.FC<MobileGameNavProps> = ({ activeTab, onTabChange })
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { toggleSidebar, toggleAuthModal, setActiveGameCategory } = useSidebar();
+  const { toggleSidebar, toggleAuthModal, setActiveGameCategory, isCollapsed } = useSidebar();
   const [showModal, setShowModal] = useState(true);
   const [activeGameTab, setActiveGameTab] = useState("home");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -338,6 +370,7 @@ const Header: React.FC = () => {
           {/* Left side */}
           <LeftSection 
             toggleSidebar={toggleSidebar}
+            isCollapsed={isCollapsed}
             showMobileSearch={showMobileSearch}
             onMobileSearchClick={handleMobileSearchClick}
             onMobileSearchClose={handleMobileSearchClose}

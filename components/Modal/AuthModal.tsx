@@ -581,7 +581,7 @@ export default function AuthModal() {
                   {/* Login Submit Button */}
                   {isLogin && (
                     <>
-                      <AuthButton type="login" />
+                      <AuthButton onClick={login} type="login" />
                     </>
                   )}
                 </div>

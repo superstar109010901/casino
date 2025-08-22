@@ -3,9 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSidebar } from "../providers/SidebarProvider";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Sidebar: React.FC = () => {
   const { isCollapsed, toggleSidebar, openHashHover, scheduleCloseHashHover, setHashHoverTop } = useSidebar();
+  const pathname = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -243,10 +245,11 @@ const Sidebar: React.FC = () => {
             <div className="py-[16px]">
               {/* Membership & Plan */}
               <Link
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
-                  isCollapsed ? "justify-center" : ""
-                }`}
+                className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                  pathname === "/alliance" ? "bg-white/10 text-white" : "text-gray-300 hover:bg-gray-700"
+                } ${isCollapsed ? "justify-center" : ""}`}
                 href="/alliance"
+                aria-current={pathname === "/alliance" ? "page" : undefined}
               >
                 <img
                   src={"/icons/thumbsup.svg"}

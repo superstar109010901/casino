@@ -1,5 +1,6 @@
 import React from "react";
 import FAQ from "./FAQ";
+import { UnifiedButton } from "@/ui/atoms";
 
 const InviteFriends: React.FC = () => {
   const faqs = [
@@ -45,7 +46,14 @@ const InviteFriends: React.FC = () => {
               <span className="text-[14px] font-bold">
                 https://ok777.casino/?Agent...
               </span>
-              <img src="/icons/copy.svg" alt="copy" />
+              <button
+                type="button"
+                aria-label="Copy referral link"
+                onClick={() => navigator.clipboard.writeText('https://ok777.casino/?Agent...')}
+                className="p-1 rounded hover:bg-white/10 transition-colors"
+              >
+                <img src="/icons/copy.svg" alt="copy" />
+              </button>
             </p>
           </div>
         </div>
@@ -57,7 +65,14 @@ const InviteFriends: React.FC = () => {
           <div className="flex items-center gap-3">
             <p className="flex-1 bg-[#FFFFFF14] flex justify-between text-white px-4 py-3 rounded-lg border-none outline-none">
               <span className="text-[14px] font-bold">330395</span>
-              <img src="/icons/copy.svg" alt="copy" />
+              <button
+                type="button"
+                aria-label="Copy referral code"
+                onClick={() => navigator.clipboard.writeText('330395')}
+                className="p-1 rounded hover:bg-white/10 transition-colors"
+              >
+                <img src="/icons/copy.svg" alt="copy" />
+              </button>
             </p>
           </div>
         </div>
@@ -183,14 +198,9 @@ const InviteFriends: React.FC = () => {
               <img src="/icons/coin-icon/USDT.svg" alt="coin w-6 h-6" />
               <span className="text-[12px] text-[#2283F6] font-bold">0</span>
             </div>
-            <div className="relative">
-              {/* Button Border/Shadow Layer */}
-              <div className="absolute inset-0 bg-[#0a4fd8] rounded-lg transform translate-y-1"></div>
-              {/* Button Face Layer */}
-              <button className="relative px-6 py-3 bg-[#2283F6] text-white font-bold rounded-lg transition-all duration-200 text-[12px] transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-xl">
-                Claim
-              </button>
-            </div>
+            <UnifiedButton variant="primary" className="px-6 py-3 text-[12px] font-bold">
+              Claim
+            </UnifiedButton>
           </div>
         </div>
               </div>

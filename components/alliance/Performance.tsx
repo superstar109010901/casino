@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FAQ from "./FAQ";
 
 const Performance: React.FC = () => {
-  const [activeTabOption, setActiveTabOption] = useState<"Active" | "Default">(
-    "Active"
-  );
+  const [activeTabOption, setActiveTabOption] = useState<"Active" | "Default">("Active");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const sub = searchParams.get('sub');
+    if (sub === 'today') {
+      setActiveTabOption('Default'); // Today corresponds to "Default" in current styling logic
+    } else if (sub === 'yesterday') {
+      setActiveTabOption('Active'); // Yesterday corresponds to "Active"
+    }
+  }, [searchParams]);
+
+  const setSubQuery = (value: 'today' | 'yesterday') => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('sub', value);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   const faqs = [
     {
@@ -43,21 +60,21 @@ const Performance: React.FC = () => {
       </p>
       <div className="flex bg-[#72707038] rounded-lg p-1 mb-4 w-67 [@media(max-width:660px)]:w-full">
         <button
-          onClick={() => setActiveTabOption("Default")}
-          className={`px-9 py-1.5 [@media(max-width:660px)]:w-[50%] [@media(max-width:660px)]:flex [@media(max-width:660px)]:justify-center rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
+          onClick={() => { setActiveTabOption("Default"); setSubQuery('today'); }}
+          className={`px-9 py-1.5 hover:bg-[rgba(255,255,255,0.08)] hover:shadow-lg hover:scale-[1.01] [@media(max-width:660px)]:w-[50%] cursor-pointer [@media(max-width:660px)]:flex [@media(max-width:660px)]:justify-center rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
             activeTabOption === "Active"
               ? "bg-transparent text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
+              : "bg-[rgba(255,255,255,0.13)] text-gray-300  border border-[rgba(255,255,255,0.1)]"
           }`}
         >
           Today
         </button>
         <button
-          onClick={() => setActiveTabOption("Active")}
-          className={`px-9 py-1.5 [@media(max-width:660px)]:w-[50%] [@media(max-width:660px)]:flex [@media(max-width:660px)]:justify-center rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
+          onClick={() => { setActiveTabOption("Active"); setSubQuery('yesterday'); }}
+          className={`px-9 py-1.5 [@media(max-width:660px)]:w-[50%] hover:bg-[rgba(255,255,255,0.08)] hover:shadow-lg hover:scale-[1.01] cursor-pointer [@media(max-width:660px)]:flex [@media(max-width:660px)]:justify-center rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
             activeTabOption === "Default"
               ? "bg-transparent text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
+              : "bg-[rgba(255,255,255,0.13)] text-gray-300  border border-[rgba(255,255,255,0.1)]"
           }`}
         >
           Yesterday

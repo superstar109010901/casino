@@ -36,7 +36,7 @@ const Management: React.FC = () => {
         <input
           type="text"
           placeholder="Manufacturer search"
-          className="w-full border border-[#55657E] rounded-lg pl-10 pr-3 py-3 outline-none text-[#55657E] bg-transparent placeholder-[#55657E]"
+          className="w-full border border-[#55657E] rounded-lg pl-10 pr-3 py-3 outline-none text-white bg-transparent placeholder-[#55657E]"
         />
       </div>
       <div className="overflow-x-auto rounded-[12px] mb-4">

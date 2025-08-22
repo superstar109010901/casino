@@ -37,6 +37,22 @@ body {
   scrollbar-width: thin;
 }
 
+/* Loading animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Hide native scrollbar when using custom scrollbars in overlays/dropdowns */
 .scrollbar-hidden::-webkit-scrollbar {
   width: 0px;

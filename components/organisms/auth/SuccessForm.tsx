@@ -32,7 +32,7 @@ export function SuccessForm({ isOpen }: AnnouncementModalProps) {
         {/* Main Content Area */}
         <div className="flex flex-1 flex-col items-center justify-end gap-4 self-stretch pt-16 rounded-[12px] bg-gradient-to-b from-transparent to-[rgba(17,25,35,0.54)] relative overflow-hidden">
           {/* Background Image - 3D Character */}
-          <div className="absolute inset-0 bg-[url('/images/auth/aee6e6923b28ad6cc9367ce71b7cf722f6a987d3.png')] bg-cover bg-center bg-no-repeat" />
+          <div className="absolute inset-0 bg-[url('/images/auth/aee6e6923b28ad6cc9367ce71b7cf722f6a987d3.png')] bg-contain bg-center bg-no-repeat" />
 
           {/* Content Overlay */}
           <div className="relative z-10 flex flex-col items-start gap-2.5 self-stretch p-4 rounded-[12px] bg-[#1119238A]">

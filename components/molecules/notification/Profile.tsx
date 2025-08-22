@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { UnifiedButton } from "@/ui/atoms";
 import { setAuthUser } from "@/lib/auth";
 
 const UserProfileDropdown = () => {
@@ -148,15 +149,9 @@ const UserProfileDropdown = () => {
               className="flex-1 bg-transparent text-xs border-none outline-none px-3 w-[30px] placeholder:text-blue-bayoux"
               style={{ color: '#55657E' }}
             />
-            <button
-              className="h-9 px-4 rounded-lg border transition-colors shadow-[0_1px_0_0_rgba(255,255,255,0.13)_inset,_0_4px_0_-2px_rgba(34,131,246,0.50)] flex items-center"
-              style={{
-                backgroundColor: '#2283F6',
-                borderColor: 'rgba(255, 255, 255, 0.13)'
-              }}
-            >
-              <span className="text-xs font-bold" style={{ color: '#EDEDED' }}>Send</span>
-            </button>
+            <UnifiedButton variant="primary" className="h-9 px-4">
+              <span className="text-xs font-bold">Send</span>
+            </UnifiedButton>
           </div>
         </div>
       </div>

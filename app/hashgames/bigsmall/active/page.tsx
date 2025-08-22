@@ -6,8 +6,9 @@ import React, { useState } from "react";
 import { Wallet, ArrowUpDown, Grid3X3, Menu, User, Copy, ArrowLeft, Check, ZoomIn } from 'lucide-react'
 import { ResponsiveChipSelector } from "@/components/molecules/chipSelector/ResponsiveChipSelector";
 import MenuModal from "@/components/Modal/MenuModal";
+import Link from "next/link";
 
-const OddDefault: React.FC = () => {
+const BigSmallActive: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"Active" | "Default">("Active");
   const isActive = activeTab === "Active";
   const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate">(
@@ -337,21 +338,16 @@ const OddDefault: React.FC = () => {
       </button>
     );
   };
+  
   return (
     <>
-    {
-      !isActive ? (
+    
         <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
     {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
         <div className="flex bg-[#72707038] rounded-lg p-1 ">
           <button
-            onClick={() => setActiveTab("Default")}
-            className={` px-8  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              isActive
-                ? "bg-color-[#FFFFFF] text-white shadow-lg"
-                : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-            }`}
+            className={` px-8  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]`}
           >
             {" "}
             <img
@@ -361,22 +357,19 @@ const OddDefault: React.FC = () => {
             />
             Active
           </button>
-          <button
-            onClick={() => setActiveTab("Active")}
-            className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Default"
-                ? "bg-color-[#FFFFFF] text-white shadow-lg"
-                : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-            }`}
+          <Link
+            href="/hashgames/bigsmall/default"
+            className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 
+                bg-color-[#FFFFFF] text-white shadow-lg hover:bg-[rgba(255,255,255,0.08)]`}
           >
             {" "}
             <img
-              src="/icons/swap-horizontal.svg"
+              src="/icons/wallet.svg"
               alt="active"
               className="w-6 h-6"
             />
             Default
-          </button>
+          </Link>
         </div>
         <div className="flex items-center gap-2 [@media(max-width:768px)]:hidden">
           <span className="text-sm text-gray-300">Beginner</span>
@@ -411,12 +404,7 @@ const OddDefault: React.FC = () => {
       {/* Mobile view Header Section*/}
       <div className="bg-[#72707038] rounded-lg w-full  p-1 hidden [@media(max-width:768px)]:flex ">
         <button
-          onClick={() => setActiveTab("Default")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            isActive
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
+          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]`}
         >
           {" "}
           <img
@@ -426,13 +414,9 @@ const OddDefault: React.FC = () => {
           />
           Active
         </button>
-        <button
-          onClick={() => setActiveTab("Active")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Default"
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
+        <Link
+            href="/hashgames/bigsmall/default"
+          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 hover:bg-[rgba(255,255,255,0.08)]`}
         >
           {" "}
           <img
@@ -441,7 +425,7 @@ const OddDefault: React.FC = () => {
             className="w-6 h-6"
           />
           Default
-        </button>
+        </Link>
       </div>
       
       {/* Mobile view Header Section1s*/}
@@ -768,7 +752,7 @@ const OddDefault: React.FC = () => {
               <button
                 onClick={() => setActiveTab("Active")}
                 className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-                  activeTab === "Default"
+                  !isActive
                     ? "bg-color-[#FFFFFF] text-white shadow-lg"
                     : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
                 }`}
@@ -926,411 +910,7 @@ const OddDefault: React.FC = () => {
         </p>
       </div>
       </div>
-      ): (
-        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-8 w-[70%] mx-auto">
-        {/* Header with Segmented Control */}
-        <div className="w-full flex flex-col items-center gap-4 p-0 ">
-          <div className=" justify-between  w-full items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
-        <div className="flex bg-[#72707038] rounded-lg p-1 ">
-          <button
-            onClick={() => setActiveTab("Default")}
-            className={` px-8  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              activeTab === "Active"
-                ? "bg-color-[#FFFFFF] text-white shadow-lg"
-                : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-            }`}
-          >
-            {" "}
-            <img
-              src="/icons/swap-horizontal.svg"
-              alt="active"
-              className="w-6 h-6"
-            />
-            Active
-          </button>
-          <button
-            onClick={() => setActiveTab("Active")}
-            className={`px-8 py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-              !isActive
-                ? "bg-color-[#FFFFFF] text-white shadow-lg"
-                : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-            }`}
-          >
-            {" "}
-            <img
-              src="/icons/swap-horizontal.svg"
-              alt="active"
-              className="w-6 h-6"
-            />
-            Default
-          </button>
-        </div>
-        {/* Action Buttons */}
-            <div className="flex items-center gap-4">
-              <button className="flex h-9 w-9 justify-center items-center rounded-lg border border-white/[0.04] bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-                <Grid3X3 className="w-4 h-4 text-casper" />
-              </button>
-              <button 
-                onClick={handleMenuClick}
-                className="flex h-9 w-9 justify-center items-center rounded-lg border border-white/[0.04] bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px] hover:bg-white/8 transition-colors"
-              >
-                <Menu className="w-4 h-4 text-casper" />
-              </button>
-            </div>
-      </div>
-      {/* Mobile view Header Section*/}
-      <div className="bg-[#72707038] rounded-lg w-full  p-1 hidden [@media(max-width:768px)]:flex ">
-        <button
-          onClick={() => setActiveTab("Default")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            activeTab === "Active"
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
-        >
-          {" "}
-          <img
-            src="/icons/swap-horizontal.svg"
-            alt="active"
-            className="w-6 h-6"
-          />
-          Active
-        </button>
-        <button
-          onClick={() => setActiveTab("Active")}
-          className={` w-[50%] justify-center text-center  py-1.5 rounded-lg font-bold transition-all duration-200 text-[14px] border-none flex items-center gap-2 ${
-            !isActive
-              ? "bg-color-[#FFFFFF] text-white shadow-lg"
-              : "bg-[rgba(255,255,255,0.13)] text-gray-300 hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)]"
-          }`}
-        >
-          {" "}
-          <img
-            src="/icons/swap-horizontal.svg"
-            alt="active"
-            className="w-6 h-6"
-          />
-          Default
-        </button>
-      </div>
       
-      
-
-      {/* Block Information */}
-          <div
-            className="flex min-h-[80px] md:h-[100px] relative p-4 justify-center items-center gap-2 md:gap-4 w-full  rounded-xl relative overflow-hidden"
-            style={{
-              background: "url('https://api.builder.io/api/v1/image/assets/TEMP/35f26e9aa061258b5e5f2783c73faff4c656c9a3?width=740') lightgray 50% / cover no-repeat, #111923",
-              backgroundBlendMode: "hard-light, normal"
-            }}
-          >
-            <img src="/images/hashgame.jpg" className="absolute rounded-[14px] top-0 z-1 left-0 w-full h-full" />
-            <div className="flex relative z-5 flex-col justify-center items-center gap-1  flex-1">
-              <span className="text-xs md:text-sm font-bold text-casper">Current block</span>
-              <div className="flex h-9 px-2 md:px-3 pr-3 md:pr-12 justify-center items-center gap-2 rounded-lg bg-black/[0.54]">
-                <Copy className="w-4 h-4 text-casper" />
-                <span className="text-xs md:text-sm font-bold text-casper">73852830</span>
-              </div>
-            </div>
-            <div className="flex flex-col relative z-5 justify-center items-center gap-1 flex-1">
-              <span className="text-xs md:text-sm font-bold text-casper">Next block</span>
-              <div className="flex h-9 px-2 md:px-3 pr-3 md:pr-12 justify-center items-center gap-2 rounded-lg bg-black/[0.54]">
-                <Copy className="w-4 h-4 text-dodger-blue" />
-                <span className="text-xs md:text-sm font-bold text-dodger-blue">73872867</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Betting Limit and Toggle */}
-          <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-2 sm:gap-0">
-            <div className="text-sm font-bold">
-              <span className="text-white">Limit </span>
-              <span className="text-dodger-blue">1-15000</span>
-            </div>
-            <div className="flex h-6 items-center gap-2">
-              <span className={`text-xs sm:text-sm font-bold ${isBeginnerMode ? 'text-gray-400' : 'text-white'}`}>Beginner</span>
-              <div className="relative">
-                <button
-                  onClick={() => setIsBeginnerMode(!isBeginnerMode)}
-                  className={cn(
-                    "w-10 h-6 rounded-full transition-colors relative",
-                    isBeginnerMode ? "bg-[#2283F6]" : "bg-[#3C485C]"
-                  )}
-                >
-                  <div
-                className={cn(
-                  "absolute top-0.5 w-5 h-5 rounded-full transition-transform duration-200",
-                  isBeginnerMode ? "translate-x-4 bg-white" : "translate-x-0.5 bg-casper border-2 border-casper"
-                )}
-              >
-                {isBeginnerMode && (
-                  <Check className="w-3 h-3 text-[#2283F6] absolute top-1 left-1" strokeWidth={3} />
-                )}
-              </div>
-                </button>
-              </div>
-              <span className={`text-xs sm:text-sm font-bold ${!isBeginnerMode ? 'text-gray-400' : 'text-white'}`}>Intermediate</span>
-            </div>
-          </div>
-        </div>
-        
-
-        {/* Main Betting Section */}
-        <div className="flex p-4 md:p-8 items-start gap-4 w-full rounded-xl bg-white/[0.04]">
-          
-
-          {/* bnaker Section */}
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              {/* Progress Circle for banker */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#ED1D49"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${100 * 1.13} ${(100 - 100) * 1.13}`}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-crimson">100%</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <div className="text-base font-bold text-right">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">7592</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-casper">11</span>
-                  <User className="w-4 h-4 text-casper" />
-                </div>
-              </div>
-            </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-crimson">BANKER</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
-            </button>
-          </div>
-          {/* Divider */}
-          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              {/* Progress Circle for tie */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  {/* <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#1BB83D"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${0 * 1.13} ${(100 - 0) * 1.13}`}
-                    strokeLinecap="round"
-                  /> */}
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-[#1BB83D]">0%</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <div className="text-base font-bold text-right">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">7592</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-casper">11</span>
-                  <User className="w-4 h-4 text-casper" />
-                </div>
-              </div>
-            </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-[#1BB83D]">TIE</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
-            </button>
-          </div>
-          {/* Divider */}
-          <div className="w-[1px] h-[188px]  bg-white/[0.04]"></div>
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="flex pb-4 justify-between items-center w-full">
-              {/* Progress Circle for player */}
-              <div className="relative w-10 h-10">
-                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 40 40">
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  {/* <circle
-                    cx="20"
-                    cy="20"
-                    r="18"
-                    stroke="#FFB636"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeDasharray={`${43 * 1.13} ${(100 - 43) * 1.13}`}
-                    strokeLinecap="round"
-                  /> */}
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-yellow-orange">0%</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <div className="text-base font-bold text-right">
-                  <span className="text-casper">$</span>
-                  <span className="text-white">7592</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-casper">11</span>
-                  <User className="w-4 h-4 text-casper" />
-                </div>
-              </div>
-            </div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">$0</span>
-            </button>
-            <div className="text-2xl font-bold text-yellow-orange">PLAYER</div>
-            <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
-              <span className="text-sm font-bold text-white">1 : 1.95</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Betting Controls */}
-        <ResponsiveChipSelector />
-
-        {/* Betting Grid */}
-        <div className="flex py-4 md:py-8 px-2 flex-col justify-end items-center gap-4 w-full rounded-xl bg-white/[0.04]">
-          {/* Betting History Tags - Above Table */}
-          <div className="flex px-2 justify-between items-center w-full">
-            <div className="flex items-center gap-4 md:gap-8">
-              <div className="flex h-6 items-center gap-2">
-                <span className="text-xs font-bold text-white">#3</span>
-              </div>
-              <div className="flex h-6 items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-crimson flex items-center justify-center">
-                  <span className="text-xs font-bold text-bunker">O</span>
-                </div>
-                <span className="text-xs font-bold text-white">1</span>
-              </div>
-              <div className="flex h-6 items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-yellow-orange flex items-center justify-center">
-                  <span className="text-xs font-bold text-bunker">E</span>
-                </div>
-                <span className="text-xs font-bold text-white">2</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 md:gap-8">
-              <div className="flex h-6 items-center gap-1">
-                <div className="h-4 px-1 rounded-full bg-crimson flex items-center gap-1">
-                  <span className="text-xs font-bold text-bunker">O</span>
-                  <div className="w-2 h-2 rounded-full border border-yellow-orange"></div>
-                  <div className="w-2 h-2 rounded-full bg-yellow-orange"></div>
-                  <div className="w-2 h-2 bg-yellow-orange transform rotate-45"></div>
-                </div>
-              </div>
-              <div className="flex h-6 items-center gap-1">
-                <div className="h-4 px-1 rounded-full bg-yellow-orange flex items-center gap-1">
-                  <span className="text-xs font-bold text-bunker">E</span>
-                  <div className="w-2 h-2 rounded-full border border-crimson"></div>
-                  <div className="w-2 h-2 rounded-full bg-crimson"></div>
-                  <div className="w-2 h-2 bg-crimson transform rotate-45"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Grid */}
-          <div className="flex items-start gap-px w-full overflow-x-auto">
-            {/* Row Labels */}
-            <div className="flex flex-col items-start gap-px flex-shrink-0">
-              {['O', 'O', 'E', 'E', 'E', 'E'].map((label, i) => (
-                <div key={i} className="flex w-6 h-[20px] md:h-[25px] justify-center items-center bg-mirage">
-                  <div className={cn(
-                    "w-3 h-3 md:w-4 md:h-4 rounded-full flex items-center justify-center",
-                    label === 'O' ? 'bg-crimson' : 'bg-yellow-orange'
-                  )}>
-                    <span className="text-[10px] md:text-xs font-bold text-bunker">{label}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Grid Cells */}
-            <div className="flex-1 flex flex-col gap-px min-w-0">
-              {Array.from({ length: 6 }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex gap-px">
-                  {Array.from({ length: 21 }, (_, colIndex) => (
-                    <div key={colIndex} className="w-4 md:w-6 h-[20px] md:h-[25px] bg-mirage flex-shrink-0"></div>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            {/* Right side detailed grid */}
-            <div className="hidden lg:flex flex-col gap-px">
-              {Array.from({ length: 12 }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex gap-px">
-                  {Array.from({ length: 37 }, (_, colIndex) => {
-                    // Add some sample markers
-                    const hasRedMarker = rowIndex === 0 && (colIndex === 0 || colIndex === 1)
-                    const hasYellowMarker = rowIndex === 1 && colIndex === 1
-
-                    return (
-                      <div key={colIndex} className="w-3 h-3 bg-mirage flex items-center justify-center">
-                        {hasRedMarker && (
-                          <div className="w-2 h-2 rounded-full border border-crimson"></div>
-                        )}
-                        {hasYellowMarker && (
-                          <div className="w-2 h-2 rounded-full border border-yellow-orange"></div>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              ))}
-            </div>
-
-            {/* Zoom button */}
-            <div className="ml-2 flex-shrink-0">
-              <ZoomIn className="w-5 md:w-6 h-5 md:h-6 text-white" />
-            </div>
-          </div>
-        </div>
-        </div>
-      )
-    }
     
     
     {/* Menu Modal */}
@@ -1342,4 +922,4 @@ const OddDefault: React.FC = () => {
   );
 };
 
-export default OddDefault;
+export default BigSmallActive;

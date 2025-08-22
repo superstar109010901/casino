@@ -5,20 +5,23 @@
 import React from "react";
 import { Copy, Info, ArrowLeftRight } from "lucide-react";
 import { Button } from "../../../ui/atoms";
+import Link from "next/link";
 export interface TypeTwoProps {
   title: string;
   chances: string;
   bettingAddress: string;
-  leftButtonText: string;
-  rightButtonText: string;
+  leftButtonLink: string;
+  rightButtonLink: string;
+  background: string;
 }
 
 const HashCard: React.FC<TypeTwoProps> = ({
   title,
   chances,
   bettingAddress,
-  leftButtonText,
-  rightButtonText,
+  leftButtonLink,
+  rightButtonLink,
+  background,
 }) => {
   const handleCopy = () => navigator.clipboard.writeText(bettingAddress);
 
@@ -26,7 +29,7 @@ const HashCard: React.FC<TypeTwoProps> = ({
     <div
       style={{
         background:
-          "url('/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png') center/cover",
+          `url('${background}') center/cover`,
       }}
       className="relative rounded-[14px] w-[320px] h-[173px] p-[8px_10px_12px_10px] text-white overflow-hidden border border-gray-700/50 shadow-xl"
     >
@@ -71,11 +74,17 @@ const HashCard: React.FC<TypeTwoProps> = ({
         </div>
         <div className="flex gap-4">
           <Button variant="green">
+            <Link className="flex items-center" href={leftButtonLink}>
+            
             <ArrowLeftRight className="w-3 h-3" />
-            <span className="text-[12px]">{leftButtonText}</span>
+            <span className="text-[12px]">Junior field</span>
+            </Link>
           </Button>
           <Button variant="blue">
-            <span className="text-[12px]">{rightButtonText}</span>
+            <Link href={rightButtonLink}>
+             <span className="text-[12px]">Put</span>
+            
+            </Link>
           </Button>
         </div>
       </div>

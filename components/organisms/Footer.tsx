@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BlackButton } from "../../ui/atoms";
+import { UnifiedButton } from "../../ui/atoms";
 import Link from "next/link";
 
 const coins = [
@@ -249,13 +249,13 @@ const Footer: React.FC = () => {
             </h4>
             <div className="flex justify-between md:justify-start lg:gap-4">
               {socials.map((social, index) => (
-                <BlackButton className="px-2.5" key={index}>
+                <UnifiedButton variant="default" className="px-2.5" key={index}>
                   <img
                     className="h-4 w-4 "
                     src={"/icons/social-icon/" + social + ".svg"}
                     alt="social"
                   />
-                </BlackButton>
+                </UnifiedButton>
               ))}
             </div>
           </div>
@@ -318,9 +318,9 @@ const Footer: React.FC = () => {
             <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm font-medium transition-colors">
               Accept
             </button>
-            <BlackButton>
+            <UnifiedButton variant="default">
               <div className="px-2.5">X</div>
-            </BlackButton>
+            </UnifiedButton>
           </div>
         </div>
       </div>

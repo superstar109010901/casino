@@ -265,7 +265,7 @@ export default function LanguageDropdown({ open, onRequestClose, triggerless, in
 
       {/* Dropdown */}
       {isOpen && (
-        <div className={`${inline ? "static" : "absolute top-full left-0 mt-2"} w-[280px] p-4 rounded-[14px] border border-white/13 bg-[#111923]/54 backdrop-blur-[32px] z-50`}>
+        <div className={`${inline ? "static" : "absolute top-full left-0 mt-2"} w-[280px] p-4 rounded-[14px] border border-white/13 bg-[#111923]/90 backdrop-blur-[32px] z-50`}>
           <div className="flex gap-2">
             <div className="flex flex-col gap-2 flex-1">
               {/* Search */}

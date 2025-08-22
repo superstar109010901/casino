@@ -1,14 +1,48 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InviteFriends from "@/components/alliance/InviteFriends";
 import Management from "@/components/alliance/Management";
 import Performance from "@/components/alliance/Performance";
 import Report from "@/components/alliance/Report";
 import Introduction from "@/components/alliance/Introduction";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function AlliancePage() {
-  const [activeTab, setActiveTab] = useState("Invite Friends");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const tabSlugToName = useMemo(() => ({
+    'invite': 'Invite Friends',
+    'management': 'Management',
+    'performance': 'Performance',
+    'report': 'Report',
+    'introduction': 'Introduction',
+  } as const), []);
+
+  const tabNameToSlug = useMemo(() => ({
+    'Invite Friends': 'invite',
+    'Management': 'management',
+    'Performance': 'performance',
+    'Report': 'report',
+    'Introduction': 'introduction',
+  } as const), []);
+
+  const [activeTab, setActiveTab] = useState<string>("Invite Friends");
+
+  useEffect(() => {
+    const fromQuery = searchParams.get('tab');
+    if (fromQuery && tabSlugToName[fromQuery as keyof typeof tabSlugToName]) {
+      setActiveTab(tabSlugToName[fromQuery as keyof typeof tabSlugToName]);
+    }
+  }, [searchParams, tabSlugToName]);
+
+  const updateQuery = (nextTabName: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', tabNameToSlug[nextTabName as keyof typeof tabNameToSlug]);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   const navigationItems = [
     { name: "Invite Friends", icon: "/icons/user-plus.svg" },
@@ -36,14 +70,14 @@ export default function AlliancePage() {
   };
 
   return (
-    <div className="flex w-[70%] [@media(max-width:1500px)]:w-[100%] gap-16 py-8 mx-auto justify-between">
+    <div className="flex flex-col w-[70%] [@media(max-width:1500px)]:w-[100%] gap-16 py-8 mx-auto justify-between">
       {/* Left Sidebar Navigation */}
-      <div className="bg-[#FFFFFF0A] p-3 rounded-lg h-full [@media(max-width:660px)]:hidden w-[28%]">
+      <div className="bg-[#FFFFFF0A] p-3 rounded-lg h-full [@media(max-width:660px)]:hidden w-full ">
         <div className="space-y-3">
           {navigationItems.map((item) => (
             <button
               key={item.name}
-              onClick={() => setActiveTab(item.name)}
+              onClick={() => { setActiveTab(item.name); updateQuery(item.name); }}
               className={`w-full flex items-center gap-3 px-4 py-3 pr-20 rounded-lg transition-all duration-200 ${
                 activeTab === item.name
                   ? "bg-[#FFFFFF14] text-white shadow-lg"

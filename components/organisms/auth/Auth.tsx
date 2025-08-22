@@ -6,7 +6,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { Icons } from "../../../ui/atoms";
 import { useSidebar } from "../../providers/SidebarProvider";
-import { BlackButton } from "../../../ui/atoms";
+import { UnifiedButton } from "../../../ui/atoms";
 
 const icons = ["Gmail", "Telegram", "MetaMask", "TON", "Trustpilot"];
 
@@ -61,12 +61,13 @@ const Auth: React.FC = () => {
                 </div>
                 <div className="auth-modal-form relative">
                   <div className="auth-modal-form-content ">
-                    <BlackButton
+                    <UnifiedButton
+                      variant="custom"
                       className="absolute top-6.5 right-6.5 w-9 text-[32px] bg-[#434444] hover:bg-[#111923]"
                       onClick={toggleAuthModal}
                     >
                       &times;
-                    </BlackButton>
+                    </UnifiedButton>
                     <div className="auth-options flex">
                       <span
                         data-id="login"

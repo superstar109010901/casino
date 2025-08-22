@@ -72,11 +72,11 @@ const NotificationsPanel: React.FC<NotificationPanelProps> = ({onClose}) => {
   const platformCount = notificationsList.filter(n => !n.isRead).length;
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#111923] rounded-t-[30px] relative">
+    <div className="w-full h-full flex flex-col bg-[#111923]/[0.54] rounded-t-[30px] relative">
       {/* Header */}
       <div className="flex items-center justify-between p-4 pl-6 bg-gradient-to-b from-[#002554] to-[rgba(17,25,35,0.54)] border-b border-gray-700 rounded-t-[30px]">
         <h1 className="text-white text-lg font-bold">Notifications</h1>
-        <button onClick={onClose} className="flex items-center cursor-pointer justify-center w-9 h-9 bg-gray-800 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors">
+        <button onClick={onClose} className="flex items-center cursor-pointer justify-center w-9 h-9 bg-[#434444] hover:bg-[#111923] rounded-lg transition-colors">
           <X className="w-4 h-4 text-white" />
         </button>
       </div>
@@ -87,10 +87,10 @@ const NotificationsPanel: React.FC<NotificationPanelProps> = ({onClose}) => {
         <div className="flex p-1 bg-gray-800 rounded-xl mb-4 mt-4">
           <button
             onClick={() => setActiveTab('Platform')}
-            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors ${
+            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors cursor-pointer ${
               activeTab === 'Platform'
                 ? 'bg-gray-700 text-white'
-                : 'text-gray-400 hover:text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
             }`}
           >
             Platform
@@ -102,74 +102,96 @@ const NotificationsPanel: React.FC<NotificationPanelProps> = ({onClose}) => {
           </button>
           <button
             onClick={() => setActiveTab('Events')}
-            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors ${
+            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors cursor-pointer ${
               activeTab === 'Events'
                 ? 'bg-gray-700 text-white'
-                : 'text-gray-400 hover:text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
             }`}
           >
             Events
           </button>
           <button
             onClick={() => setActiveTab('Personal')}
-            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors ${
+            className={`flex items-center justify-center gap-2 flex-1 h-9 px-3 rounded-lg font-bold text-sm transition-colors cursor-pointer ${
               activeTab === 'Personal'
                 ? 'bg-gray-700 text-white'
-                : 'text-gray-400 hover:text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
             }`}
           >
             Personal
           </button>
         </div>
 
-        {/* Notifications List */}
-        <div className="flex-1 space-y-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent pb-20">
-          {notificationsList.map((notification) => (
-            <div
-              key={notification.id}
-              className="p-4 bg-[#1A222E] rounded-xl"
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-2 gap-2">
-                <span className="text-gray-400 text-sm font-normal">
-                  {notification.date}
-                </span>
-                {notification.isNew && (
-                  <span className="flex items-center justify-center h-5 px-2 bg-green-500 border border-white rounded-2xl text-white text-xs font-bold shrink-0">
-                    New
-                  </span>
-                )}
-              </div>
+        {/* Content based on active tab */}
+        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent pb-20">
+          {activeTab === 'Platform' && (
+            <div className="space-y-3">
+              {notificationsList.map((notification) => (
+                <div
+                  key={notification.id}
+                  className="p-4 bg-[#1A222E] rounded-xl"
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-2 gap-2">
+                    <span className="text-gray-400 text-sm font-normal">
+                      {notification.date}
+                    </span>
+                    {notification.isNew && (
+                      <span className="flex items-center justify-center h-5 px-2 bg-green-500 border border-white rounded-2xl text-white text-xs font-bold shrink-0">
+                        New
+                      </span>
+                    )}
+                  </div>
 
-              {/* Title */}
-              <div className="mb-2">
-                <h3 className="text-white text-base font-bold leading-normal">
-                  {notification.title}
-                </h3>
-              </div>
+                  {/* Title */}
+                  <div className="mb-2">
+                    <h3 className="text-white text-base font-bold leading-normal">
+                      {notification.title}
+                    </h3>
+                  </div>
 
-              {/* Content */}
-              <div className="mb-4">
-                <p className="text-gray-400 text-sm font-normal leading-relaxed whitespace-pre-line">
-                  {notification.content}
-                </p>
-              </div>
+                  {/* Content */}
+                  <div className="mb-4">
+                    <p className="text-gray-400 text-sm font-normal leading-relaxed whitespace-pre-line">
+                      {notification.content}
+                    </p>
+                  </div>
 
-              {/* Mark as read button */}
-              <button
-                onClick={() => markAsRead(notification.id)}
-                disabled={notification.isRead}
-                className={`flex items-center gap-2 h-9 px-4 bg-gray-800 rounded-lg transition-opacity ${
-                  notification.isRead ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'
-                }`}
-              >
-                <span className="text-white text-sm font-bold">
-                  Mark as read
-                </span>
-                <CheckCircle className="w-5 h-5 text-white" />
-              </button>
+                  {/* Mark as read button */}
+                  <button
+                    onClick={() => markAsRead(notification.id)}
+                    disabled={notification.isRead}
+                    className={`flex items-center gap-2 h-9 px-4 bg-gray-800 rounded-lg transition-opacity cursor-pointer ${
+                      notification.isRead ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'
+                    }`}
+                  >
+                    <span className="text-white text-sm font-bold">
+                      Mark as read
+                    </span>
+                    <CheckCircle className="w-5 h-5 text-white" />
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {activeTab === 'Events' && (
+            <div className="space-y-3">
+              <div className="p-4 bg-[#1A222E] rounded-xl">
+                <h3 className="text-white text-base font-bold mb-2">Upcoming Events</h3>
+                <p className="text-gray-400 text-sm">No upcoming events at the moment.</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'Personal' && (
+            <div className="space-y-3">
+              <div className="p-4 bg-[#1A222E] rounded-xl">
+                <h3 className="text-white text-base font-bold mb-2">Personal Notifications</h3>
+                <p className="text-gray-400 text-sm">No personal notifications available.</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -177,7 +199,7 @@ const NotificationsPanel: React.FC<NotificationPanelProps> = ({onClose}) => {
       <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-gray-700 bg-[#111923] rounded-b-[30px]">
         <button
           onClick={markAllAsRead}
-          className="flex items-center gap-2 h-9 px-4 hover:opacity-80 transition-opacity w-full justify-center"
+          className="flex items-center gap-2 h-9 px-4 hover:opacity-80 transition-opacity w-full justify-center cursor-pointer"
         >
           <span className="text-gray-400 text-sm font-bold">
             Mark all as read

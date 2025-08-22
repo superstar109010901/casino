@@ -897,79 +897,42 @@
     {
       "title": "Big/Small",
       "chances": "1.95",
+      "background": "/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png",
       "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
+      "leftButtonLink": "/hashgames/bigsmall/active",
+      "rightButtonLink": "/hashgames/bigsmall/default"
     },
     {
-      "title": "Big/Small",
+      "title": "Odd/Even",
       "chances": "1.95",
+      "background": "/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png",
       "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
+      "leftButtonLink": "/hashgames/oddeven/active",
+      "rightButtonLink": "/hashgames/oddeven/default"
     },
     {
-      "title": "Big/Small",
+      "title": "Lucky",
       "chances": "1.95",
+      "background": "/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png",
       "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
+      "leftButtonLink": "/hashgames/lucky/active",
+      "rightButtonLink": "/hashgames/lucky/default"
     },
     {
-      "title": "Big/Small",
+      "title": "Banker/Player",
       "chances": "1.95",
+      "background": "/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png",
       "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
+      "leftButtonLink": "/hashgames/bankerplayer/active",
+      "rightButtonLink": "/hashgames/bankerplayer/default"
     },
     {
-      "title": "Big/Small",
+      "title": "NiuNiu",
       "chances": "1.95",
+      "background": "/images/games/6850b36f2bd45516f6329cf19663fc91b6440882.png",
       "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
-    },
-    {
-      "title": "Big/Small",
-      "chances": "1.95",
-      "bettingAddress": "TXS3PfAU9hemKkoBWRUfsUkGBSrZGagh6X",
-      "leftButtonText": "Junior field",
-      "rightButtonText": "Put"
+      "leftButtonLink": "/hashgames/niuniu/active",
+      "rightButtonLink": "/hashgames/niuniu/default"
     }
   ],
   "brand": [

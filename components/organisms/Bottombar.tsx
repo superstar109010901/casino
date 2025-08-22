@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSidebar } from '../providers/SidebarProvider';
 import { useBottomBar } from '../providers/BottomBarProvider';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface TabBarButtonProps {
   icon: React.ReactNode;
@@ -27,11 +28,11 @@ const TabBarButton = ({ icon, label, isActive = false, onClick }: TabBarButtonPr
     </div>
     <div
       className={`
-        text-center text-[10px] font-bold leading-none font-montserrat
+        text-center text-[10px] leading-none font-montserrat
         ${isActive ? 'text-white' : 'text-[#A7B5CA]'}
       `}
       style={isActive ? {
-        WebkitTextStrokeWidth: '.7px',
+        fontStyle: 'bold',
         WebkitTextStrokeColor: '#ffffff'
       } : {}}
     >
@@ -44,8 +45,13 @@ export default function Bottombar() {
   const [activeTab, setActiveTab] = useState('Menu');
   const { toggleSidebar } = useSidebar();
   const { isHidden } = useBottomBar();
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const tabs = [
+  const isAlliance = pathname === '/alliance';
+
+  const defaultTabs = [
     {
       id: 'Menu',
       label: 'Menu',
@@ -204,6 +210,30 @@ export default function Bottombar() {
     },
   ];
 
+  const allianceTabNameToSlug = useMemo(() => ({
+    'Invite Friends': 'invite',
+    'Management': 'management',
+    'Performance': 'performance',
+    'Report': 'report',
+    'Introduction': 'introduction'
+  } as const), []);
+
+  const allianceTabs = [
+    { id: 'invite', label: 'Invite Friends', icon: <img src="/icons/user-plus.svg" alt="Invite Friends" className="w-[19.2px] h-[19.2px]" /> },
+    { id: 'management', label: 'Management', icon: <img src="/icons/group.svg" alt="Management" className="w-[19.2px] h-[19.2px]" /> },
+    { id: 'performance', label: 'Performance', icon: <img src="/icons/chart-network.svg" alt="Performance" className="w-[19.2px] h-[19.2px]" /> },
+    { id: 'report', label: 'Report', icon: <img src="/icons/file-report.svg" alt="Report" className="w-[19.2px] h-[19.2px]" /> },
+    { id: 'introduction', label: 'Introduction', icon: <img src="/icons/form.png" alt="Introduction" className="w-[19.2px] h-[19.2px]" /> },
+  ];
+
+  const currentAllianceTab = searchParams.get('tab') || 'invite';
+
+  const handleAllianceTabClick = (slug: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', slug);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <div className={`fixed block lg:hidden bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
       <div 
@@ -215,15 +245,27 @@ export default function Bottombar() {
         }}
       >
         <div className="flex justify-center items-start gap-2 w-full rounded-lg">
-          {tabs.map((tab) => (
-            <TabBarButton
-              key={tab.id}
-              icon={tab.icon}
-              label={tab.label}
-              isActive={activeTab === tab.id}
-              onClick={() => setActiveTab(tab.id)}
-            />
-          ))}
+          {isAlliance ? (
+            allianceTabs.map((tab) => (
+              <TabBarButton
+                key={tab.id}
+                icon={tab.icon}
+                label={tab.label}
+                isActive={currentAllianceTab === tab.id}
+                onClick={() => handleAllianceTabClick(tab.id)}
+              />
+            ))
+          ) : (
+            defaultTabs.map((tab) => (
+              <TabBarButton
+                key={tab.id}
+                icon={tab.icon}
+                label={tab.label}
+                isActive={activeTab === tab.id}
+                onClick={() => setActiveTab(tab.id)}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { X, Search, ChevronDown, Play, Heart } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { useSidebar } from "@/components/providers/SidebarProvider";
 import CasinoCard from '@/components/molecules/cards/CasinoCard';
 import { Button } from '@/ui/atoms';
 
@@ -87,6 +88,23 @@ const gameTypes = [
 ];
 
 export default function GameSearchModal({ isOpen, onClose }: GameSearchModalProps) {
+  const { isCollapsed } = useSidebar();
+  const [sidebarOffset, setSidebarOffset] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const updateOffset = () => {
+      const sidebar = document.querySelector('.sidebar') as HTMLElement | null;
+      if (sidebar && isCollapsed) {
+        setSidebarOffset(sidebar.clientWidth || 0);
+      } else {
+        setSidebarOffset(0);
+      }
+    };
+    updateOffset();
+    window.addEventListener('resize', updateOffset);
+    return () => window.removeEventListener('resize', updateOffset);
+  }, [isOpen, isCollapsed]);
   const [activeCategory, setActiveCategory] = useState('hash');
   const [selectedProvider, setSelectedProvider] = useState(gameProviders[0]);
   const [selectedType, setSelectedType] = useState(gameTypes[0]);
@@ -118,8 +136,8 @@ export default function GameSearchModal({ isOpen, onClose }: GameSearchModalProp
   const currentGames = gamesByCategory[activeCategory as keyof typeof gamesByCategory] || [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80">
-      <div className="w-full max-w-5xl mx-auto max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex p-2 sm:p-4 bg-black/80" style={{ justifyContent: isCollapsed ? 'flex-start' : 'center', alignItems: 'center' }}>
+      <div className="w-full max-w-5xl mx-auto max-h-[90vh] overflow-y-auto" style={{ marginLeft: isCollapsed ? sidebarOffset : 0 }}>
         <div className="flex flex-col items-start w-full mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 w-full px-6 py-4 rounded-t-[14px] bg-gradient-to-b from-[rgba(17,25,35,0.54)] to-[#002554] border-t border-white/16 backdrop-blur-[32px]">
