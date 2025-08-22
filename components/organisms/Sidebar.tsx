@@ -7,9 +7,9 @@ import { usePathname } from "next/navigation";
 
 const Sidebar: React.FC = () => {
   const { isCollapsed, toggleSidebar, openHashHover, scheduleCloseHashHover, setHashHoverTop } = useSidebar();
-  const pathname = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const sidebar = sidebarRef.current;
@@ -246,10 +246,10 @@ const Sidebar: React.FC = () => {
               {/* Membership & Plan */}
               <Link
                 className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
-                  pathname === "/alliance" ? "bg-white/10 text-white" : "text-gray-300 hover:bg-gray-700"
-                } ${isCollapsed ? "justify-center" : ""}`}
+                  isCollapsed ? "justify-center" : ""
+                } ${pathname?.startsWith('/alliance') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-gray-700'}`}
                 href="/alliance"
-                aria-current={pathname === "/alliance" ? "page" : undefined}
+                aria-current={pathname?.startsWith('/alliance') ? 'page' : undefined}
               >
                 <img
                   src={"/icons/thumbsup.svg"}

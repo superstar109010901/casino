@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 interface SidebarContextType {
   isCollapsed: boolean;
@@ -34,12 +34,25 @@ interface SidebarProviderProps {
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({
   children,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Collapsed by default on mobile; open on desktop
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return window.innerWidth < 1024; // lg breakpoint
+  });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [activeGameCategory, setActiveGameCategory] = useState("home");
   const [isHashHoverOpen, setIsHashHoverOpen] = useState(false);
   const [hashHoverTop, setHashHoverTop] = useState(0);
   const hoverCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const shouldCollapse = window.innerWidth < 1024;
+      setIsCollapsed((prev) => (shouldCollapse !== prev ? shouldCollapse : prev));
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
