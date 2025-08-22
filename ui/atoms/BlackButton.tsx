@@ -18,7 +18,7 @@ const BlackButton: React.FC<BlackButtonProps> = ({
   return (
     <button
       className={
-        "h-9 rounded-lg bg-[rgba(255, 255, 255, 0.04)] border-b-[1px] border-[#2a3536] border-t-[3px] border-[#FFFFFF29] flex items-center justify-center transition-colors hover:bg-[rgba(255, 255, 255, 0.08)] cursor-pointer " +
+        "flex h-9 w-9 items-center justify-center rounded-lg border border-white/4 bg-white/4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.16)] backdrop-blur-[32px] hover:bg-white/8 transition-colors" +
         className
       }
       onClick={onClick}
