@@ -87,7 +87,7 @@ const Sidebar: React.FC = () => {
     <div>
       <aside
         ref={sidebarRef}
-        className={`sidebar bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed bg-gray-800 lg:block transition-all duration-300 z-40 overflow-y-auto overflow-x-visible h-[calc(100vh-165px)] lg:top-[56px] top-[115px] lg:h-[calc(100vh-3.5rem)] ${
+        className={`sidebar bg-[#111923]/54 backdrop-blur-[32px] lg:sticky fixed bg-gray-800 lg:block transition-all duration-300 z-40 overflow-y-auto overflow-x-visible h-[calc(100vh-159px)] lg:top-[56px] top-[100px] lg:h-[calc(100vh-3.5rem)] ${
           isCollapsed ? "close " : "open"
         }`}
         style={{
