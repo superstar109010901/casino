@@ -2,14 +2,33 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useSidebar } from "../providers/SidebarProvider";
+import { useLanguage } from "../providers/LanguageProvider";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LanguageSelector } from "../molecules/Internationalization";
 
 const Sidebar: React.FC = () => {
   const { isCollapsed, toggleSidebar, openHashHover, scheduleCloseHashHover, setHashHoverTop } = useSidebar();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+  const { currentLanguage, setCurrentLanguage } = useLanguage();
+
+  // Language data for display
+  const languageData = {
+    'cn': { name: '中文', flag: '/icons/flag-icon/cn.svg' },
+    'en': { name: 'English', flag: '/icons/flag-icon/en.svg' },
+    'de': { name: 'Deutsch', flag: '/icons/flag-icon/de.svg' },
+    'pl': { name: 'Polish', flag: '/icons/flag-icon/pl.svg' },
+    'pt': { name: 'Português', flag: '/icons/flag-icon/pt.svg' },
+    'ua': { name: 'Ukraine', flag: '/icons/flag-icon/ua.svg' },
+    'es': { name: 'Español', flag: '/icons/flag-icon/es.svg' },
+    'pt-br': { name: 'Português (BR)', flag: '/icons/flag-icon/br.svg' },
+    'fr': { name: 'Français', flag: '/icons/flag-icon/fr.svg' },
+  };
+
+  const currentLanguageDisplay = languageData[currentLanguage.code as keyof typeof languageData] || languageData.cn;
 
   useEffect(() => {
     const sidebar = sidebarRef.current;
@@ -136,8 +155,8 @@ const Sidebar: React.FC = () => {
           </div>
 
           {/* Game Categories */}
-          <div className={`p-4 ${isCollapsed ? "px-2" : ""} space-y-1 flex-1`}>
-            <div className="pb-[16px]">
+          <div className={`p-4 pt-0 ${isCollapsed ? "px-2" : ""} space-y-1 flex-1`}>
+            <div className="pb-[16px] hidden lg:block md:block">
               <div
                 className="relative"
                 onMouseEnter={(e) => {
@@ -357,6 +376,8 @@ const Sidebar: React.FC = () => {
                 />
                 {!isCollapsed && <span className="text-sm font-bold">Online service</span>}
               </div>
+              
+              
             </div>
             <div className=" w-full mx-auto h-[1px] relative bg-[linear-gradient(to_right,#1a2332,#6a7282,#1a2332)]"></div>
             {isCollapsed && (
@@ -386,6 +407,28 @@ const Sidebar: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Language Selection - Mobile */}
+            <div className="lg:hidden py-[16px]">
+              <div
+                onClick={() => setIsLanguageModalOpen(true)}
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                  isCollapsed ? "justify-center" : ""
+                }`}
+              >
+                <img
+                  src={currentLanguageDisplay.flag}
+                  className="w-5 h-5"
+                  alt="language"
+                />
+                {!isCollapsed && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold">Language:</span>
+                    <span className="text-sm text-white">{currentLanguageDisplay.name}</span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Bottom Section - Payment Methods */}
@@ -451,6 +494,14 @@ const Sidebar: React.FC = () => {
           onClick={toggleSidebar}
         />
       )}
+      
+      {/* Language Selection Modal */}
+      <LanguageSelector 
+        open={isLanguageModalOpen} 
+        onOpenChange={setIsLanguageModalOpen}
+        onLanguageChange={(langCode) => setCurrentLanguage({ code: langCode, name: languageData[langCode as keyof typeof languageData]?.name || '中文' })}
+        initialLanguage={currentLanguage.code}
+      />
     </div>
   );
 };

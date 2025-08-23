@@ -6,6 +6,7 @@ import Management from "@/components/alliance/Management";
 import Performance from "@/components/alliance/Performance";
 import Report from "@/components/alliance/Report";
 import Introduction from "@/components/alliance/Introduction";
+import AllianceBottomBar from "@/components/alliance/AllianceBottomBar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function AllianceClient() {
@@ -78,32 +79,37 @@ export default function AllianceClient() {
   };
 
   return (
-    <div className="flex flex-col w-[70%] [@media(max-width:1500px)]:w-[100%] gap-16 py-8 mx-auto justify-between">
-      {/* Left Sidebar Navigation */}
-      <div className="bg-[#FFFFFF0A] p-3 rounded-lg h-full [@media(max-width:660px)]:hidden w-full ">
-        <div className="grid grid-cols-5 gap-3">
-          {navigationItems.map((item) => (
-            <button
-              key={item.name}
-              onClick={() => {
-                setActiveTab(item.name);
-                updateQuery(item.name);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 pr-20 rounded-lg transition-all duration-200 ${
-                activeTab === item.name
-                  ? "bg-[#FFFFFF14] text-white shadow-lg"
-                  : "text-gray-300 hover:bg-[rgba(255,255,255,0.08)]"
-              }`}
-            >
-              <img src={item.icon} alt={item.name} />
-              <span className="font-bold text-[14px]">{item.name}</span>
-            </button>
-          ))}
+    <>
+      <div className="flex flex-col w-[70%] [@media(max-width:1500px)]:w-[100%] gap-16 py-6 mx-auto justify-between pb-20 lg:pb-8">
+        {/* Left Sidebar Navigation */}
+        <div className="bg-[#FFFFFF0A] rounded-lg h-full [@media(max-width:660px)]:hidden w-full ">
+          <div className="grid grid-cols-5 p-3 gap-3">
+            {navigationItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => {
+                  setActiveTab(item.name);
+                  updateQuery(item.name);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 pr-20 rounded-lg transition-all duration-200 ${
+                  activeTab === item.name
+                    ? "bg-[#FFFFFF14] text-white shadow-lg"
+                    : "text-gray-300 hover:bg-[rgba(255,255,255,0.08)]"
+                }`}
+              >
+                <img src={item.icon} alt={item.name} />
+                <span className="font-bold text-[14px]">{item.name}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Right Content Area */}
-      <div className="flex-1 bg-white/4 rounded-[12px]">{renderContent()}</div>
-    </div>
+        {/* Right Content Area */}
+        <div className="flex-1 bg-white/4 rounded-[12px]">{renderContent()}</div>
+      </div>
+      
+      {/* Mobile Bottom Navigation */}
+      <AllianceBottomBar />
+    </>
   );
 }

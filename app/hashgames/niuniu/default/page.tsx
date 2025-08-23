@@ -358,7 +358,7 @@ const NiuniuDefault: React.FC = () => {
     <>
    
        
-        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-8 w-[70%] mx-auto">
+        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-16 w-[70%] mx-auto">
         
         {/* Header with Segmented Control */}
         <div className="w-full flex flex-col items-center gap-4 p-0 ">

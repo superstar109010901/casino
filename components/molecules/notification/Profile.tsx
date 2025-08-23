@@ -3,9 +3,16 @@
 import { useState } from "react";
 import { UnifiedButton } from "@/ui/atoms";
 import { setAuthUser } from "@/lib/auth";
+import { X } from "lucide-react";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
-const UserProfileDropdown = () => {
+interface UserProfileDropdownProps {
+  onClose?: () => void;
+}
+
+const UserProfileDropdown = ({ onClose }: UserProfileDropdownProps) => {
   const [bonusCode, setBonusCode] = useState("");
+  const { currentLanguage } = useLanguage();
 
   // SVG Icons from Figma design
   const EditIcon = () => (
@@ -63,19 +70,37 @@ const UserProfileDropdown = () => {
     </svg>
   );
 
+  const LanguageIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.45 4 16.08 4 12C4 11.38 4.08 10.79 4.21 10.21L9 15V16C9 17.1 9.9 18 11 18V19.93ZM17.9 17.39C17.64 16.58 16.9 16 16 16H15V13C15 12.45 14.55 12 14 12H8V10H10C10.55 10 11 9.55 11 9V7H13C14.1 7 15 6.1 15 5V4.59C17.93 5.78 20 8.65 20 12C20 14.08 19.2 15.97 17.9 17.39Z" fill="#55657E"/>
+    </svg>
+  );
+
   const menuItems = [
     { icon: WalletIcon, label: "Wallet", count: null },
     { icon: NotificationIcon, label: "Notifications", count: 4 },
+    { icon: MedalIcon, label: "VIP Club", count: null },
+    { icon: ChartIcon, label: "Alliance Plan", count: null, isActive: true },
     { icon: MedalIcon, label: "Game records", count: null },
     { icon: ChartIcon, label: "Data Statistics", count: null },
     { icon: SlidersIcon, label: "Settings", count: null },
+    { icon: LanguageIcon, label: `Default Lang: ${currentLanguage.name}`, count: null, flag: currentLanguage.code },
   ];
 
   return (
-    <div className="w-[282px] glass-bg  rounded-[14px]  p-0 text-white font-montserrat">
+    <div className="lg:w-[282px] md:w-[282px] w-full h-full lg:h-auto lg:rounded-[14px] glass-bg p-0 text-white font-montserrat backdrop-blur-[32px] overflow-y-auto">
+      <button
+        onClick={onClose}
+        className="flex absolute right-4 top-4 h-9 w-9 items-center justify-center rounded-lg border border-white/4 bg-white/4 backdrop-blur-[32px] hover:bg-white/8 transition-colors lg:hidden z-10"
+        style={{
+          boxShadow: "0 1px 0 0 rgba(255, 255, 255, 0.16) inset",
+        }}
+      >
+        <X size={16} className="text-[#A7B5CA]" />
+      </button>
       {/* User Profile Section */}
-      <div className="p-4">
-        <div className="flex flex-col items-center gap-2">
+      <div className="p-4 lg:p-4 pt-5 lg:pt-4 flex flex-col items-center lg:justify-start lg:min-h-0">
+        <div className="flex flex-col items-center gap-2 w-[88%] ">
           {/* Avatar with VIP Badge */}
           <div className="relative flex flex-col items-center gap-[-10px]">
             <div className="relative">
@@ -131,7 +156,7 @@ const UserProfileDropdown = () => {
       </div>
 
       {/* Bonus Code Section */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 lg:pb-2">
         <div className="p-4 rounded-xl">
           {/* Bonus Code Header */}
           <div className="flex items-center gap-2 mb-4">
@@ -157,19 +182,34 @@ const UserProfileDropdown = () => {
       </div>
 
       {/* Menu Items */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-4 lg:pb-2">
         <div className="flex flex-col gap-0.5">
           {menuItems.map((item, index) => {
             const IconComponent = item.icon;
+            const isActive = (item as any).isActive;
             return (
               <button
                 key={index}
-                className="flex items-center gap-2 h-12 px-4 rounded-lg hover:bg-white/5 transition-colors group backdrop-blur-[32px]"
+                className={`flex items-center gap-2 h-12 px-4 rounded-lg transition-colors group backdrop-blur-[32px] ${
+                  isActive 
+                    ? 'bg-[#8B5CF6]/20 border border-[#8B5CF6]/30' 
+                    : 'hover:bg-white/5'
+                }`}
               >
-                <IconComponent />
-                <span className="flex-1 text-left text-sm font-bold group-hover:text-white transition-colors" style={{ color: '#A7B5CA' }}>
-                  {item.label}
-                </span>
+                 {/* Flag icon for language item */}
+                 {(item as any).flag && (
+                   <img 
+                     src={`/icons/flag-icon/${(item as any).flag}.svg`} 
+                     className="w-5 h-5" 
+                     alt="language flag" 
+                   />
+                 )}
+                 <span className={`flex-1 text-left text-sm font-bold transition-colors ${
+                   isActive ? 'text-white' : 'text-[#A7B5CA] group-hover:text-white'
+                 }`}>
+                   {item.label}
+                 </span>
+                 
                 {item.count && (
                   <div 
                     className="border border-white rounded-md px-1.5 py-0.5 shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset]"
@@ -178,6 +218,10 @@ const UserProfileDropdown = () => {
                     <span className="text-white text-xs font-bold">{item.count}</span>
                   </div>
                 )}
+                {/* Red dot indicator for some items */}
+                {!item.count && !isActive && ['Wallet', 'Notifications', 'Game records', 'Data Statistics', 'Settings'].includes(item.label) && (
+                  <div className="w-2 h-2 bg-[#ED1D49] rounded-full"></div>
+                )}
               </button>
             );
           })}
@@ -185,7 +229,7 @@ const UserProfileDropdown = () => {
       </div>
 
       {/* Log Out */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-8 lg:pb-2">
         <button onClick={() => setAuthUser(null)} className="flex items-center gap-2 h-12 px-4 rounded-lg hover:bg-white/5 transition-colors group w-full backdrop-blur-[32px]">
           <LogOutIcon />
           <span className="flex-1 text-left text-sm font-bold group-hover:text-white transition-colors" style={{ color: '#A7B5CA' }}>

@@ -234,6 +234,17 @@ export default function Bottombar() {
     router.replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleTabClick = (tabId: string) => {
+    setActiveTab(tabId);
+    
+    // Handle navigation for specific tabs
+    if (tabId === 'Referrals') {
+      router.push('/alliance');
+    } else if (tabId === 'Menu') {
+      toggleSidebar();
+    }
+  };
+
   return (
     <div className={`fixed block lg:hidden bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
       <div 
@@ -262,7 +273,7 @@ export default function Bottombar() {
                 icon={tab.icon}
                 label={tab.label}
                 isActive={activeTab === tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabClick(tab.id)}
               />
             ))
           )}

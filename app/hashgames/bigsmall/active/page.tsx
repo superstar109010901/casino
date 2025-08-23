@@ -342,7 +342,7 @@ const BigSmallActive: React.FC = () => {
   return (
     <>
     
-        <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
+        <div className="min-h-screen w-[70%] py-16 m-auto text-white ">
     {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
         <div className="flex bg-[#72707038] rounded-lg p-1 ">

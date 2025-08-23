@@ -345,7 +345,7 @@ const NiuniuDefault: React.FC = () => {
     <>
     {
       activeTab !== "Active" ? (
-        <div className="min-h-screen w-[70%] py-8 m-auto text-white ">
+        <div className="min-h-screen w-[70%] py-16 m-auto text-white ">
       {/* Header Section */}
       <div className=" justify-between items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
         <div className="flex bg-[#72707038] rounded-lg p-1 ">
@@ -918,7 +918,7 @@ const NiuniuDefault: React.FC = () => {
       </div>
     </div>
       ): (
-        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-8 w-[70%] mx-auto">
+        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-16 w-[70%] mx-auto">
         {/* Header with Segmented Control */}
         <div className="w-full flex flex-col items-center gap-4 p-0 ">
           <div className=" justify-between  w-full items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">

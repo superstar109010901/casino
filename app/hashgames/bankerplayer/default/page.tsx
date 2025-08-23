@@ -339,7 +339,7 @@ const BankerPlayerDefault: React.FC = () => {
   return (
     <>
     
-        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-8 w-[70%] mx-auto">
+        <div className="flex flex-col items-center min-h-screen gap-4 md:gap-16 py-16 w-[70%] mx-auto">
         {/* Header with Segmented Control */}
         <div className="w-full flex flex-col items-center gap-4 p-0 ">
           <div className=" justify-between  w-full items-center mb-8 bg-[#222d3d] pr-4 rounded-lg flex  [@media(max-width:768px)]:hidden">
@@ -519,7 +519,7 @@ const BankerPlayerDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-crimson">BANKER</div>
+            <div className="text-[20px] font-bold text-crimson">BANKER</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>
@@ -568,7 +568,7 @@ const BankerPlayerDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-[#1BB83D]">TIE</div>
+            <div className="text-[20px] font-bold text-[#1BB83D]">TIE</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>
@@ -617,7 +617,7 @@ const BankerPlayerDefault: React.FC = () => {
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">$0</span>
             </button>
-            <div className="text-2xl font-bold text-yellow-orange">PLAYER</div>
+            <div className="text-[20px] font-bold text-yellow-orange">PLAYER</div>
             <button className="flex h-9 px-4 justify-center items-center gap-2 rounded-lg border border-white/[0.08] bg-mirage shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-[32px]">
               <span className="text-sm font-bold text-white">1 : 1.95</span>
             </button>

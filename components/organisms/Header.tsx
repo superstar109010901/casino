@@ -7,6 +7,8 @@ import { BlackButton, Button, UnifiedButton } from "../../ui/atoms";
 import LanguageSelect from "../molecules/LanguageSelect";
 import { useModal } from "../providers/ModalProvider";
 import { useSidebar } from "../providers/SidebarProvider";
+import { useProfile } from "../providers/ProfileProvider";
+import { useLanguage } from "../providers/LanguageProvider";
 import Auth from "./auth/Auth";
 import AuthButton from "../molecules/AuthButton";
 import AuthModal from "../Modal/AuthModal";
@@ -141,7 +143,7 @@ const AuthSection: React.FC<{ toggleAuthModal: () => void; isLoggedIn: boolean }
 const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const [showLang, setShowLang] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const [currentLang, setCurrentLang] = useState<{ code: string; name: string } | null>({ code: 'cn', name: '中文' });
+  const { currentLanguage, setCurrentLanguage } = useLanguage();
   const { openNotifications } = useModal();
 
   useEffect(() => {
@@ -172,7 +174,7 @@ const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
     <div className="flex items-center gap-2" ref={wrapperRef}>
       <div className="relative lg:block hidden">
         <UnifiedButton variant="default" onClick={handleToggleLang}>
-          <img src={`/icons/flag-icon/${currentLang?.code || 'cn'}.svg`} className="px-2.5 h-4" alt="flag" />
+          <img src={`/icons/flag-icon/${currentLanguage.code}.svg`} className="px-2.5 h-4" alt="flag" />
         </UnifiedButton>
         {showLang && (
           <div className="absolute right-0 top-full mt-2 z-[1000]">
@@ -180,7 +182,7 @@ const UtilitySection: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
               open
               triggerless
               onRequestClose={() => setShowLang(false)}
-              onChange={(lang) => setCurrentLang({ code: lang.code, name: lang.name })}
+              onChange={(lang) => setCurrentLanguage({ code: lang.code, name: lang.name })}
             />
           </div>
         )}
@@ -226,14 +228,17 @@ const NotificationButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => 
 );
 
 const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isProfileOpen, setIsProfileOpen } = useProfile();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (!containerRef.current) return;
       if (!containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        // Only close on click outside for desktop (lg and above)
+        if (window.innerWidth >= 1024) {
+          setIsProfileOpen(false);
+        }
       }
     };
 
@@ -243,10 +248,10 @@ const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, []);
+  }, [setIsProfileOpen]);
 
   const handleButtonClick = () => {
-    setIsOpen((prev) => !prev);
+    setIsProfileOpen(!isProfileOpen);
     if (onClick) onClick();
   };
 
@@ -260,9 +265,9 @@ const ProfileButton: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
         />
       </UnifiedButton>
       <NotificationBadge />
-      {isOpen && (
-        <div className="absolute right-0 top-full mt-2 z-[1000]">
-          <UserProfileDropdown />
+      {isProfileOpen && (
+        <div className="absolute right-0 -right-4 top-full mt-2 z-[1000] w-[98vw] lg:w-auto">
+          <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />
         </div>
       )}
     </div>

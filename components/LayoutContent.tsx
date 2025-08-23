@@ -1,12 +1,16 @@
 "use client";
 
-import Header from "@/components/organisms/Header";
+import React, { useState, useEffect } from 'react';
+import ResponsiveHeader from "@/components/organisms/ResponsiveHeader";
 import Footer from "@/components/organisms/Footer";
 import Sidebar from "@/components/organisms/Sidebar";
 import Bottombar from "@/components/organisms/Bottombar";
 import AuthModal from "@/components/Modal/AuthModal";
+import UserProfileDropdown from "@/components/molecules/notification/Profile";
 import { useLoading } from "@/components/providers/LoadingProvider";
 import { useModal } from "@/components/providers/ModalProvider";
+import { useProfile } from "@/components/providers/ProfileProvider";
+import { usePathname } from 'next/navigation';
 import dynamic from "next/dynamic";
 
 const HashHoverLayer = dynamic(() => import("@/components/overlays/HashHoverLayer"), { ssr: false });
@@ -18,6 +22,23 @@ interface LayoutContentProps {
 export default function LayoutContent({ children }: LayoutContentProps) {
   const { isLoading } = useLoading();
   const { isNotificationsOpen } = useModal();
+  const { isProfileOpen, setIsProfileOpen } = useProfile();
+  const [isMobileHeader, setIsMobileHeader] = useState(false);
+  const pathname = usePathname();
+  
+  // Check if we're on alliance pages
+  const isAlliancePage = pathname?.startsWith('/alliance');
+
+  // Prevent scroll when profile menu is open on mobile
+  useEffect(() => {
+    if (isProfileOpen) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [isProfileOpen]);
 
   if (isLoading) {
     return <>{children}</>;
@@ -25,19 +46,32 @@ export default function LayoutContent({ children }: LayoutContentProps) {
 
   return (
     <>
-      <Header />
-      <main className={`flex lg:pt-[56px] pt-[115px] relative z-10 transition-all duration-300 ${
-        isNotificationsOpen ? 'lg:pr-[420px]' : ''
+      <ResponsiveHeader onHeaderTypeChange={setIsMobileHeader} />
+      <main className={`flex ${isMobileHeader ? 'pt-[56px] sm:pt-[64px]' : 'pt-[56px]'} relative z-10 transition-all duration-300 ${
+        isNotificationsOpen && !isMobileHeader ? 'lg:pr-[420px]' : ''
       }`}>
-        <Sidebar />
-        <div className="main-content">
+        {!isMobileHeader && <Sidebar />}
+        <div className={`main-content ${isMobileHeader ? 'w-full' : ''}`}>
           {children}
           <Footer />
         </div>
-        <HashHoverLayer />
+        {!isMobileHeader && <HashHoverLayer />}
       </main>
       <div className="fixed bg-[radial-gradient(circle_at_50%_322px,_#003A81_100px,_#0D131C_300px)] w-full h-full top-0 left-0 z-0"></div>
-      <Bottombar />
+      {!isMobileHeader && !isAlliancePage && !isProfileOpen && <Bottombar />}
+      
+      {/* Profile Menu - Mobile Full Screen */}
+      {isProfileOpen && (
+        <>
+          {/* Mobile full-screen overlay with blurred background */}
+          <div className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[1000]"></div>
+          {/* Profile menu container */}
+          <div className="fixed lg:hidden inset-0 z-[1001] flex items-center justify-center">
+            <UserProfileDropdown onClose={() => setIsProfileOpen(false)} />
+          </div>
+        </>
+      )}
+      
       <AuthModal />
     </>
   );
