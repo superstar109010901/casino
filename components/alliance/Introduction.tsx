@@ -162,8 +162,8 @@ const Introduction: React.FC = () => {
                   </div>
                 </div>
                 {/* Affiliate Introduction */}
-                <div className=" rounded-xl p-4 sm:p-6">
-                  <h2 className="text-xl font-bold text-white mb-6 text-center">Affiliate Introduction</h2>
+                <div className=" rounded-xl">
+                  <h2 className="text-xl font-bold text-white mb-6 pl-4">Affiliate Introduction</h2>
                   
                   {/* Main Affiliate A - Responsive card matching design */}
                   <div className="mb-6">
@@ -184,31 +184,31 @@ const Introduction: React.FC = () => {
                         </div>
                         {/* No title next to avatar in the design */}
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3 text-sm">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3 text-[10px]">
                       
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Team performance:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.teamPerformance}</span>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Direct performance:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.directPerformance}</span>
                         </div>
 
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Rate per 10K:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.ratePerTenK}</span>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Direct commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.directCommission}</span>
                         </div>
 
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Team commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.rewardEarned}</span>
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 items-end">
                           <span className="text-[#a7b5ca]">Subordinate commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.subordinateCommission}</span>
                         </div>
@@ -240,20 +240,20 @@ const Introduction: React.FC = () => {
                           </div>
                           <div className="text-white absolute top-0 left-0 bg-[#1BB83D] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
-                        <div className="space-y-2 text-xs">
-                          <div className="flex gap-1">
+                        <div className="space-y-2 text-[10px]">
+                          <div className="flex gap-1 flex-wrap items-end">
                             <p className="text-gray-400">Team performance:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.teamPerformance}</p>
                           </div>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 items-end">
                             <p className="text-gray-400">Rate per 10K:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.ratePerTenK}</p>
                           </div>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 items-end">
                             <p className="text-gray-400">Reward Earned:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.rewardEarned}</p>
                           </div>
-                          <div className="border-t border-[#ffffff1a] pt-2 flex gap-1">
+                          <div className="border-t border-[#ffffff1a] pt-2 flex gap-1 items-end">
                             <p className="text-gray-400">Valid Bet:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.validBet}</p>
                           </div>
@@ -285,16 +285,16 @@ const Introduction: React.FC = () => {
                           </div>
                           <div className="text-white absolute top-0 left-0 bg-[#2283F6] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
-                        <div className="space-y-2 text-xs">
-                          <div className="flex gap-1">
+                        <div className="space-y-2 text-[10px]">
+                          <div className="flex flex-wrap  gap-1">
                             <p className="text-gray-400">Team performance:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.teamPerformance}</p>
                           </div>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 items-end">
                             <p className="text-gray-400">Rate per 10K:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.ratePerTenK}</p>
                           </div>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 items-end">
                             <p className="text-gray-400">Reward Earned:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.rewardEarned}</p>
                           </div>
@@ -307,28 +307,7 @@ const Introduction: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* Commission Calculation Section */}
-                  <div className="bg-[#1a2332] rounded-xl p-4 border border-[#ffffff1a]">
-                    <h3 className="text-lg font-bold text-white mb-4 text-center">Commission Calculation</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Direct Commission:</span>
-                        <span className="text-[#ffb636] font-bold">2520</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Team Commission:</span>
-                        <span className="text-[#ffb636] font-bold">14420</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Subordinate Commission:</span>
-                        <span className="text-[#ffb636] font-bold">2520</span>
-                      </div>
-                      <div className="border-t border-[#ffffff1a] pt-3 flex justify-between">
-                        <span className="text-white font-bold">Total Calculation:</span>
-                        <span className="text-[#ffb636] font-bold text-lg">2640</span>
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
                 {/* Commission Calculation */}
                 <div className="space-y-4">
