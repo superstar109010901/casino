@@ -103,14 +103,14 @@ const Performance: React.FC = () => {
           <tbody>
             {performanceData.map((row, index) => (
               <tr key={index}>
-                <td className="py-3 px-4 text-[10px] font-bold text-[#A7B5CA]">
+                <td className="py-3 px-4 text-[10px] font-bold text-center text-[#A7B5CA]">
                   {row.gameType}
                 </td>
-                <td className="py-3 px-4 text-[12px] font-bold text-white">
+                <td className="py-3 px-4 text-[12px] font-bold text-center text-white">
                   {row.total}
                 </td>
-                <td className="py-3 px-4 text-[12px] font-bold text-white">
-                  <div className="flex items-center gap-2">
+                <td className="py-3 px-4 text-[12px] font-bold  text-white">
+                  <div className="flex items-center justify-center gap-2">
                     {row.direct}
                     <img
                       src="/icons/file-report.svg"
@@ -120,7 +120,7 @@ const Performance: React.FC = () => {
                   </div>
                 </td>
                 <td className="py-3 px-4 text-[12px] font-bold text-white">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     {row.agent}
                     <img
                       src="/icons/file-report.svg"
@@ -133,16 +133,16 @@ const Performance: React.FC = () => {
             ))}
             {/* Total Row */}
             <tr>
-              <td className="py-3 px-4 font-bold text-[12px] text-[#A7B5CA]">
+              <td className="py-3 px-4 font-bold text-[12px] text-center text-[#A7B5CA]">
                 Total
               </td>
-              <td className="py-3 px-4 font-bold text-[12px] text-[#60A5FA]">
+              <td className="py-3 px-4 font-bold text-[12px] text-center text-[#60A5FA]">
                 0
               </td>
-              <td className="py-3 px-4 font-bold text-[12px] text-[#60A5FA]">
+              <td className="py-3 px-4 font-bold text-[12px] text-center text-[#60A5FA]">
                 0
               </td>
-              <td className="py-3 px-4 font-bold text-[12px] text-[#60A5FA]">
+              <td className="py-3 px-4 font-bold text-[12px] text-center text-[#60A5FA]">
                 0
               </td>
             </tr>

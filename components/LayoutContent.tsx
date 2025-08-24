@@ -43,8 +43,9 @@ export default function LayoutContent({ children }: LayoutContentProps) {
     }
   }, [isProfileOpen]);
 
-  if (isLoading || isNavigating) {
-    return <PageLoader message={isLoading ? "Loading app..." : "Loading page..."} />;
+  // Only show loading on initial app load
+  if (isLoading) {
+    return <PageLoader message="Loading app..." />;
   }
 
   return (

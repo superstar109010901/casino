@@ -48,7 +48,7 @@ const CasinoCard: React.FC<CasinoCardProps> = ({
         )}
 
         <div
-          className={`absolute top-2 left-2 text-white text-[10px] lg:text-[12.24px] font-bold lg:px-2 px-[2px] py-[0.5px] rounded-full border border-opacity-[13%] ${getBadgeColor(
+          className={`absolute top-2 left-2 text-white text-[10px] lg:text-[12.24px] font-bold lg:px-2 px-[2px] py-[0.5px] rounded-full border-t border-[#ffffff30] ${getBadgeColor(
             badge
           )}`}
         >

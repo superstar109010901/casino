@@ -24,20 +24,39 @@ interface NavigationProviderProps {
 
 export const NavigationProvider: React.FC<NavigationProviderProps> = ({ children }) => {
   const [isNavigating, setIsNavigating] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
 
-  // Handle route changes
+  // Check if this is the first time loading the app
   useEffect(() => {
-    setIsNavigating(true);
+    const hasLoadedBefore = localStorage.getItem('app-has-loaded');
     
-    // Simulate navigation loading time (shorter since we have progress bar)
-    const timer = setTimeout(() => {
+    if (hasLoadedBefore) {
+      // App has been loaded before, skip navigation loading
       setIsNavigating(false);
-    }, 1200);
-    
-    return () => clearTimeout(timer);
-  }, [pathname]);
+      setIsInitialLoad(false);
+    } else {
+      // First time loading, show navigation loading
+      setIsNavigating(true);
+      
+      const timer = setTimeout(() => {
+        setIsNavigating(false);
+        setIsInitialLoad(false);
+      }, 1200);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Handle route changes (but don't show loading for subsequent changes)
+  useEffect(() => {
+    if (!isInitialLoad) {
+      // For subsequent page changes, we don't show loading
+      // The page transition will be instant
+      setIsNavigating(false);
+    }
+  }, [pathname, isInitialLoad]);
 
   return (
     <NavigationContext.Provider value={{ isNavigating, setIsNavigating }}>

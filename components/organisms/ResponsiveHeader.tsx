@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Header from './Header';
 import { MobileHeader } from './MobileHeader';
 
@@ -11,6 +11,7 @@ interface ResponsiveHeaderProps {
 
 const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({ onHeaderTypeChange }) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -65,7 +66,23 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({ onHeaderTypeChange 
   // Get title based on current path
   const getPageTitle = () => {
     if (pathname.startsWith('/alliance')) {
-      return 'Alliance';
+      console.log('pathname', pathname);
+      if(searchParams.get("tab") === 'invite') {
+        return 'Invite Friends';
+      }
+      if(searchParams.get("tab") === 'management') {
+        return 'Management';
+      }
+      if(searchParams.get("tab") === 'performance') {
+        return 'Performance';
+      }
+      if(searchParams.get("tab") === 'report') {
+          return 'Report';
+        }
+      if(searchParams.get("tab") === 'introduction') {
+        return 'Introduction';
+      }
+      return 'Invite Friends';
     }
     if (pathname.startsWith('/profile')) {
       return 'Profile';

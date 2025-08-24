@@ -353,7 +353,7 @@ const GameManufacturersSection: React.FC = () => {
             <GameCard {...manufacturer} gameCount={manufacturer.gamesCount} />
           )}
           slidesPerView={4.4}
-          spaceBetween={20}
+          spaceBetween={12}
           breakpoints={{
             320: { slidesPerView: 1.2 },
             375: { slidesPerView: 1.4 },
@@ -645,7 +645,7 @@ const MainContent: React.FC<MainContentProps> = () => {
 
     return (
       <div
-        className={`lg:px-6 px-1 py-6  w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
+        className={`lg:px-6 px-1 py-6 pt-4  w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
           ? "lg:w-[calc(100vw-80px)] xl:w-[calc(100vw-80px)]"
           : "xl:w-[calc(100vw-315px)] lg:w-[calc(100vw-315px)] 2xl:w-[calc(100vw-315px)]"
           }`}
@@ -653,13 +653,13 @@ const MainContent: React.FC<MainContentProps> = () => {
       >
         <SuccessForm isOpen={isOpen} />
 
-        <div className="mb-16 lg:mt-0 mt-15">
+        <div className="mb-16 lg:mt-0 mt-[45px]">
           <SwiperSlider
             key={`banner-swiper-${activeGameCategory}`}
             data={bannerCards}
             renderSlide={(card, index) => <RewardCard {...card} />}
             slidesPerView="auto"
-            spaceBetween={10}
+            spaceBetween={12}
             slideClassName="lg:!w-[486.76px] !w-[353px]"
             showProgressBars={true}
             customPagination={true}
@@ -691,13 +691,13 @@ const MainContent: React.FC<MainContentProps> = () => {
                 grid={{ rows: 2, fill: "row" }}
                 renderSlide={(card, index) => <CasinoCard {...card} />}
                 slidesPerView={7}
-                spaceBetween={20}
+                spaceBetween={12}
                 breakpoints={{
                   320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
                   375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
                   425: { slidesPerView: 4.1, grid: { rows: 2, fill: "row" } },
                   768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
-                  1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
+                  1024: { slidesPerView: 5, spaceBetween: 12, grid: { rows: 2, fill: "row" } },
                   1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
                 }}
               />
@@ -713,7 +713,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 grid={{ rows: 2, fill: "row" }}
                 renderSlide={(card, index) => <CasinoCard {...card} />}
                 slidesPerView={7}
-                spaceBetween={20}
+                spaceBetween={12}
                 breakpoints={{
                   320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
                   375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
@@ -733,7 +733,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 data={card9}
                 autoplay={false}
                 renderSlide={(card, index) => <HashCard {...card} />}
-                spaceBetween={10}
+                spaceBetween={12}
                 slidesPerView="auto"
                 slideClassName="!w-[320px]"
               />
@@ -748,7 +748,7 @@ const MainContent: React.FC<MainContentProps> = () => {
                 autoplayDelay={1000000}
                 renderSlide={(card, index) => <CasinoCard {...card} />}
                 slidesPerView={7}
-                spaceBetween={20}
+                spaceBetween={12}
                 breakpoints={{
                   320: { slidesPerView: 3.3 },
                   375: { slidesPerView: 3.5 },
@@ -784,7 +784,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           data={bannerCards}
           renderSlide={(card, index) => <RewardCard {...card} />}
           slidesPerView="auto"
-          spaceBetween={10}
+          spaceBetween={12}
           slideClassName="lg:!w-[486.76px] !w-[353px]"
           showProgressBars={true}
           customPagination={true}
@@ -803,7 +803,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             data={card1}
             renderSlide={(card, index) => <CasinoCard {...card} />}
             slidesPerView={7}
-            spaceBetween={20}
+            spaceBetween={12}
             breakpoints={{
               320: { slidesPerView: 3.3 },
               375: { slidesPerView: 3.5 },
@@ -832,7 +832,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             grid={{ rows: 2, fill: "row" }}
             renderSlide={(card, index) => <CasinoCard {...card} />}
             slidesPerView={7}
-            spaceBetween={20}
+            spaceBetween={12}
             breakpoints={{
               320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
               375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
@@ -854,7 +854,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             data={card9}
             autoplay={false}
             renderSlide={(card, index) => <HashCard {...card} />}
-            spaceBetween={10}
+            spaceBetween={12}
             slidesPerView="auto"
             slideClassName="!w-[320px]"
           />
@@ -872,7 +872,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             grid={{ rows: 2, fill: "row" }}
             renderSlide={(card, index) => <CasinoCard {...card} />}
             slidesPerView={7}
-            spaceBetween={20}
+            spaceBetween={12}
             breakpoints={{
               320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
               375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
@@ -898,7 +898,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           autoplayDelay={1000000}
           renderSlide={(card, index) => <FutureCard {...card} />}
           slidesPerView={5}
-          spaceBetween={20}
+          spaceBetween={12}
           breakpoints={{
             320: { slidesPerView: 2.5 },
             375: { slidesPerView: 2.3 },
@@ -923,7 +923,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           autoplayDelay={1000000}
           renderSlide={(card, index) => <CasinoCard {...card} />}
           slidesPerView={7}
-          spaceBetween={20}
+          spaceBetween={12}
           breakpoints={{
             320: { slidesPerView: 3.3 },
             375: { slidesPerView: 3.5 },
@@ -945,7 +945,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             autoplayDelay={1000000}
             renderSlide={(card, index) => <CasinoCard {...card} />}
             slidesPerView={7}
-            spaceBetween={20}
+            spaceBetween={12}
             breakpoints={{
               320: { slidesPerView: 3.3 },
               375: { slidesPerView: 3.5 },
@@ -970,7 +970,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           autoplayDelay={1000000}
           renderSlide={(card, index) => <CasinoCard {...card} />}
           slidesPerView={7}
-          spaceBetween={20}
+          spaceBetween={12}
           breakpoints={{
             320: { slidesPerView: 3.3 },
             375: { slidesPerView: 3.5 },
@@ -998,7 +998,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           autoplayDelay={1000000}
           renderSlide={(card, index) => <CasinoCard {...card} />}
           slidesPerView={7}
-          spaceBetween={20}
+          spaceBetween={12}
           breakpoints={{
             320: { slidesPerView: 3.3 },
             375: { slidesPerView: 3.5 },

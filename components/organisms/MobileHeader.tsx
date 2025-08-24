@@ -15,13 +15,14 @@ export function MobileHeader({ title = 'Support/Legal support', onBackClick, onS
   return (
     <div className={cn(
       "fixed top-0 left-0 right-0 z-50",
-      "flex w-full items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4",
+      "flex w-full justify-between items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4",
       "border-t border-b border-[#2A3546] ",
       "bg-[rgba(17,25,35,0.54)] backdrop-blur-[32px]",
       "min-h-[56px] sm:min-h-[64px]", // Ensure minimum touch target height
       className
     )}>
-      {/* Back Button */}
+      <div className='flex gap-4 items-center'>
+        {/* Back Button */}
       {showBackButton && (
         <button
           onClick={onBackClick}
@@ -56,6 +57,7 @@ export function MobileHeader({ title = 'Support/Legal support', onBackClick, onS
       )}>
         {title}
       </h1>
+      </div>
 
       {/* Support Button */}
       <button

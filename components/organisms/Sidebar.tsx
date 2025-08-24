@@ -112,7 +112,7 @@ const Sidebar: React.FC = () => {
               <button
                 className={`${
                   isCollapsed ? "w-full" : "flex-1"
-                } w-12 bg-transparent rounded-lg p-3 flex items-center gap-2 justify-center text-gray-400 font-medium transition-colors hover:bg-gray-700`}
+                } w-12 bg-transparent rounded-lg p-3 flex items-center gap-2 justify-center text-gray-400 font-medium transition-colors hover:bg-gray-700 active:bg-gray-700`}
               >
                 <img
                   src={"/icons/football.svg"}
@@ -128,7 +128,7 @@ const Sidebar: React.FC = () => {
           {/* Navigation Section */}
           <div className={`p-4 ${isCollapsed ? "px-2" : ""} space-y-1 `}>
             <div
-              className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+              className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                 isCollapsed ? "justify-center" : ""
               }`}
             >
@@ -136,7 +136,7 @@ const Sidebar: React.FC = () => {
               {!isCollapsed && <span className="text-sm font-bold">Search</span>}
             </div>
             <div
-              className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+              className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                 isCollapsed ? "justify-center" : ""
               }`}
             >
@@ -144,7 +144,7 @@ const Sidebar: React.FC = () => {
               {!isCollapsed && <span className="text-sm font-bold">Favorites</span>}
             </div>
             <div
-              className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+              className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                 isCollapsed ? "justify-center" : ""
               }`}
             >
@@ -167,7 +167,7 @@ const Sidebar: React.FC = () => {
                 onMouseLeave={scheduleCloseHashHover}
               >
                 <div
-                  className={`flex items-center justify-between p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                  className={`flex items-center justify-between p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
@@ -200,7 +200,7 @@ const Sidebar: React.FC = () => {
                 {/* Floating panel is rendered globally in layout via HashHoverLayer */}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -208,7 +208,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Slots</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -216,7 +216,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Live Casino</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -228,7 +228,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Futures</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -240,7 +240,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Crypto Games</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -252,7 +252,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Sport</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -266,7 +266,7 @@ const Sidebar: React.FC = () => {
               <Link
                 className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                   isCollapsed ? "justify-center" : ""
-                } ${pathname?.startsWith('/alliance') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-gray-700'}`}
+                } ${pathname?.startsWith('/alliance') ? 'bg-white/10 text-white' : 'text-gray-300 hover:bg-gray-700 active:bg-gray-700'}`}
                 href="/alliance"
                 aria-current={pathname?.startsWith('/alliance') ? 'page' : undefined}
               >
@@ -278,7 +278,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Alliance Plan</span>}
               </Link>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -295,7 +295,7 @@ const Sidebar: React.FC = () => {
 
               {/* Information & Support */}
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-white transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-white transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -303,7 +303,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Game Providers</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -311,7 +311,7 @@ const Sidebar: React.FC = () => {
                 {!isCollapsed && <span className="text-sm font-bold">Promotions</span>}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -327,7 +327,7 @@ const Sidebar: React.FC = () => {
             <div className="py-[16px]">
               {/* Tutorials */}
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -341,7 +341,7 @@ const Sidebar: React.FC = () => {
                 )}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -351,7 +351,7 @@ const Sidebar: React.FC = () => {
                 )}
               </div>
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -365,7 +365,7 @@ const Sidebar: React.FC = () => {
             <div className="py-[16px]">
               {/* Service */}
               <div
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
@@ -384,7 +384,7 @@ const Sidebar: React.FC = () => {
               <div className="py-[16px]">
                 {/* Service */}
                 <div
-                  className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                  className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
@@ -395,7 +395,7 @@ const Sidebar: React.FC = () => {
                   />
                 </div>
                 <div
-                  className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                  className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                     isCollapsed ? "justify-center" : ""
                   }`}
                 >
@@ -412,7 +412,7 @@ const Sidebar: React.FC = () => {
             <div className="lg:hidden py-[16px]">
               <div
                 onClick={() => setIsLanguageModalOpen(true)}
-                className={`flex items-center gap-3 p-3 hover:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
+                className={`flex items-center gap-3 p-3 hover:bg-gray-700 active:bg-gray-700 rounded-lg cursor-pointer text-gray-300 transition-colors ${
                   isCollapsed ? "justify-center" : ""
                 }`}
               >
