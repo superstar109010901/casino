@@ -19,7 +19,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs, className = "" }) => {
 
   return (
     <div className={`mb-8 ${className}`}>
-      <h3 className="text-lg font-bold pl-3 text-white mb-4">FAQs</h3>
+      <h3 className="text-lg font-bold pl-3 text-white my-4">FAQs</h3>
       <div className="space-y-3">
         {faqs.map((faq, index) => (
           <div

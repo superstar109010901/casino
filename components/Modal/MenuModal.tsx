@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { createPortal } from "react-dom";
+import { useModalScrollPrevention } from "@/hooks/useModalScrollPrevention";
 // import { useBottomBar } from "../providers/BottomBarProvider";
 // import { useEffect } from "react";
 
@@ -62,6 +63,9 @@ export default function MenuModal({ isOpen, onClose }: MenuModalProps) {
   //     showBottomBar();
   //   };
   // }, [isOpen, hideBottomBar, showBottomBar]);
+
+  // Prevent background scrolling when modal is open
+  useModalScrollPrevention(isOpen);
 
   if (!isOpen) return null;
 

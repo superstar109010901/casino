@@ -54,7 +54,7 @@ const Performance: React.FC = () => {
   ];
 
   return (
-    <div className="mb-8  p-8 [@media(max-width:660px)]:w-full">
+    <div className=" [@media(max-width:660px)]:w-full">
       <p className="text-[18px] font-bold text-white p-4 [@media(max-width:660px)]:hidden">
         Performance
       </p>

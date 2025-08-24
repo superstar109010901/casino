@@ -6,6 +6,7 @@ import { X, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useSidebar } from "../providers/SidebarProvider";
 import { Button } from "@/ui";
 import AuthButton from "../molecules/AuthButton";
+import { useModalScrollPrevention } from "@/hooks/useModalScrollPrevention";
 import './style.css';
 interface SocialButtonProps {
   icon: React.ReactNode;
@@ -119,46 +120,22 @@ export default function AuthModal() {
     toggleAuthModal();
   }
 
-  useEffect(() => {
-    if (isAuthModalOpen) {
-      // Save current scroll position
-      const scrollY = window.scrollY;
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-    } else {
-      // Restore scroll position
-      const scrollY = document.body.style.top;
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    }
-
-    return () => {
-      // Cleanup just in case
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-    };
-  }, [isAuthModalOpen]);
+  // Prevent background scrolling when modal is open
+  useModalScrollPrevention(isAuthModalOpen);
 
   if (!isAuthModalOpen) return null;
 
   return (
     <>
       {isAuthModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
           {/* Backdrop */}
           <div className="absolute inset-0 bg-[#0D131C]/73" />
 
           {/* Modal */}
-          <div className="relative w-full max-w-[740px] h-full flex justify-center items-center">
+          <div className="relative w-full max-w-[740px] h-full flex justify-center items-center modal-content-scroll">
             {/* Desktop Layout */}
-            <div className="hidden lg:flex w-full h-[670px] rounded-[14px] bg-[#111923]/54 backdrop-blur-[32px] overflow-hidden">
+            <div className="hidden lg:flex w-full h-[670px] rounded-[14px] bg-[#111923]/54 backdrop-blur-[32px] modal-content-scroll">
               {/* Left Side - Branding */}
               <div className="flex-1 relative">
                 {/* Background Image with Gradient Overlay */}
@@ -398,7 +375,7 @@ export default function AuthModal() {
             </div>
 
             {/* Mobile Layout */}
-            <div className="lg:hidden animation-fade-in absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923] overflow-y-auto" style={{ WebkitOverflowScrolling: "touch" }}>
+            <div className="lg:hidden animation-fade-in absolute top-0 h-full w-full max-w-md mx-auto bg-[#111923]" style={{ WebkitOverflowScrolling: "touch" }}>
 
 
               {/* Blue Gradient Background */}
@@ -436,7 +413,7 @@ export default function AuthModal() {
               </div>
 
               {/* Form Section */}
-              <div className="px-4 pb-8 space-y-6 relative h-[calc(100%-262px)] flex flex-col justify-between -top-[58px] overflow-y-auto">
+              <div className="px-4 pb-8 space-y-6 relative flex flex-col justify-between bg-[#111923]">
                 <div className="flex flex-col gap-[24px]">
                   {/* Tab Switcher */}
                   <div className="flex rounded-xl p-1">

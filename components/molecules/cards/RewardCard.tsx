@@ -25,7 +25,7 @@ const TypeOne: React.FC<TypeOneProps> = ({
 }) => {
   return (
     <div
-      className="group relative overflow-hidden embla__slide rounded-[14px] lg:h-[270px] h-[196px] p-9 text-white shadow-md transition-all duration-300 "
+      className="group relative overflow-hidden rounded-[14px] lg:h-[270px] h-[196px] p-9 text-white shadow-md transition-all duration-300 "
       style={{ width: "100%" }}
     >
       {/* Background image layer with hover zoom */}

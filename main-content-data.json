@@ -935,6 +935,56 @@
       "rightButtonLink": "/hashgames/niuniu/default"
     }
   ],
+  "card10": [
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game01.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game02.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game03.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game04.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game05.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game06.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game07.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game08.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game09.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game10.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game11.jpg"
+    },
+    {
+      "badge": "HOT",
+      "image": "/images/games/Game12.jpg"
+    }
+  ],
   "brand": [
     "brand-gfg-1.5a3b145c.jpg",
     "brand-gfg-2.f1a9fc1d.jpg",

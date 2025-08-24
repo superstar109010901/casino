@@ -10,8 +10,10 @@ import UserProfileDropdown from "@/components/molecules/notification/Profile";
 import { useLoading } from "@/components/providers/LoadingProvider";
 import { useModal } from "@/components/providers/ModalProvider";
 import { useProfile } from "@/components/providers/ProfileProvider";
+import { useNavigation } from "@/components/providers/NavigationProvider";
 import { usePathname } from 'next/navigation';
 import dynamic from "next/dynamic";
+import PageLoader from "@/components/molecules/PageLoader";
 
 const HashHoverLayer = dynamic(() => import("@/components/overlays/HashHoverLayer"), { ssr: false });
 
@@ -21,6 +23,7 @@ interface LayoutContentProps {
 
 export default function LayoutContent({ children }: LayoutContentProps) {
   const { isLoading } = useLoading();
+  const { isNavigating } = useNavigation();
   const { isNotificationsOpen } = useModal();
   const { isProfileOpen, setIsProfileOpen } = useProfile();
   const [isMobileHeader, setIsMobileHeader] = useState(false);
@@ -40,8 +43,8 @@ export default function LayoutContent({ children }: LayoutContentProps) {
     }
   }, [isProfileOpen]);
 
-  if (isLoading) {
-    return <>{children}</>;
+  if (isLoading || isNavigating) {
+    return <PageLoader message={isLoading ? "Loading app..." : "Loading page..."} />;
   }
 
   return (

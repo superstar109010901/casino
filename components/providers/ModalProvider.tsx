@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import GamingProviderModal from '@/components/Modal/GameProvider';
 import ChooseModal from '@/components/Modal/ChooseModal';
 import GameSearchModal from '@/components/Modal/GameSearch';
+import LocalGameSearchModal from '@/components/Modal/LocalGameSearch';
 import { AUTH_CHANGED_EVENT, getIsLoggedIn } from '@/lib/auth';
 import { SuccessForm } from "@/components/organisms/auth/SuccessForm";
 
@@ -27,6 +28,13 @@ interface ModalContextType {
   isGameSearchModalOpen: boolean;
   openGameSearchModal: () => void;
   closeGameSearchModal: () => void;
+
+  // Local Game Search Modal
+  isLocalGameSearchModalOpen: boolean;
+  localSearchCategory: string;
+  localSearchCategoryLabel: string;
+  openLocalGameSearchModal: (category: string, categoryLabel: string) => void;
+  closeLocalGameSearchModal: () => void;
 
   // Notifications Drawer
   isNotificationsOpen: boolean;
@@ -53,6 +61,9 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [isChooseModalOpen, setIsChooseModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SortOption>("view-all");
   const [isGameSearchModalOpen, setIsGameSearchModalOpen] = useState(false);
+  const [isLocalGameSearchModalOpen, setIsLocalGameSearchModalOpen] = useState(false);
+  const [localSearchCategory, setLocalSearchCategory] = useState('');
+  const [localSearchCategoryLabel, setLocalSearchCategoryLabel] = useState('');
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
@@ -64,6 +75,13 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
 
   const openGameSearchModal = () => setIsGameSearchModalOpen(true);
   const closeGameSearchModal = () => setIsGameSearchModalOpen(false);
+
+  const openLocalGameSearchModal = (category: string, categoryLabel: string) => {
+    setLocalSearchCategory(category);
+    setLocalSearchCategoryLabel(categoryLabel);
+    setIsLocalGameSearchModalOpen(true);
+  };
+  const closeLocalGameSearchModal = () => setIsLocalGameSearchModalOpen(false);
 
   const openNotifications = () => setIsNotificationsOpen(true);
   const closeNotifications = () => setIsNotificationsOpen(false);
@@ -94,6 +112,11 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     isGameSearchModalOpen,
     openGameSearchModal,
     closeGameSearchModal,
+    isLocalGameSearchModalOpen,
+    localSearchCategory,
+    localSearchCategoryLabel,
+    openLocalGameSearchModal,
+    closeLocalGameSearchModal,
     isNotificationsOpen,
     openNotifications,
     closeNotifications,
@@ -120,6 +143,12 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
       <GameSearchModal
         isOpen={isGameSearchModalOpen}
         onClose={closeGameSearchModal}
+      />
+      <LocalGameSearchModal
+        isOpen={isLocalGameSearchModalOpen}
+        onClose={closeLocalGameSearchModal}
+        category={localSearchCategory}
+        categoryLabel={localSearchCategoryLabel}
       />
       <NotificationsDrawer open={isNotificationsOpen} onClose={closeNotifications} />
     </ModalContext.Provider>

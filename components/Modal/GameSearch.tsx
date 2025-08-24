@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useSidebar } from "@/components/providers/SidebarProvider";
 import CasinoCard from '@/components/molecules/cards/CasinoCard';
 import { Button } from '@/ui/atoms';
+import { useModalScrollPrevention } from '@/hooks/useModalScrollPrevention';
 
 interface GameSearchModalProps {
   isOpen: boolean;
@@ -91,6 +92,9 @@ export default function GameSearchModal({ isOpen, onClose }: GameSearchModalProp
   const { isCollapsed } = useSidebar();
   const [sidebarOffset, setSidebarOffset] = useState(0);
 
+  // Prevent background scrolling when modal is open
+  useModalScrollPrevention(isOpen);
+
   useEffect(() => {
     if (!isOpen) return;
     const updateOffset = () => {
@@ -137,12 +141,12 @@ export default function GameSearchModal({ isOpen, onClose }: GameSearchModalProp
 
   return (
     <div className="fixed inset-0 z-50 flex p-2 sm:p-4 justify-center items-center bg-black/80" >
-      <div className="w-full max-w-5xl mx-auto max-h-[90vh] overflow-y-auto" >
+      <div className="w-full max-w-5xl mx-auto max-h-[90vh] overflow-y-auto modal-content-scroll" >
         <div className="flex flex-col items-start w-full mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 w-full px-6 py-4 rounded-t-[14px] bg-gradient-to-b from-[rgba(17,25,35,0.54)] to-[#002554] border-t border-white/16 backdrop-blur-[32px]">
             <h2 className="flex-1 text-white font-montserrat text-lg font-bold">
-              Game search
+              Global Game Search
             </h2>
             <button
               onClick={onClose}

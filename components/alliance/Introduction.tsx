@@ -107,7 +107,7 @@ const Introduction: React.FC = () => {
   ];
 
   return (
-    <div className="mb-8 p-8 [@media(max-width:660px)]:w-full">
+    <div className=" [@media(max-width:660px)]:w-full">
       <div className="w-full space-y-4">
                 {/* Introduction Header */}
                 <h1 className="text-lg sm:text-xl font-bold text-white mb-6">Introduction</h1>
@@ -186,29 +186,29 @@ const Introduction: React.FC = () => {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3 text-sm">
                       
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Team performance:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.teamPerformance}</span>
                         </div>
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Direct performance:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.directPerformance}</span>
                         </div>
 
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Rate per 10K:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.ratePerTenK}</span>
                         </div>
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Direct commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.directCommission}</span>
                         </div>
 
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Team commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.rewardEarned}</span>
                         </div>
-                        <div className="flex ">
+                        <div className="flex gap-1">
                           <span className="text-[#a7b5ca]">Subordinate commission:</span>
                           <span className="text-[#ffb636] font-bold">{affiliateAData.subordinateCommission}</span>
                         </div>
@@ -233,7 +233,7 @@ const Introduction: React.FC = () => {
                   {/* B Level Affiliates - Mobile Row Layout */}
                   <div className="grid grid-cols-3 gap-2 mb-6">
                     {affiliateBData.map((affiliate, index) => (
-                      <div key={index} className="bg-[#1a2332] relative  rounded-lg p-3 border border-[#ffffff1a]">
+                      <div key={index} className="bg-[#1a2332] relative  rounded-[12px] p-3 border border-[#ffffff1a]">
                         <div className="flex items-center justify-center gap-2 mb-3">
                           <div className="w-8 h-8  flex items-center justify-center">
                             <img src="/images/img_frame.png" alt="Avatar" />
@@ -241,19 +241,19 @@ const Introduction: React.FC = () => {
                           <div className="text-white absolute top-0 left-0 bg-[#1BB83D] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
                         <div className="space-y-2 text-xs">
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Team performance:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.teamPerformance}</p>
                           </div>
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Rate per 10K:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.ratePerTenK}</p>
                           </div>
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Reward Earned:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.rewardEarned}</p>
                           </div>
-                          <div className="border-t border-[#ffffff1a] pt-2">
+                          <div className="border-t border-[#ffffff1a] pt-2 flex gap-1">
                             <p className="text-gray-400">Valid Bet:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.validBet}</p>
                           </div>
@@ -278,7 +278,7 @@ const Introduction: React.FC = () => {
                   {/* C Level Affiliates - Mobile Row Layout */}
                   <div className="grid grid-cols-3 gap-2 mb-8">
                     {affiliateCData.map((affiliate, index) => (
-                      <div key={index} className="bg-[#1a2332] rounded-lg relative p-3 border border-[#ffffff1a]">
+                      <div key={index} className="bg-[#1a2332] rounded-[12px] relative p-3 border border-[#ffffff1a]">
                         <div className="flex items-center justify-center gap-2 mb-3">
                           <div className="w-8 h-8 flex items-center justify-center">
                             <img src="/images/img_frame.png" alt="Avatar"  />
@@ -286,19 +286,19 @@ const Introduction: React.FC = () => {
                           <div className="text-white absolute top-0 left-0 bg-[#2283F6] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
                         <div className="space-y-2 text-xs">
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Team performance:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.teamPerformance}</p>
                           </div>
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Rate per 10K:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.ratePerTenK}</p>
                           </div>
-                          <div>
+                          <div className="flex gap-1">
                             <p className="text-gray-400">Reward Earned:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.rewardEarned}</p>
                           </div>
-                          <div className="border-t border-[#ffffff1a] pt-2">
+                          <div className="border-t border-[#ffffff1a] flex gap-1 pt-2">
                             <p className="text-gray-400">Valid Bet:</p>
                             <p className="text-[#ffb636] font-bold">{affiliate.validBet}</p>
                           </div>

@@ -21,7 +21,7 @@ const Management: React.FC = () => {
   ];
 
   return (
-    <div className="mb-8 p-8 [@media(max-width:660px)]:w-full">
+    <div className=" [@media(max-width:660px)]:w-full">
       <p className="text-[18px] mb-4 font-bold text-white [@media(max-width:660px)]:hidden">
         Management
       </p>

@@ -20,6 +20,27 @@ import { Autoplay } from "swiper/modules";
 import { X } from "lucide-react";
 
 
+import {
+  StatusDropdown,
+  StatusDropdownTrigger,
+  StatusDropdownContent,
+  StatusDropdownItem,
+  StatusDropdownSeparator,
+} from "@/ui/molecules/StatusDropdown";
+
+const statusOptions = [
+  "Up to date",
+  "Daily", 
+  "Checking for updates...",
+  "Installing updates",
+  "Update failed",
+  "Connected",
+  "Disconnected",
+  "Syncing...",
+  "Sync complete"
+];
+
+
 // Extract data from JSON
 const {
   card1,
@@ -31,6 +52,7 @@ const {
   card6,
   card7,
   card9,
+  card10,
   brand,
   latestBets,
   gameManufacturers,
@@ -186,12 +208,31 @@ const GameGrid: React.FC<{ data: any[]; renderCard: (item: any, index: number) =
 );
 
 // Latest bets table component
-const LatestBetsTable: React.FC = () => (
+const LatestBetsTable: React.FC = () => {
+  const [selectedStatus, setSelectedStatus] = useState("Up to date");
+  return (
   <>
-    <h2 className="text-4.5 font-bold text-white mb-4 flex gap-2">
-      Latest Bets
-    </h2>
-    <div className="grid lg:md:grid-cols-[15%_15%_20%_15%_25%_10%] grid-cols-[20%_20%_20%_40%] gap-[6px] lg:px-8 px-[6px]">
+    <div className="text-4.5 font-bold flex items-center w-full justify-between text-white mb-4  gap-2">
+      <span>
+        Latest Bets
+      </span>
+       <StatusDropdown >
+              <StatusDropdownTrigger className="bg-[#2A3546]">
+                {selectedStatus}
+              </StatusDropdownTrigger>
+              <StatusDropdownContent className="bg-[#2A3546] border-none" align="center">
+                {statusOptions.map((status) => (
+                  <StatusDropdownItem 
+                    key={status}
+                    onClick={() => setSelectedStatus(status)}
+                  >
+                    {status}
+                  </StatusDropdownItem>
+                ))}
+              </StatusDropdownContent>
+      </StatusDropdown>
+    </div>
+    <div className={` grid lg:md:grid-cols-[15%_15%_20%_15%_25%_10%] grid-cols-[20%_20%_20%_40%] gap-[6px] lg:px-8 px-[6px] ${selectedStatus !== "Daily" ? "grid-cols-[20%_20%_20%_40%]" : "grid-cols-[30%_30%_40%]"} `}>
       <div className="text-left text-[12px] font-bold py-2 text-white">
         Game
       </div>
@@ -207,16 +248,21 @@ const LatestBetsTable: React.FC = () => (
       <div className="text-left text-[12px] font-bold py-2 text-white">
         Multiplier
       </div>
-      <div className="text-left text-[12px] font-bold py-2 text-white">
+      {
+        selectedStatus !== "Daily" && (
+          <div className="text-left text-[12px] font-bold py-2 text-white">
         Payout
       </div>
+        )
+      }
+      
     </div>
     <div className="w-full relative h-[462px] mb-[64px]">
       <SwiperSlider
         data={latestBets}
         allowTouchMove={false}
         renderSlide={(bet, index) => (
-          <div className="bg-[#1C2532] lg:px-8 gap-[6px] px-[6px] w-full grid lg:md:grid-cols-[15%_15%_20%_15%_25%_10%] grid-cols-[20%_20%_20%_40%] rounded-[16px] h-[48px] overflow-hidden mb-[6px]">
+          <div className={`bg-[#1C2532] lg:px-8 gap-[6px] px-[6px] w-full grid lg:md:grid-cols-[15%_15%_20%_15%_25%_10%] grid-cols-[20%_20%_20%_40%] rounded-[16px] h-[48px] overflow-hidden mb-[6px] ${selectedStatus !== "Daily" ? "grid-cols-[20%_20%_20%_40%]" : "grid-cols-[30%_30%_40%]"} items-center`} key={index}>
             <div className="text-white flex text-[12px] font-bold truncate items-center gap-2">
               <img src="/images/gameLogo.png" alt="game" className="w-6 h-6" />
               {bet.game}
@@ -240,9 +286,12 @@ const LatestBetsTable: React.FC = () => (
               />
               {bet.bet}
             </div>
+            {selectedStatus !== "Daily" && (
             <div className="text-[#2283F6] text-[12px] font-bold truncate flex items-center">
               {bet.multiplier}
             </div>
+
+            )}
             <div className="text-green-400 text-[12px] font-bold truncate flex items-center gap-2">
               {bet.payout}
               <div className="rounded-[8px] overflow-hidden !w-6 !h-6">
@@ -264,7 +313,7 @@ const LatestBetsTable: React.FC = () => (
       <div className="absolute bottom-0 left-0 w-full h-[254px] bg-gradient-to-b z-30 from-transparent to-[#111923] pointer-events-none"></div>
     </div>
   </>
-);
+)}
 
 // Game manufacturers section component
 const GameManufacturersSection: React.FC = () => {
@@ -297,7 +346,7 @@ const GameManufacturersSection: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="flex gap-4 overflow-x-auto">
         <SwiperSlider
           data={gameManufacturers}
           renderSlide={(manufacturer, index) => (
@@ -322,7 +371,7 @@ const GameManufacturersSection: React.FC = () => {
 
 // MAGIC88 content component
 const Magic88Content: React.FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
-  <div className="bg-transparent rounded-lg relative p-6 text-left mb-6">
+  <div className="bg-transparent rounded-lg relative p-6 pt-0 text-left mb-6">
     <div className="background-linear-to-b from-[#0D131C00] to-[#0D131C]">
       <h3 className="text-2xl font-bold text-white mb-4">
         Best crypto casino - Welcome to MAGIC88
@@ -385,10 +434,29 @@ const Magic88Content: React.FC<{ isExpanded: boolean }> = ({ isExpanded }) => (
 interface MainContentProps { }
 const MainContent: React.FC<MainContentProps> = () => {
   const { isCollapsed, activeGameCategory } = useSidebar();
-  const { openGameProviderModal, openChooseModal, openGameSearchModal } = useModal();
+  const { openGameProviderModal, openChooseModal, openLocalGameSearchModal } = useModal();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSearch, setIsOpenSearch] = useState(true);
+
+  const toggleOpenSearch = () => {
+    setIsOpenSearch(!isOpenSearch);
+  };
+
+  // Helper function to get category display labels
+  const getCategoryLabel = (category: string) => {
+    const categoryLabels: { [key: string]: string } = {
+      'home': 'All Games',
+      'hash': 'Hash Games',
+      'slots': 'Slots',
+      'casino': 'Live Casino',
+      'sport': 'Sports',
+      'futures': 'Futures',
+      'crypto': 'Crypto Games',
+      'table': 'Table Games'
+    };
+    return categoryLabels[category] || 'Games';
+  };
 
   const toggleSearch = () => {
     setIsOpenSearch(!isOpenSearch);
@@ -444,7 +512,7 @@ const MainContent: React.FC<MainContentProps> = () => {
               />
             </svg>
           </button>
-          <button onClick={openGameSearchModal} className="p-2.25 bg-[#111923]  lg:bg-[rgba(255,255,255,0.04)] flex gap-1 items-center lg:w-50 rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+          <button onClick={toggleOpenSearch} className="p-2.25 bg-[#111923]  lg:bg-[rgba(255,255,255,0.04)] flex gap-1 items-center lg:w-50 rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
             <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px]" />
             <span className="text-[#A7B5CA] hidden lg:block text-sm">Search</span>
           </button>
@@ -489,10 +557,14 @@ const MainContent: React.FC<MainContentProps> = () => {
               </svg>
             </button>
           </> : <>
-            <button onClick={openGameSearchModal} className="flex w-full items-center gap-2 h-10  px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
-              <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px]" />
-              <span className="text-[#A7B5CA] text-sm">Search</span>
-            </button>
+            <div className="flex w-full items-center gap-2 h-10 px-3 bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+              <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px] flex-shrink-0" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="flex-1 bg-transparent text-[#A7B5CA] text-sm placeholder:text-[#A7B5CA] border-none outline-none min-w-0"
+              />
+            </div>
           </>
         }
       </div>
@@ -530,7 +602,7 @@ const MainContent: React.FC<MainContentProps> = () => {
     const categoryData: { [key: string]: { title: string; count: number; data: any[]; icon: string } } = {
       "slots": { title: "Slots", count: 14, data: card3, icon: "/icons/Slots.svg" },
       "casino": { title: "Live Casino", count: 104, data: card2, icon: "/icons/Casino1.svg" },
-      "hash": { title: "Hash Games", count: 8, data: card9, icon: "/icons/Hash.svg" },
+      "hash": { title: "Hash Games", count: 12, data: card10, icon: "/icons/Hash.svg" },
       "sport": { title: "Sport", count: 23, data: card5, icon: "/icons/Sport.svg" }
     };
 
@@ -573,7 +645,7 @@ const MainContent: React.FC<MainContentProps> = () => {
 
     return (
       <div
-        className={`lg:px-6 px-1 py-6 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
+        className={`lg:px-6 px-1 py-6  w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
           ? "lg:w-[calc(100vw-80px)] xl:w-[calc(100vw-80px)]"
           : "xl:w-[calc(100vw-315px)] lg:w-[calc(100vw-315px)] 2xl:w-[calc(100vw-315px)]"
           }`}
@@ -581,14 +653,14 @@ const MainContent: React.FC<MainContentProps> = () => {
       >
         <SuccessForm isOpen={isOpen} />
 
-        <div className="mb-16">
+        <div className="mb-16 lg:mt-0 mt-15">
           <SwiperSlider
             key={`banner-swiper-${activeGameCategory}`}
             data={bannerCards}
             renderSlide={(card, index) => <RewardCard {...card} />}
             slidesPerView="auto"
-            spaceBetween={20}
-            slideClassName="lg:!w-[486.76px] !w-[353.35px]"
+            spaceBetween={10}
+            slideClassName="lg:!w-[486.76px] !w-[353px]"
             showProgressBars={true}
             customPagination={true}
           />
@@ -600,18 +672,11 @@ const MainContent: React.FC<MainContentProps> = () => {
 
           
 
-          {activeGameCategory === "hash" ? (
-            <div className="flex lg:hidden flex-col gap-4 items-center">
-              {categoryData.data.map((card, index) => (
-                <HashCard key={index} {...card} />
-              ))}
-            </div>
-          ) : (
+          
             <GameGrid
               data={categoryData.data}
               renderCard={(card, index) => <CasinoCard key={index} {...card} />}
             />
-          )}
         </div>
 
         {/* Desktop Slider View - Keep Original Functionality */}
@@ -628,9 +693,9 @@ const MainContent: React.FC<MainContentProps> = () => {
                 slidesPerView={7}
                 spaceBetween={20}
                 breakpoints={{
-                  320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-                  375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-                  425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+                  320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
+                  375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
+                  425: { slidesPerView: 4.1, grid: { rows: 2, fill: "row" } },
                   768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
                   1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
                   1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
@@ -650,9 +715,9 @@ const MainContent: React.FC<MainContentProps> = () => {
                 slidesPerView={7}
                 spaceBetween={20}
                 breakpoints={{
-                  320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-                  375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-                  425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+                  320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
+                  375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
+                  425: { slidesPerView: 4.1, grid: { rows: 2, fill: "row" } },
                   768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
                   1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
                   1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
@@ -685,9 +750,9 @@ const MainContent: React.FC<MainContentProps> = () => {
                 slidesPerView={7}
                 spaceBetween={20}
                 breakpoints={{
-                  320: { slidesPerView: 3 },
-                  375: { slidesPerView: 3.1 },
-                  425: { slidesPerView: 3.4 },
+                  320: { slidesPerView: 3.3 },
+                  375: { slidesPerView: 3.5 },
+                  425: { slidesPerView: 4.1 },
                   768: { slidesPerView: 4.3 },
                   1024: { slidesPerView: 5, spaceBetween: 20 },
                   1440: { slidesPerView: 7.3 },
@@ -704,7 +769,7 @@ const MainContent: React.FC<MainContentProps> = () => {
   // Render home view
   return (
     <div
-      className={`lg:px-6 px-1 py-12 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
+      className={`lg:px-6 px-1 lg:py-6 py-15 w-full max-w-[1920px] mx-auto overflow-x-hidden margin auto ${isCollapsed
         ? "lg:w-[calc(100vw-80px)] xl:w-[calc(100vw-80px)]"
         : "xl:w-[calc(100vw-315px)] lg:w-[calc(100vw-315px)] 2xl:w-[calc(100vw-315px)]"
         }`}
@@ -719,8 +784,8 @@ const MainContent: React.FC<MainContentProps> = () => {
           data={bannerCards}
           renderSlide={(card, index) => <RewardCard {...card} />}
           slidesPerView="auto"
-          spaceBetween={20}
-          slideClassName="lg:!w-[486.76px] !w-[353.35px]"
+          spaceBetween={10}
+          slideClassName="lg:!w-[486.76px] !w-[353px]"
           showProgressBars={true}
           customPagination={true}
         />
@@ -740,9 +805,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             slidesPerView={7}
             spaceBetween={20}
             breakpoints={{
-              320: { slidesPerView: 3 },
-              375: { slidesPerView: 3.1 },
-              425: { slidesPerView: 3.4 },
+              320: { slidesPerView: 3.3 },
+              375: { slidesPerView: 3.5 },
+              425: { slidesPerView: 4.1 },
               768: { slidesPerView: 4.3 },
               1024: { slidesPerView: 5 },
               1440: { slidesPerView: 7.3 },
@@ -769,9 +834,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             slidesPerView={7}
             spaceBetween={20}
             breakpoints={{
-              320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-              375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-              425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+              320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
+              375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
+              425: { slidesPerView: 4.1, grid: { rows: 2, fill: "row" } },
               768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
               1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
               1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
@@ -809,9 +874,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             slidesPerView={7}
             spaceBetween={20}
             breakpoints={{
-              320: { slidesPerView: 3, grid: { rows: 2, fill: "row" } },
-              375: { slidesPerView: 3.1, grid: { rows: 2, fill: "row" } },
-              425: { slidesPerView: 3.4, grid: { rows: 2, fill: "row" } },
+              320: { slidesPerView: 3.3, grid: { rows: 2, fill: "row" } },
+              375: { slidesPerView: 3.5, grid: { rows: 2, fill: "row" } },
+              425: { slidesPerView: 4.1, grid: { rows: 2, fill: "row" } },
               768: { slidesPerView: 4.3, grid: { rows: 2, fill: "row" } },
               1024: { slidesPerView: 5, spaceBetween: 20, grid: { rows: 2, fill: "row" } },
               1440: { slidesPerView: 7, grid: { rows: 2, fill: "row" } },
@@ -860,9 +925,9 @@ const MainContent: React.FC<MainContentProps> = () => {
           slidesPerView={7}
           spaceBetween={20}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
+            320: { slidesPerView: 3.3 },
+            375: { slidesPerView: 3.5 },
+            425: { slidesPerView: 4.1 },
             768: { slidesPerView: 4.3 },
             1024: { slidesPerView: 5, spaceBetween: 20 },
             1440: { slidesPerView: 7.3 },
@@ -882,9 +947,9 @@ const MainContent: React.FC<MainContentProps> = () => {
             slidesPerView={7}
             spaceBetween={20}
             breakpoints={{
-              320: { slidesPerView: 3 },
-              375: { slidesPerView: 3.1 },
-              425: { slidesPerView: 3.4 },
+              320: { slidesPerView: 3.3 },
+              375: { slidesPerView: 3.5 },
+              425: { slidesPerView: 4.1 },
               768: { slidesPerView: 4.3 },
               1024: { slidesPerView: 5, spaceBetween: 20 },
               1440: { slidesPerView: 7.3 },
@@ -907,9 +972,9 @@ const MainContent: React.FC<MainContentProps> = () => {
           slidesPerView={7}
           spaceBetween={20}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
+            320: { slidesPerView: 3.3 },
+            375: { slidesPerView: 3.5 },
+            425: { slidesPerView: 4.1 },
             768: { slidesPerView: 4.3 },
             1024: { slidesPerView: 5, spaceBetween: 20 },
             1440: { slidesPerView: 7.3 },
@@ -935,9 +1000,9 @@ const MainContent: React.FC<MainContentProps> = () => {
           slidesPerView={7}
           spaceBetween={20}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            375: { slidesPerView: 3.1 },
-            425: { slidesPerView: 3.4 },
+            320: { slidesPerView: 3.3 },
+            375: { slidesPerView: 3.5 },
+            425: { slidesPerView: 4.1 },
             768: { slidesPerView: 4.3 },
             1024: { slidesPerView: 5, spaceBetween: 20 },
             1440: { slidesPerView: 7.3 },

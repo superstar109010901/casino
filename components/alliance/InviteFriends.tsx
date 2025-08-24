@@ -22,7 +22,7 @@ const InviteFriends: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1  p-8 [@media(max-width:660px)]:p-0">
+    <div className="flex-1 [@media(max-width:660px)]:p-0">
       {/* Header Section */}
       <div className="mb-8 [@media(max-width:660px)]:hidden">
         <h1 className="text-[18px] font-bold text-white mb-6">

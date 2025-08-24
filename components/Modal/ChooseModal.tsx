@@ -2,6 +2,7 @@
 
 import { X, Check } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useModalScrollPrevention } from "@/hooks/useModalScrollPrevention";
 
 type SortOption = "view-all" | "new" | "popular" | "a-z" | "z-a";
 
@@ -27,6 +28,9 @@ export default function ChooseModal({
   onOptionChange,
 }: ChooseModalProps) {
   const [isVisible, setIsVisible] = useState(false);
+
+  // Prevent background scrolling when modal is open
+  useModalScrollPrevention(isOpen);
 
   useEffect(() => {
     if (isOpen) {

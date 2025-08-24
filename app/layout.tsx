@@ -7,6 +7,7 @@ import { BottomBarProvider } from "@/components/providers/BottomBarProvider";
 import { LoadingProvider } from "@/components/providers/LoadingProvider";
 import { ProfileProvider } from "@/components/providers/ProfileProvider";
 import { LanguageProvider } from "@/components/providers/LanguageProvider";
+import { NavigationProvider } from "@/components/providers/NavigationProvider";
 import LayoutContent from "@/components/LayoutContent";
 
 const montserrat = Montserrat({
@@ -34,9 +35,11 @@ export default function RootLayout({
               <BottomBarProvider>
                 <ProfileProvider>
                   <LanguageProvider>
-                    <LayoutContent>
-                      {children}
-                    </LayoutContent>
+                    <NavigationProvider>
+                      <LayoutContent>
+                        {children}
+                      </LayoutContent>
+                    </NavigationProvider>
                   </LanguageProvider>
                 </ProfileProvider>
               </BottomBarProvider>

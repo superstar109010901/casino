@@ -36,7 +36,7 @@ const Report: React.FC = () => {
   ];
 
   return (
-    <div className="mb-8 p-8  [@media(max-width:660px)]:w-full">
+    <div className=" [@media(max-width:660px)]:w-full">
       <p className="text-[18px] font-bold mb-4 text-white [@media(max-width:660px)]:hidden">
         Report
       </p>
@@ -46,7 +46,7 @@ const Report: React.FC = () => {
         {metricPairs.map((pair, rowIdx) => (
           <div
             key={rowIdx}
-            className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${
+            className={`grid grid-cols-2 gap-8 ${
               rowIdx < metricPairs.length - 1 ? "mb-6" : ""
             }`}
           >
@@ -58,7 +58,7 @@ const Report: React.FC = () => {
                 {pair[0].label}
               </span>
             </div>
-            <div className="flex flex-col md:pl-8 md:border-l md:border-[#ffffff1a]">
+            <div className="flex flex-col pl-8 border-l border-[#ffffff1a]">
               <span className="text-white text-[14px] font-bold tracking-wide">
                 {pair[1].value}
               </span>

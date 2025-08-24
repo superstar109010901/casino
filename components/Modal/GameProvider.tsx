@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
 import { X, Trash2 } from "lucide-react";
+import { useModalScrollPrevention } from "@/hooks/useModalScrollPrevention";
 
 interface GamingProvider {
   id: string;
@@ -98,6 +99,9 @@ interface GamingProviderModalProps {
 export default function GamingProviderModal({ isOpen, onClose }: GamingProviderModalProps) {
   const [providers, setProviders] = useState<GamingProvider[]>(initialProviders);
   const [isVisible, setIsVisible] = useState(false);
+
+  // Prevent background scrolling when modal is open
+  useModalScrollPrevention(isOpen);
 
   useEffect(() => {
     if (isOpen) {
