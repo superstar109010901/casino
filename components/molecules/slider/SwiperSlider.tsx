@@ -61,12 +61,17 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const progressRefs = useRef<HTMLDivElement[]>([]);
   const progressInitialized = useRef(false);
+  const lastActiveIndex = useRef<number>(0);
+  const isResizing = useRef(false);
   
   // Memoize the updateProgress function to prevent unnecessary re-renders
   const updateProgress = useCallback((swiper: SwiperType) => {
     if (!swiper || !swiper.pagination || !swiper.pagination.el) return;
     
     const activeIndex = swiper.realIndex ?? swiper.activeIndex;
+    
+    // Store the last active index for resize handling
+    lastActiveIndex.current = activeIndex;
     
     // Only update if we have progress refs and they're valid
     if (progressRefs.current.length === 0) {
@@ -111,6 +116,16 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
       }, 100);
     }
 
+    // Add event listener for slide change to ensure progress bars are always in sync
+    if (showProgressBars && customPagination) {
+      swiper.on('slideChange', () => {
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
+          updateProgress(swiper);
+        }, 10);
+      });
+    }
+
     if (onSwiper) onSwiper(swiper);
   };
 
@@ -129,6 +144,35 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
     `;
   };
 
+  // Function to restore progress state after resize
+  const restoreProgressState = useCallback(() => {
+    if (!swiperRef.current || !customPagination) return;
+    
+    // Re-attach progress refs after resize
+    const bullets = swiperRef.current.pagination.el.querySelectorAll<HTMLSpanElement>(
+      ".swiper-pagination-bullet .progress-bar"
+    );
+    progressRefs.current = Array.from(bullets) as HTMLDivElement[];
+    
+    // Restore progress state based on last known active index
+    const activeIndex = lastActiveIndex.current;
+    
+    progressRefs.current.forEach((bar, index) => {
+      if (!bar || !bar.style) return;
+      
+      if (index < activeIndex) {
+        bar.style.transition = "none";
+        bar.style.width = "100%"; // past slides full blue
+      } else if (index === activeIndex) {
+        bar.style.transition = `width ${autoplayDelay}ms linear`;
+        bar.style.width = "100%"; // animate current
+      } else {
+        bar.style.transition = "none";
+        bar.style.width = "0%"; // future slides empty
+      }
+    });
+  }, [autoplayDelay, customPagination]);
+
   // Attach progress refs after mount - only run once when component mounts
   useEffect(() => {
     if (!customPagination || !swiperRef.current || progressInitialized.current) return;
@@ -146,6 +190,71 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
       progressInitialized.current = false;
     };
   }, [customPagination]); // Remove 'data' dependency to prevent progress reset
+
+  // Handle resize events to restore progress state
+  useEffect(() => {
+    if (!customPagination || !showProgressBars) return;
+
+    let resizeTimeout: NodeJS.Timeout;
+    
+    const handleResize = () => {
+      if (isResizing.current) return;
+      
+      isResizing.current = true;
+      
+      // Clear existing timeout
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      
+      // Wait for resize to finish, then restore progress state
+      resizeTimeout = setTimeout(() => {
+        restoreProgressState();
+        isResizing.current = false;
+      }, 150); // Wait 150ms after resize stops
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+    };
+  }, [customPagination, showProgressBars, restoreProgressState]);
+
+  // Monitor pagination element changes and restore progress state
+  useEffect(() => {
+    if (!customPagination || !showProgressBars || !swiperRef.current) return;
+
+    const swiper = swiperRef.current;
+    if (!swiper.pagination || !swiper.pagination.el) return;
+
+    // Create a mutation observer to watch for pagination changes
+    const observer = new MutationObserver((mutations) => {
+      let shouldRestore = false;
+      
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.target === swiper.pagination.el) {
+          shouldRestore = true;
+        }
+      });
+      
+      if (shouldRestore) {
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
+          restoreProgressState();
+        }, 50);
+      }
+    });
+
+    // Start observing
+    observer.observe(swiper.pagination.el, {
+      childList: true,
+      subtree: true
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [customPagination, showProgressBars, restoreProgressState]);
 
   return (
     <Swiper
