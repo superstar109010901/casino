@@ -139,7 +139,7 @@ const SwiperSlider: React.FC<SwiperSliderProps> = ({
   const defaultPaginationRenderBullet = (index: number, className: string) => {
     return `
       <span class="${className} relative w-12 h-1.5 bg-gray-300 rounded overflow-hidden">
-        <span class="progress-bar absolute left-0 top-0 h-full w-0 bg-blue-500"></span>
+        <span class="progress-bar absolute rounded-full left-0 top-0 h-full w-0 bg-blue-500"></span>
       </span>
     `;
   };

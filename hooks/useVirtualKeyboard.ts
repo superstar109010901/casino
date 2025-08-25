@@ -32,32 +32,40 @@ export function useVirtualKeyboard() {
       const currentHeight = getViewportHeight();
       const heightDifference = initialViewportHeight - currentHeight;
       
-      // Consider virtual keyboard open if viewport height decreased by more than 100px
-      // Lower threshold for more responsive detection
-      const isKeyboardOpen = heightDifference > 100;
+      // Consider virtual keyboard open if viewport height decreased by more than 150px
+      // Higher threshold to prevent false positives and screen disappearing
+      const isKeyboardOpen = heightDifference > 150;
       
       // Clear any existing timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
       
-      setIsVirtualKeyboardOpen(isKeyboardOpen);
-      setBodyKeyboardClass(isKeyboardOpen);
+      // Add a longer delay to ensure the keyboard is actually visible and stable
+      // This prevents premature hiding of content and page reloads
+      timeoutRef.current = setTimeout(() => {
+        setIsVirtualKeyboardOpen(isKeyboardOpen);
+        setBodyKeyboardClass(isKeyboardOpen);
+      }, 500);
     };
 
     const handleResize = () => {
       // Fallback for browsers without visualViewport API
       const currentHeight = window.innerHeight;
       const heightDifference = initialViewportHeight - currentHeight;
-      const isKeyboardOpen = heightDifference > 100;
+      const isKeyboardOpen = heightDifference > 150;
       
       // Clear any existing timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
       
-      setIsVirtualKeyboardOpen(isKeyboardOpen);
-      setBodyKeyboardClass(isKeyboardOpen);
+      // Add a longer delay to ensure the keyboard is actually visible and stable
+      // This prevents premature hiding of content and page reloads
+      timeoutRef.current = setTimeout(() => {
+        setIsVirtualKeyboardOpen(isKeyboardOpen);
+        setBodyKeyboardClass(isKeyboardOpen);
+      }, 500);
     };
 
     // Debounced resize handler to prevent excessive updates
@@ -65,16 +73,9 @@ export function useVirtualKeyboard() {
 
     // Handle input focus/blur events for additional detection
     const handleFocus = () => {
-      // On input focus, immediately check if keyboard might be opening
-      // This provides faster response for better UX
-      setTimeout(() => {
-        const currentHeight = getViewportHeight();
-        const heightDifference = initialViewportHeight - currentHeight;
-        if (heightDifference > 50) { // Lower threshold for immediate response
-          setIsVirtualKeyboardOpen(true);
-          setBodyKeyboardClass(true);
-        }
-      }, 100);
+      // Don't immediately assume keyboard is open on focus
+      // Let the viewport change handle the detection naturally
+      // This prevents premature hiding of content
     };
 
     const handleBlur = () => {

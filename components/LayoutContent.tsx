@@ -7,13 +7,13 @@ import Sidebar from "@/components/organisms/Sidebar";
 import Bottombar from "@/components/organisms/Bottombar";
 import AuthModal from "@/components/Modal/AuthModal";
 import UserProfileDropdown from "@/components/molecules/notification/Profile";
-import { useLoading } from "@/components/providers/LoadingProvider";
 import { useModal } from "@/components/providers/ModalProvider";
 import { useProfile } from "@/components/providers/ProfileProvider";
-import { useNavigation } from "@/components/providers/NavigationProvider";
 import { usePathname } from 'next/navigation';
 import dynamic from "next/dynamic";
 import PageLoader from "@/components/molecules/PageLoader";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { setInitialLoadComplete } from "@/store/slices/loadingSlice";
 
 const HashHoverLayer = dynamic(() => import("@/components/overlays/HashHoverLayer"), { ssr: false });
 
@@ -22,8 +22,8 @@ interface LayoutContentProps {
 }
 
 export default function LayoutContent({ children }: LayoutContentProps) {
-  const { isLoading } = useLoading();
-  const { isNavigating } = useNavigation();
+  const dispatch = useAppDispatch();
+  const { isLoading, isInitialLoad } = useAppSelector((state) => state.loading);
   const { isNotificationsOpen } = useModal();
   const { isProfileOpen, setIsProfileOpen } = useProfile();
   const [isMobileHeader, setIsMobileHeader] = useState(false);
@@ -31,6 +31,17 @@ export default function LayoutContent({ children }: LayoutContentProps) {
   
   // Check if we're on alliance pages
   const isAlliancePage = pathname?.startsWith('/alliance');
+
+  // Handle initial page load
+  useEffect(() => {
+    if (isInitialLoad) {
+      // First time loading, show loading screen
+      const timer = setTimeout(() => {
+        dispatch(setInitialLoadComplete());
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialLoad, dispatch]);
 
   // Prevent scroll when profile menu is open on mobile
   useEffect(() => {
@@ -64,7 +75,6 @@ export default function LayoutContent({ children }: LayoutContentProps) {
         </div>
         {!isMobileHeader && <HashHoverLayer />}
       </main>
-      <div className="fixed bg-[radial-gradient(circle_at_50%_322px,_#003A81_100px,_#0D131C_300px)] w-full h-full top-0 left-0 z-0"></div>
       {!isMobileHeader && !isAlliancePage && !isProfileOpen && <Bottombar />}
       
       {/* Profile Menu - Mobile Full Screen */}

@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import MainContent from "@/components/organisms/MainContent";
-import { useLoading } from "@/components/providers/LoadingProvider";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Home() {
-  const { isLoading } = useLoading();
+  const { isLoading } = useAppSelector((state) => state.loading);
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <div className="fade-in">
+    <div >
       <MainContent />
     </div>
   );

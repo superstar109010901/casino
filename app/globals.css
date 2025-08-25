@@ -27,9 +27,25 @@
 }
 
 body {
-  background: var(--background);
+  background: #0E141C;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  content: " ";
+  position: fixed;  
+  top: 0;
+  left: 0;
+  right:0;
+ bottom:0;
+  background: radial-gradient(
+    circle at center,
+    #062751 0%,
+    #04152f 50%,
+    #0E141C 100%
+  );
+  z-index: -1;             /* 放在内容下层 */
 }
 
 * {
@@ -40,6 +56,42 @@ body {
 /* Loading animation */
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
+}
+
+.bottom-bar {
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 9999 !important;
+  position: fixed !important;
+}
+
+/* Ensure bottom bar is always visible */
+.bottom-bar,
+.bottom-bar * {
+  z-index: 9999 !important;
+}
+
+/* Force bottom bar to stay visible during scrolling */
+.bottom-bar {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Ensure no other elements can hide the bottom bar */
+body {
+  overflow-x: hidden;
+}
+
+/* Prevent any content from overlapping the bottom bar */
+.main-content {
+  padding-bottom: 80px !important;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding-bottom: 80px !important;
+  }
 }
 
 @keyframes fadeIn {
@@ -82,7 +134,6 @@ body {
 
 .main-content {
   width: 100%;
-  background-color: #1e2939a6 !important;
 }
 
 .auth-modal {
@@ -545,10 +596,7 @@ body {
   margin: 0 4px !important;
   transition: background-color 0.3s ease, width 0.3s ease;
 }
-.swiper-pagination-bullet-active {
-  background-color: #3b82f6; 
-  width: 48px;
-}
+
 
 /* ========== Pagination: FRACTION ========== */
 .swiper-pagination-fraction {
@@ -581,13 +629,11 @@ body {
   color: white !important;
 }
 
-.swiper-pagination-bullet-active {
-  width: 48px !important;
-}
+
 
 /* Style all bullets */
 .swiper-pagination-bullet {
-  width: 24px !important; /* bullet length */
+  width: 16px !important; /* bullet length */
   height: 8px !important; /* bullet height */
   background-color: rgba(255, 255, 255, 0.3) !important; /* inactive color */
   border-radius: 999px !important; /* fully rounded ends */
@@ -600,7 +646,7 @@ body {
 /* Active bullet */
 .swiper-pagination-bullet-active {
   /* background-color: #3b82f6 !important;  */
-  width: 32px !important; /* slightly longer when active */
+  width: 48px !important; /* slightly longer when active */
 }
 
 .swiper-pagination-fraction,
@@ -618,6 +664,7 @@ body {
   top: 0;
   left: 0;
   height: 100%;
+  border-radius: 100px;
   width: var(--fill, 0%);
   background-color: #3b82f6;
   animation: fillBullet var(--swiper-delay, 3s) linear forwards;
@@ -883,99 +930,23 @@ body {
   animation: fade-in 0.3s ease-out;
 }
 
-/* Virtual Keyboard Handling */
+/* Virtual Keyboard Handling - Simple Bottom Bar Positioning */
 @media (max-width: 1024px) {
-  /* Hide bottom bar when virtual keyboard is open - use higher specificity */
-  div.keyboard-open,
-  .keyboard-open {
-    transform: translateY(100%) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-    /* Keep the top position fixed so it doesn't move with keyboard */
-    top: calc(100vh - 59px) !important;
-    /* Ensure it's completely hidden */
-    z-index: -1 !important;
-    /* Force hide with multiple properties */
-    display: none !important;
+  /* Ensure bottom bar is always visible with high z-index */
+  .fixed.bottom-0 {
+    z-index: 9999 !important;
   }
   
-  /* Alternative: Keep bottom bar visible but adjust position */
-  .keyboard-open.alternative {
-    top: calc(100vh - 59px) !important;
-    transform: translateY(0) !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    visibility: visible !important;
-    z-index: 50 !important;
-    display: flex !important;
+  /* Bottom bar should always be visible */
+  .fixed.bottom-0.block.lg\\:hidden {
+    z-index: 9999 !important;
   }
   
-  /* Prevent body scroll when keyboard is open - but don't break the layout */
-  body.keyboard-open {
-    overflow: hidden;
-    /* Don't use position: fixed as it causes black screen */
-    /* Use a more subtle approach */
-  }
-  
-  /* Ensure main content stays visible when keyboard is open */
-  body.keyboard-open main {
-    /* Keep main content visible */
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* Virtual keyboard handler styles */
-  .virtual-keyboard-handler {
-    position: relative;
-  }
-  
-  .virtual-keyboard-handler[data-keyboard-open="true"] {
-    /* Add any specific styles when keyboard is open */
-  }
-  
-  /* Additional bottom bar hiding rules for better specificity */
-  [data-keyboard-open="true"] {
-    transform: translateY(100%) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-    display: none !important;
-  }
-  
-  /* Ensure bottom bar is hidden when keyboard is open */
-  .fixed.block.lg\\:hidden.keyboard-open {
-    transform: translateY(100%) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-    display: none !important;
-    z-index: -1 !important;
-  }
-  
-  /* Improve input focus behavior on mobile */
-  input:focus,
-  textarea:focus {
-    -webkit-appearance: none;
-    border-radius: 0;
-  }
-  
-  /* Prevent zoom on input focus (iOS) */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="url"],
-  textarea {
-    font-size: 16px;
-  }
-  
-  /* Ensure inputs are properly visible when keyboard is open */
-  input:focus,
-  textarea:focus {
-    /* Ensure focused inputs are visible above keyboard */
-    position: relative;
-    z-index: 10;
+  /* Alternative: Use top positioning to avoid keyboard overlap */
+  .bottom-bar-top-position {
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
+    z-index: 9999 !important;
   }
 }

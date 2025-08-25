@@ -787,7 +787,7 @@ const MainContent: React.FC<MainContentProps> = () => {
       {/* Main Banner Section */}
       <div className="mb-16">
         <SwiperSlider
-          key="banner-swiper"
+          key={`banner-swiper-${activeGameCategory}`}
           data={bannerCards}
           renderSlide={(card, index) => <RewardCard {...card} />}
           slidesPerView="auto"
@@ -833,7 +833,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             alt="home"
           />
           <SwiperSlider
-            key="live-casino-swiper"
+            key={`live-casino-swiper-${activeGameCategory}`}
             data={card2}
             autoplayDelay={1000000}
             grid={{ rows: 2, fill: "row" }}
@@ -857,7 +857,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Hash.svg" title="Hash" alt="hash" />
           <SwiperSlider
-            key="hash-swiper"
+            key={`hash-swiper-${activeGameCategory}`}
             data={card9}
             autoplay={false}
             renderSlide={(card, index) => <HashCard {...card} />}
@@ -873,7 +873,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Slots.svg" title="Slots" alt="slots" />
           <SwiperSlider
-            key="slots-swiper"
+            key={`slots-swiper-${activeGameCategory}`}
             data={card3}
             autoplayDelay={1000000}
             grid={{ rows: 2, fill: "row" }}
@@ -900,7 +900,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           alt="future"
         />
         <SwiperSlider
-                      key="futures-swiper"
+          key={`futures-swiper-${activeGameCategory}`}
           data={cryptoCards}
           autoplayDelay={1000000}
           renderSlide={(card, index) => <FutureCard {...card} />}
@@ -925,7 +925,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           alt="cryptogra"
         />
         <SwiperSlider
-                      key="cryptogra-swiper"
+          key={`cryptogra-swiper-${activeGameCategory}`}
           data={card4}
           autoplayDelay={1000000}
           renderSlide={(card, index) => <CasinoCard {...card} />}
@@ -947,7 +947,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Sport.svg" title="Sport" alt="Sport" />
           <SwiperSlider
-            key="sport-swiper"
+            key={`sport-swiper-${activeGameCategory}`}
             data={card5}
             autoplayDelay={1000000}
             renderSlide={(card, index) => <CasinoCard {...card} />}
