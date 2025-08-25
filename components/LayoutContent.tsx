@@ -43,6 +43,9 @@ export default function LayoutContent({ children }: LayoutContentProps) {
     }
   }, [isProfileOpen]);
 
+  // Virtual keyboard state is now handled in the useVirtualKeyboard hook
+  // No need for additional body class management here
+
   // Only show loading on initial app load
   if (isLoading) {
     return <PageLoader message="Loading app..." />;

@@ -202,7 +202,7 @@ const bannerCards = [
 
 // Game Grid Component
 const GameGrid: React.FC<{ data: any[]; renderCard: (item: any, index: number) => React.ReactNode }> = ({ data, renderCard }) => (
-  <div className="grid grid-cols-3 md:grid-cols-4 p-2 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4">
+  <div className="grid grid-cols-3 md:grid-cols-4 p-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
     {data.map((item, index) => renderCard(item, index))}
   </div>
 );
@@ -466,16 +466,23 @@ const MainContent: React.FC<MainContentProps> = () => {
 
   // Filtered Page Header Component
   const FilteredPageHeader: React.FC<{ title: string; count: number, icon: string }> = ({ title, count, icon }) => (
-    <div className="mb-6 p-4">
-      <div className="flex items-center justify-between mb-4 ">
+    <div className="p-4 pb-0">
+      <div className="flex items-center justify-between mb-4   [@media(max-width:1024px)]:mt-[-4px] ">
         <div className="bg-[rgba(255,255,255,0.08)] rounded-lg p-1.75">
 
           <h1 className="text-white text-[14px] font-bold flex items-center gap-2">
             <img src={icon} className="w-6 hidden lg:block h-6" alt="game" />
-            {title} <span className="text-[#A7B5CA] text-[12px] bg-[#111923] px-2 py-0.5 rounded-[4px]">{count}</span>
+            {title} <span className="text-[#2283F6] text-[12px] bg-[#111923] px-2 py-0.5 rounded-[4px] ">{count}</span>
           </h1>
+          
         </div>
-        <div className="flex gap-4">
+        <button onClick={toggleOpenSearch} className="p-2.25 bg-[#111923] lg:hidden  lg:bg-[rgba(255,255,255,0.04)] flex gap-1 items-center lg:w-50 rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+            {
+              !isOpenSearch ? <X className="w-[18px] h-[18px] text-white" /> : <img src="/icons/search.svg" alt="search" className="w-[18px] h-[18px]" />
+            }
+            <span className="text-[#A7B5CA] hidden lg:block text-sm">Search</span>
+          </button>
+        <div className="flex gap-4 [@media(max-width:1024px)]:hidden">
           <button onClick={openGameProviderModal} className="hidden lg:flex w-50 items-center justify-between h-12 px-3  bg-[rgba(255,255,255,0.04)] rounded-lg hover:bg-[rgba(255,255,255,0.08)] transition-colors">
             <span className="text-[#A7B5CA] text-sm">Game provider</span>
             <svg
@@ -519,7 +526,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         </div>
       </div>
 
-      <div className="flex lg:hidden items-center gap-2">
+      <div className="flex xl:hidden items-center gap-3">
         {
           isOpenSearch ? <>
 
@@ -653,9 +660,9 @@ const MainContent: React.FC<MainContentProps> = () => {
       >
         <SuccessForm isOpen={isOpen} />
 
-        <div className="mb-16 lg:mt-0 mt-[45px]">
+        <div className="mb-8 lg:mt-0 mt-[45px]">
           <SwiperSlider
-            key={`banner-swiper-${activeGameCategory}`}
+            key="banner-swiper"
             data={bannerCards}
             renderSlide={(card, index) => <RewardCard {...card} />}
             slidesPerView="auto"
@@ -780,7 +787,7 @@ const MainContent: React.FC<MainContentProps> = () => {
       {/* Main Banner Section */}
       <div className="mb-16">
         <SwiperSlider
-          key={`banner-swiper-${activeGameCategory}`}
+          key="banner-swiper"
           data={bannerCards}
           renderSlide={(card, index) => <RewardCard {...card} />}
           slidesPerView="auto"
@@ -798,7 +805,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Home.svg" title="New Launches" alt="home" />
           <SwiperSlider
-            key={`new-launches-swiper-${activeGameCategory}`}
+            key="new-launches-swiper"
             autoplayDelay={1000000}
             data={card1}
             renderSlide={(card, index) => <CasinoCard {...card} />}
@@ -826,7 +833,7 @@ const MainContent: React.FC<MainContentProps> = () => {
             alt="home"
           />
           <SwiperSlider
-            key={`live-casino-swiper-${activeGameCategory}`}
+            key="live-casino-swiper"
             data={card2}
             autoplayDelay={1000000}
             grid={{ rows: 2, fill: "row" }}
@@ -850,7 +857,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Hash.svg" title="Hash" alt="hash" />
           <SwiperSlider
-            key={`hash-swiper-${activeGameCategory}`}
+            key="hash-swiper"
             data={card9}
             autoplay={false}
             renderSlide={(card, index) => <HashCard {...card} />}
@@ -866,7 +873,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Slots.svg" title="Slots" alt="slots" />
           <SwiperSlider
-            key={`slots-swiper-${activeGameCategory}`}
+            key="slots-swiper"
             data={card3}
             autoplayDelay={1000000}
             grid={{ rows: 2, fill: "row" }}
@@ -893,7 +900,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           alt="future"
         />
         <SwiperSlider
-          key={`futures-swiper-${activeGameCategory}`}
+                      key="futures-swiper"
           data={cryptoCards}
           autoplayDelay={1000000}
           renderSlide={(card, index) => <FutureCard {...card} />}
@@ -918,7 +925,7 @@ const MainContent: React.FC<MainContentProps> = () => {
           alt="cryptogra"
         />
         <SwiperSlider
-          key={`cryptogra-swiper-${activeGameCategory}`}
+                      key="cryptogra-swiper"
           data={card4}
           autoplayDelay={1000000}
           renderSlide={(card, index) => <CasinoCard {...card} />}
@@ -940,7 +947,7 @@ const MainContent: React.FC<MainContentProps> = () => {
         <div className="mb-16">
           <SectionHeader icon="/icons/Sport.svg" title="Sport" alt="Sport" />
           <SwiperSlider
-            key={`sport-swiper-${activeGameCategory}`}
+            key="sport-swiper"
             data={card5}
             autoplayDelay={1000000}
             renderSlide={(card, index) => <CasinoCard {...card} />}

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useSidebar } from '../providers/SidebarProvider';
 import { useBottomBar } from '../providers/BottomBarProvider';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useVirtualKeyboard } from '@/hooks/useVirtualKeyboard';
 
 interface TabBarButtonProps {
   icon: React.ReactNode;
@@ -45,6 +46,7 @@ export default function Bottombar() {
   const [activeTab, setActiveTab] = useState('Menu');
   const { toggleSidebar } = useSidebar();
   const { isHidden } = useBottomBar();
+  const { isVirtualKeyboardOpen, getBottomBarClass } = useVirtualKeyboard();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -245,8 +247,18 @@ export default function Bottombar() {
     }
   };
 
+  // Debug: Log the current state
+  console.log('Bottom bar state:', { isVirtualKeyboardOpen, isHidden });
+  
+  const bottomBarClasses = getBottomBarClass(`fixed block lg:hidden left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`);
+  
   return (
-    <div className={`fixed block lg:hidden bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
+    <div 
+      className={bottomBarClasses}
+      style={{ top: 'calc(100vh - 59px)' }}
+      data-keyboard-open={isVirtualKeyboardOpen}
+      data-hidden={isHidden}
+    >
       <div 
         className="flex w-full px-4 pt-2 pb-0 flex-col items-center rounded-t-2xl border-t border-white/8"
         style={{

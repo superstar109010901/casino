@@ -169,7 +169,7 @@ const Introduction: React.FC = () => {
                   <div className="mb-6">
                     <div className="relative bg-[#1a2332]  rounded-xl p-4 sm:p-6 w-full border border-[#ffffff1a]">
                       {/* A badge */}
-                      <div className="absolute top-0 left-0 h-5 px-2 rounded-[12px_0_12px_0] text-[11px] font-bold bg-[#ffb636] text-white flex items-center shadow">
+                      <div className="absolute top-0 left-0 h-5 px-2 rounded-[12px_0_12px_0] text-[11px] border-t border-[#ffffff38] font-bold bg-[#ffb636] text-white flex items-center shadow">
                         A
                       </div>
 
@@ -238,7 +238,7 @@ const Introduction: React.FC = () => {
                           <div className="w-8 h-8  flex items-center justify-center">
                             <img src="/images/img_frame.png" alt="Avatar" />
                           </div>
-                          <div className="text-white absolute top-0 left-0 bg-[#1BB83D] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
+                          <div className="text-white absolute top-0 left-0 bg-[#1BB83D] border-t border-[#ffffff38] rounded-[12px_0_12px_0] w-[30px]  h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
                         <div className="space-y-2 text-[10px]">
                           <div className="flex gap-1 flex-wrap items-end">
@@ -283,7 +283,7 @@ const Introduction: React.FC = () => {
                           <div className="w-8 h-8 flex items-center justify-center">
                             <img src="/images/img_frame.png" alt="Avatar"  />
                           </div>
-                          <div className="text-white absolute top-0 left-0 bg-[#2283F6] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
+                          <div className="text-white absolute top-0 left-0 bg-[#2283F6] border-t border-[#ffffff38] rounded-[12px_0_12px_0] w-[30px] h-[19px] flex items-center justify-center font-bold text-[10px]">{affiliate.id}</div>
                         </div>
                         <div className="space-y-2 text-[10px]">
                           <div className="flex flex-wrap  gap-1">

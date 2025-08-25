@@ -537,7 +537,7 @@ body {
 
 /* ========== Pagination: BULLETS ========== */
 .swiper-pagination-bullet {
-  width: 24px;
+  width: 16px;
   height: 8px;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 999px;
@@ -546,8 +546,8 @@ body {
   transition: background-color 0.3s ease, width 0.3s ease;
 }
 .swiper-pagination-bullet-active {
-  /* background-color: #3b82f6; */
-  /* width: 32px; */
+  background-color: #3b82f6; 
+  width: 48px;
 }
 
 /* ========== Pagination: FRACTION ========== */
@@ -881,4 +881,101 @@ body {
 
 .fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Virtual Keyboard Handling */
+@media (max-width: 1024px) {
+  /* Hide bottom bar when virtual keyboard is open - use higher specificity */
+  div.keyboard-open,
+  .keyboard-open {
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    /* Keep the top position fixed so it doesn't move with keyboard */
+    top: calc(100vh - 59px) !important;
+    /* Ensure it's completely hidden */
+    z-index: -1 !important;
+    /* Force hide with multiple properties */
+    display: none !important;
+  }
+  
+  /* Alternative: Keep bottom bar visible but adjust position */
+  .keyboard-open.alternative {
+    top: calc(100vh - 59px) !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    z-index: 50 !important;
+    display: flex !important;
+  }
+  
+  /* Prevent body scroll when keyboard is open - but don't break the layout */
+  body.keyboard-open {
+    overflow: hidden;
+    /* Don't use position: fixed as it causes black screen */
+    /* Use a more subtle approach */
+  }
+  
+  /* Ensure main content stays visible when keyboard is open */
+  body.keyboard-open main {
+    /* Keep main content visible */
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Virtual keyboard handler styles */
+  .virtual-keyboard-handler {
+    position: relative;
+  }
+  
+  .virtual-keyboard-handler[data-keyboard-open="true"] {
+    /* Add any specific styles when keyboard is open */
+  }
+  
+  /* Additional bottom bar hiding rules for better specificity */
+  [data-keyboard-open="true"] {
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    display: none !important;
+  }
+  
+  /* Ensure bottom bar is hidden when keyboard is open */
+  .fixed.block.lg\\:hidden.keyboard-open {
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    display: none !important;
+    z-index: -1 !important;
+  }
+  
+  /* Improve input focus behavior on mobile */
+  input:focus,
+  textarea:focus {
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  
+  /* Prevent zoom on input focus (iOS) */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  textarea {
+    font-size: 16px;
+  }
+  
+  /* Ensure inputs are properly visible when keyboard is open */
+  input:focus,
+  textarea:focus {
+    /* Ensure focused inputs are visible above keyboard */
+    position: relative;
+    z-index: 10;
+  }
 }
